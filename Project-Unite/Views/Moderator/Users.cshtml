@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Project_Unite.Models.ApplicationUser>
+@{
+    ViewBag.Moderator = true;
+    ViewBag.Title = "Users";
+}
+
+<h2>Users</h2>
+
+<p>Below is a list of all users in the database.</p>
+
+<table class="table">
+    <tr>
+        <th style="width:85%">User</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@Html.UserLink(user.Id)</td>
+            <td>
+
+                @Html.ActionLink("User details", "UserDetails", "Moderator", new { id = user.DisplayName }, new { @class = "btn btn-default" })
+
+
+            </td>
+        </tr>
+    }
+</table>

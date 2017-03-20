@@ -1,0 +1,166 @@
+﻿@model Project_Unite.Models.ForumCategory
+@{
+    ViewBag.Title = "View forum";
+}
+
+<h2>@Model.Name</h2>
+
+@if (Model.Parent == "root")
+{
+    @Html.ActionLink("Back", "Index", "Forum", null, new { @class = "btn btn-default" })
+
+}
+else
+{
+    @Html.ActionLink("Back", "ViewForum", "Forum", new { id=Model.Parent}, new { @class = "btn btn-default" })
+}
+
+@if(ACL.CanPost(User.Identity.Name, Model.Id))
+{
+    @Html.ActionLink("New topic", "CreateTopic", "Forum", new { id=Model.Id}, new { @class = "btn btn-default" })
+}
+
+<p>@Model.Description</p>
+
+@if (Model.Children.Length > 0)
+{
+    <table class="table">
+        <tr>
+            <th>Subforums</th>
+            <th>Topics</th>
+            <th>Posts</th>
+            <th>Most Recent Post</th>
+        </tr>
+    @foreach (var cat in Model.Children)
+    {
+        <tr>
+            <td>@Html.ActionLink(cat.Name, "ViewForum", "Forum", new { id = cat.Id }, null)
+                <p>@cat.Description</p>
+            </td>
+            <td>
+                @cat.Topics.Length
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+    }
+    </table>
+}
+
+<hr/>
+
+@if (Model.Topics.Length > 0)
+{
+    <table class="table">
+        <tr>
+            <th>Topics</th>
+            <th>Posts</th>
+            <th>Most recent post</th>
+        </tr>
+        @{ 
+            var stickies = Model.Topics.Where(x => x.IsSticky == true);
+            var stickiesSorted = stickies.OrderByDescending(x => x.StartedAt);
+            var topicsSorted = Model.Topics.Where(x => x.IsSticky != true).OrderByDescending(x => x.StartedAt);
+        }
+
+            @foreach (var topic in stickiesSorted)
+            {
+                bool showTopic = true;
+                if (topic.IsUnlisted == true)
+                {
+                    if(!ACL.Granted(User.Identity.Name, "CanSeeUnlistedTopics"))
+                    {
+                        showTopic = false;
+                    }
+                }
+
+                if (showTopic == true)
+                {
+                <tr>
+                    <td><span class="glyphicon glyphicon-star"></span>&nbsp;
+                        @if(topic.IsUnlisted == true)
+                        {
+                            <span class="glyphicon glyphicon-eye-close"></span>
+                        }
+                        @if (topic.IsLocked == true)
+                        {
+                            <span class="glyphicon glyphicon-lock"></span>
+                        }
+
+                        @Html.ActionLink(topic.Subject, "ViewTopic", "Forum", new { id = topic.Discriminator }, null)
+                        <p>Started by @Html.UserLink(topic.AuthorId) on @topic.StartedAt</p>
+                    </td>
+                    <td>
+                        @topic.Posts.Length
+                    </td>
+                    <td style="text-align:center">
+                        @if (topic.Posts.Length > 0)
+                        {
+                            var mostRecent = topic.Posts.OrderByDescending(x => x.PostedAt).First();
+                            <strong>Re: @topic.Subject</strong>
+                            <em>by @Html.UserLink(mostRecent.AuthorId)</em>
+                            <p><em>at @mostRecent.PostedAt</em></p>
+                        }
+                        else
+                        {
+                                <em>No posts.</em>
+                        }
+                    </td>
+                </tr>
+                }
+            }
+        @foreach (var topic in topicsSorted)
+        {
+
+            bool showTopic = true;
+            if (topic.IsUnlisted == true)
+            {
+                if (!ACL.Granted(User.Identity.Name, "CanSeeUnlistedTopics"))
+                {
+                    showTopic = false;
+                }
+            }
+
+            if (showTopic == true)
+            {
+            <tr>
+                <td>
+                    @if(topic.IsUnlisted == true)
+                    {
+                        <span class="glyphicon glyphicon-eye-close"></span>
+                    }
+
+                    @if (topic.IsLocked == true)
+                    {
+                        <span class="glyphicon glyphicon-lock"></span>
+                    }
+                    @Html.ActionLink(topic.Subject, "ViewTopic", "Forum", new { id = topic.Discriminator }, null)
+                    <p>Started by @Html.UserLink(topic.AuthorId) on @topic.StartedAt</p>
+                </td>
+                <td>
+                    @topic.Posts.Length
+                </td>
+                <td style="text-align:center">
+                    @if (topic.Posts.Length > 0)
+                    {
+                        var mostRecent = topic.Posts.OrderByDescending(x => x.PostedAt).First();
+                        <strong>Re: @topic.Subject</strong>
+                            <em>by @Html.UserLink(mostRecent.AuthorId)</em>
+                            <p><em>at @mostRecent.PostedAt</em></p>
+                    }
+                    else
+                    {
+                        <em>No posts.</em>
+                    }
+                </td>
+            </tr>
+            }
+        }
+
+
+    </table>
+}
+else
+{
+    <p>No topics exist in this category. Be the first to start one!</p>
+}

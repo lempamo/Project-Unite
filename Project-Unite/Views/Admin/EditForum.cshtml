@@ -1,0 +1,51 @@
+﻿@model Project_Unite.Models.AddForumCategoryViewModel
+@{
+    ViewBag.Title = "Edit " + Model.Name;
+}
+
+<h2>Add forum category</h2>
+
+<div class="panel panel-danger">
+    @if (ViewBag.Error != null)
+    {
+        <p><span class="glyphicon glyphicon-warning-sign"></span> @ViewBag.Error</p>
+    }
+</div>
+
+@using (Html.BeginForm(new { id = Model.Id }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(Model => Model.Id)
+    @Html.HiddenFor(Model => Model.PossibleParents)
+    <table class="table-condensed">
+        <tr>
+            <td>@Html.DisplayNameFor(Model => Model.Name)</td>
+            <td>@Html.TextBoxFor(Model => Model.Name)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(Model => Model.Description)</td>
+            <td>@Html.TextBoxFor(Model => Model.Description)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(Model => Model.Parent)</td>
+            <td>@Html.DropDownListFor(Model => Model.Parent, Model.PossibleParents)</td>
+        </tr>
+    </table>
+
+    <h4>ACL rule definitions</h4>
+    <p>Below you can specify what roles can see, reply or post to this category.</p>
+    <hr />
+
+    <table class="table-condensed">
+        <tr>
+            <th>Role name</th>
+            <th>Can see?</th>
+            <th>Can reply?</th>
+            <th>Can post?</th>
+        </tr>
+    </table>
+    <p>ACL rules for this forum may be altered in the "Forum ACL Editor" page.</p>
+
+    <input type="submit" value="Add" class="btn btn-primary" />
+    @Html.ActionLink("Cancel", "Forums", "Admin", null, new { @class = "btn btn-default" })
+}

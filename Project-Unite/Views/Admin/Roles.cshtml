@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Project_Unite.Models.Role>
+
+@{
+    ViewBag.Title = "Administrator Control Panel";
+}
+
+<h2>Roles</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateRole")
+</p>
+<table class="table">
+    <tr>
+		<th style="width:65%">
+		    Role
+		</th>
+        <th>Priority</th>
+        <th>Actions</th>
+    </tr>
+
+@foreach (var item in Model.OrderByDescending(x=>x.Priority)) {
+    if (ACL.CanManageRole(User.Identity.Name, item.Id))
+    {
+    <tr>
+        <td>
+            <strong style="color:@item.ColorHex">@Html.DisplayFor(modelItem => item.Name)</strong> (@Html.DisplayFor(modelItem => item.Id))
+            <p>@Html.DisplayFor(modelItem => item.Description)</p>
+        </td>
+        <td>
+            @item.Priority
+            @if (item.Priority < Model.Count() - 1)
+            {
+                <a href="@Url.Action("RaisePriority", "Admin", new { id = item.Id })" class="btn btn-default"><span class="glyphicon glyphicon-arrow-up"></span></a>
+            }
+            @if (item.Priority > 0)
+            {
+                <a href="@Url.Action("LowerPriority", "Admin", new { id = item.Id })" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span></a>
+            }
+
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditRole", new { id = item.Id }, new { @class = "btn btn-default" }) 
+			@Html.ActionLink("Details", "RoleDetails", new { id = item.Id }, new { @class = "btn btn-default" }) 
+			@if (ACL.Granted(User.Identity.Name, "CanDeleteRoles"))
+            {
+            @Html.ActionLink("Delete", "DeleteRole", new { id = item.Id }, new { @class = "btn btn-danger" })
+            }
+        </td>
+    </tr>
+    }
+}
+
+</table>
+
+<hr/>
+
+<h4>Role priorities</h4>
+
+<p>ShiftOS users can have multiple roles at once - and me, Michael, as a programmer, had to find a way to get the user's most granting role - the one with the most permissions. Since this could change at any time (new roles, new permission definitions, etc) I needed a way to arbitrarily determine what the best role to use when determining what users can and can't do.</p>
+
+<p>So, I set up a role priority system. You can use the buttons above to modify a role's priority. The role listing will display all roles on the site, sorted by priority, from highest to lowest. The highest-priority role assigned to a user will determine the color of their username and the permissions they are given. It will also determine what roles the user can modify - we don't want developers messing up admin permissions, do we?</p>
+
+<p>You will only see roles on this page that you have permission to alter.</p>
+
+<p>Also, the lowest-priority role in the system will become the role of all future users - so don't be giving it admin privileges, pretty please.</p>

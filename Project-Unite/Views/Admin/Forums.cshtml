@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Project_Unite.Models.ForumCategory>
+@{
+    ViewBag.Title = "Manage forums";
+    ViewBag.Modals = new Dictionary<string, string>();
+}
+
+<h2>Forums</h2>
+
+<p>The forums are a way for users to start conversations about various topics. Here you can define where users can post and what roles can post where.</p>
+
+@foreach (var cat in Model)
+{
+    <table class="table">
+        <tr>
+            <th>@cat.Name [@Html.ActionLink("Edit", "EditForum", "Admin", new { id = cat.Id }, null) | <a href="#m_@cat.Id" data-toggle="modal" data-target="#m_@cat.Id">Delete</a>]
+                <!-- Modal -->
+                
+            </th>
+            <th>Topics</th>
+            <th>Posts</th>
+            <th>Actions</th>
+        </tr>
+            @foreach (var subcat in cat.Children)
+            {
+            <tr>
+                <td>
+                    @Html.ActionLink(subcat.Name, "ViewForum", "Forum", new { id = subcat.Id }) <br />
+                <p>@subcat.Description</p>
+            </td>
+            <td>@subcat.Topics?.Count</td>
+            <td></td>
+            <td>
+                @Html.ActionLink("Edit", "EditForum", "Admin", new { id = subcat.Id }, new { @class = "btn btn-default" })
+
+                <!-- Trigger the modal with a button -->
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#m_@subcat.Id">Delete</button>
+
+                
+            </td>
+        </tr>
+                ViewBag.Modals.Add(subcat.Id, "/Admin/DeleteForum?id=" + subcat.Id);
+            }
+
+    </table>
+    ViewBag.Modals.Add(cat.Id, "/Admin/DeleteForum?id=" + cat.Id);
+
+}
+
+@Html.ActionLink("Add category", "AddForumCategory", "Admin", null, new { @class = "btn btn-default"})

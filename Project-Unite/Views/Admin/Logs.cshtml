@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Project_Unite.Models.AuditLog>
+@{
+    ViewBag.Admin = true;
+    ViewBag.Title = "Audit logs";
+}
+
+<h2>Audit logs</h2>
+
+<p>Below is a list of all actions carried out by all users on this site.</p>
+
+<table class="table">
+    <tr>
+        <th style="width:65%">Action</th>
+        <th>User &amp; Timestamp</th>
+        <th>Level</th>
+    </tr>
+    @foreach(var i in Model.OrderByDescending(x=>x.Timestamp))
+    {
+        <tr>
+            <td>@i.Description</td>
+            <td>@Html.UserLink(i.UserId) at @i.Timestamp</td>
+            <td>@i.Level</td>
+        </tr>
+    }
+</table>

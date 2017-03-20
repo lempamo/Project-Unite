@@ -1,0 +1,133 @@
+﻿@using Microsoft.AspNet.Identity
+@model Project_Unite.Models.ForumTopic
+
+@{ 
+    string acl_perm_announce = "CanAnnounceTopics";
+    string acl_perm_unlist = "CanUnlistTopics";
+    string acl_perm_sticky = "CanStickyTopics";
+    string acl_perm_global = "CanGlobalTopics";
+    string acl_perm_unlock = "CanUnlockTopics";
+    string acl_perm_lock = "CanLockTopics";
+
+    string like_link = Url.Action("Like", "Forum", new { id = Model.Discriminator });
+    string dislike_link = Url.Action("Dislike", "Forum", new { id = Model.Discriminator });
+
+    if (User.Identity.GetUserId() == Model.AuthorId)
+    {
+        acl_perm_announce = "CanAnnounceOwnTopics";
+        acl_perm_unlist = "CanUnlistOwnTopics";
+        acl_perm_sticky = "CanStickyOwnTopics";
+        acl_perm_global = "CanGlobalOwnTopics";
+        acl_perm_unlock = "CanUnlockOwnTopics";
+        acl_perm_lock = "CanLockOwnTopics";
+    }
+
+
+}
+
+<ul class="nav nav-tabs">
+    <li><a href="@Url.Action("ViewForum", "Forum", new { id = Model.Parent })"><span class="glyphicon glyphicon-arrow-left"></span> Back</a></li>
+    @if (ACL.CanReply(User.Identity.Name, Model.Parent))
+    {
+        if (Model.IsLocked == false)
+        {
+            <li><a href="@Url.Action("PostReply", "Forum", new { id = Model.Discriminator, fid = Model.Parent })"><span class="glyphicon glyphicon-comment"></span> Post reply</a></li>
+        }
+        else
+        {
+            <li>
+                <a data-toggle="modal" data-target="#m_locked" href="#"><span class="glyphicon glyphicon-lock"></span> Locked</a>
+
+                <div class="modal fade in" id="m_locked">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <a class="close" data-dismiss="modal"></a>
+                            <h2>Locked</h2>
+                        </div>
+                        <div class="modal-body">
+                            <p>This topic is locked, you may not reply to it.</p>
+                            @{
+                                string perm = "CanUnlockTopics";
+                                if (User.Identity.GetUserId() == Model.AuthorId)
+                                {
+                                    perm = "CanUnlockOwnTopics";
+                                }
+                                if (ACL.Granted(User.Identity.Name, perm))
+                                {
+                                    <p>If you would like to unlock this topic and allow replies, click the 'Moderation Tools' -> 'Unlock Topic' menu item at the top or bottom of the page.</p>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </li>
+                                    }
+                                }
+    @if (ACL.Granted(User.Identity.Name, "CanAccessModCP"))
+    {
+    <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Moderator tools <span class="caret"></span></a>
+        <ul class="dropdown-menu" id="mtools">
+            <li class="dropdown-header">Topic status</li>
+            @if (ACL.Granted(User.Identity.Name, acl_perm_sticky))
+            {
+            <li>@Html.ActionLink("Make sticky", "StickyTopic", "Moderator", new { id = Model.Discriminator }, null)</li>
+            }
+            @if (ACL.Granted(User.Identity.Name, acl_perm_announce))
+            {
+            <li>@Html.ActionLink("Announce", "AnnounceTopic", "Moderator", new { id = Model.Discriminator }, null)</li>
+            }
+            @if (ACL.Granted(User.Identity.Name, acl_perm_global))
+            {
+            <li>@Html.ActionLink("Make global", "GlobalTopic", "Moderator", new { id = Model.Discriminator }, null)</li>
+            }
+            <li class="dropdown-header">Posting</li>
+            
+                @if (Model.IsLocked == true)
+                {
+                    if (ACL.Granted(User.Identity.Name, acl_perm_unlock))
+                    {
+                        <li>
+                            @Html.ActionLink("Unlock topic", "Unlock", "Moderator", new { id = Model.Discriminator }, null)
+                       </li>
+                    }
+                }
+                else
+                {
+                    if (ACL.Granted(User.Identity.Name, acl_perm_lock))
+                    {
+                         <li>
+                               @Html.ActionLink("Lock topic", "Lock", "Moderator", new { id = Model.Discriminator }, null)
+                        </li>
+                    }
+
+                }
+@if (Model.IsUnlisted == true)
+{
+    if (ACL.Granted(User.Identity.Name, acl_perm_unlist))
+    {
+        <li>
+            @Html.ActionLink("Publish topic", "List", "Moderator", new { id = Model.Discriminator }, null)
+        </li>
+    }
+}
+else
+{
+    if (ACL.Granted(User.Identity.Name, acl_perm_unlist))
+    {
+        <li>
+            @Html.ActionLink("Unlist topic", "Unlist", "Moderator", new { id = Model.Discriminator }, null)
+        </li>
+    }
+
+}
+
+
+        </ul>
+    </li>
+    }
+    <li><a href="@like_link"><span class="glyphicon glyphicon-thumbs-up"></span> @Model.Likes.Length</a></li>
+    <li><a href="@dislike_link"><span class="glyphicon glyphicon-thumbs-down"></span> @Model.Dislikes.Length</a></li>
+
+</ul>
+
+<hr/>

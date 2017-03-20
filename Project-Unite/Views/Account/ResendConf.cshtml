@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Confirmation email resent.";
+}
+@if (ViewBag.IsConfirmed == true)
+{
+    <h2>Email already confirmed!</h2>
+
+    <p>We've already confirmed that your email is valid! There's no need to send a confirmation link! But, if that warning is still nagging you, there might be a bug on our end - contact @ACL.UserNameFromEmailRaw("michaelshiftos@gmail.com") ASAP!</p>
+}
+else
+{
+<h2>Confirmation email resent.</h2>
+
+<p>We have just sent an email to @User.Identity.Name</p>
+
+<h4>We value your security.</h4>
+
+<p>Security within the multi-user domain is paramount. You must protect yourself the best you can, and so must we. Since you are in the process of confirming your email address, we can soon ensure you are secure within the multi-user domain by allowing us to contact you when suspicious activity occurs on your account or when you need to reset your password.</p>
+
+<p>Still not there? @Html.ActionLink("Resend it again, please.", "ResendConf")</p>
+
+}

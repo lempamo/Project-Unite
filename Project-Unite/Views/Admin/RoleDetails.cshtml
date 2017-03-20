@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNet.Identity
+
+@model Project_Unite.Models.Role
+
+@{
+    ViewBag.Title = "Details for " + Model.Name;
+}
+
+<h2>Role details</h2>
+
+    <h4 style="color:@Model.ColorHex">@Model.Name</h4>
+    <p><strong>ID: </strong>@Model.Id</p>
+    <p><strong>Description:</strong></p>
+    <p>@Model.Description</p>
+    <p><strong>Priority: </strong>@Model.Priority</p>
+
+<hr/>
+
+<h2>Users</h2>
+
+<p>Below is a list of users in this role.</p>
+
+<table class="table">
+    <tr>
+        <th style="width:65%">User</th>
+        <th>Actions</th>
+    </tr>
+    @foreach(var user in Model.Users)
+    {
+        <tr>
+            <td>@Html.UserLink(user.UserId)</td>
+            <td>
+                @if(User.Identity.GetUserId() != user.UserId)
+                {
+                    @Html.ActionLink("Remove", "RemoveUserFromRole", "Admin", new { id = user.RoleId, usr = user.UserId}, new { @class="btn btn-danger"})
+
+                }
+                @Html.ActionLink("User details", "UserDetails", "Moderator", new { id = user.UserId }, new { @class = "btn btn-default" })
+
+
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,116 @@
+﻿@model Project_Unite.Models.ApplicationUser
+@{
+    ViewBag.Moderator = true;
+    ViewBag.Title = "User details";
+}
+
+<h2>User details</h2>
+
+<h4>@Html.UserLink(Model.Id)</h4>
+
+<ul>
+    <li><strong>Email address: </strong><a href="mailto:@Model.Email">Email @Model.Email</a></li>
+    <li><strong>Display name: </strong>@Model.DisplayName
+    
+    @if (ACL.Granted(User.Identity.Name, "CanEditUsernames"))
+    {
+        if (ACL.CanManageRole(User.Identity.Name, Model.HighestRole.Id))
+        {
+            <!-- Trigger the modal with a button -->
+            <a data-toggle="modal" data-target="#edit-user" href="#"><span class="glyphicon glyphicon-pencil"></span> Change</a>
+
+            <!-- Modal -->
+            <div id="edit-user" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        @using (Html.BeginForm("ChangeUsername", "Moderator", new { id = Model.Id }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Change username</h4>
+                        </div>
+                        <div class="modal-body">
+                                <p>Please enter a username for this user.</p>
+                                <p><strong>@Html.DisplayNameFor(Model => Model.DisplayName)</strong>: @Html.TextBoxFor(Model => Model.DisplayName)</p>
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" value="Change" class="btn btn-primary" /> 
+                            <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a> 
+                        </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        }
+    }
+    </li>
+    @if(ACL.Granted(User.Identity.Name, "CanIssueIPBan"))
+    {
+        <li><strong>Last known IP address: </strong>@Model.LastKnownIPAddress</li>
+    }
+    <li><strong>Banned: </strong>
+        @if (Model.IsBanned)
+        {
+            <em>Yes</em>
+            if (Model.UserName != User.Identity.Name && ACL.CanManageRole(User.Identity.Name, Model.HighestRole.Id))
+            {
+         @Html.ActionLink("Unban", "Unban", "Moderator", new { id = Model.Id }, null)
+            }
+        }
+        else
+        {
+            <em>No</em>
+            if (Model.UserName != User.Identity.Name && ACL.CanManageRole(User.Identity.Name, Model.HighestRole.Id))
+            {
+            @Html.ActionLink("Ban", "Ban", "Moderator", new { id = Model.Id }, null)
+            }
+        }
+    </li>
+    @if(Model.IsBanned == true)
+    {
+        <li><strong>Banned on: </strong>@Model.BannedAt</li>
+        <li><strong>Banned by: </strong>@Html.UserLink(Model.BannedBy)</li>
+    }
+    <li>
+        <strong>Muted: </strong>
+        @if (Model.IsMuted)
+        {
+            <em>Yes</em>
+            if (Model.UserName != User.Identity.Name && ACL.CanManageRole(User.Identity.Name, Model.HighestRole.Id))
+            {
+            @Html.ActionLink("Unmute", "Unmute", "Moderator", new { id = Model.Id }, null)
+            }
+        }
+        else
+        {
+            <em>No</em>
+            if (Model.UserName != User.Identity.Name && ACL.CanManageRole(User.Identity.Name, Model.HighestRole.Id))
+            {
+            @Html.ActionLink("Mute", "Mute", "Moderator", new { id = Model.Id }, null)
+            }
+        }
+    </li>
+    @if (Model.IsMuted == true)
+    {
+        <li><strong>Muted on: </strong>@Model.MutedAt</li>
+        <li><strong>Muted by: </strong>@Html.UserLink(Model.MutedBy)</li>
+    }
+    <li><strong>Bio:</strong>
+        <p>@Html.Markdown(Model.Bio)</p>
+    </li>
+    <li>
+        <strong>Interests:</strong>
+        <p>@Model.Interests</p>
+    </li>
+    <li>
+        <strong>Hobbies:</strong>
+        <p>@Model.Hobbies</p>
+    </li>
+
+
+</ul>

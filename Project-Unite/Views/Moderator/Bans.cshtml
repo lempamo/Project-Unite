@@ -1,0 +1,73 @@
+﻿@model Project_Unite.Models.ModeratorBanListViewModel
+@{
+    ViewBag.Moderator = true;
+    ViewBag.Title = "Bans";
+}
+
+<h2>Bans</h2>
+
+<ul id="tabs" data-tabs="tabs" class="nav nav-tabs" role="tablist">
+    <li class="active"><a data-toggle="tab" href="#t_users">User bans</a></li>
+    <li><a data-toggle="tab" href="#t_ips">IP bans</a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="t_users">
+        <h4>User bans</h4>
+        <p>Below is a list of all user bans. User bans prevent users from logging into their accounts.</p>
+        <table class="table">
+            <tr>
+                <th style="width:50%">User</th>
+                <th>Banner</th>
+                <th>Timestamp</th>
+                <th>Actions</th>
+            </tr>
+
+            @foreach(var u in Model.UserBans.OrderByDescending(x=>x.BannedAt))
+            {
+                <tr>
+                    <td>@Html.UserLink(u.Id)</td>
+                    <td>@Html.UserLink(u.BannedBy)</td>
+                    <td>@u.BannedAt</td>
+                    <td>
+                        @if(ACL.Granted(User.Identity.Name, "CanIssueBan"))
+                        {
+                            if(ACL.CanManageRole(User.Identity.Name, u.HighestRole.Id))
+                            {
+                                @Html.ActionLink("Unban", "Unban", "Moderator", new { id=u.Id}, new { @class="btn btn-default"})
+                            }
+                        }
+
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="tab-pane fade in" id="t_ips">
+        <h4>IP address bans</h4>
+        <p>Below is a list of IP address bans on the site. IP bans prevent users with a certain IP address from even attempting to access the website and multi-user domain by sending back "Forbidden" responses and denying connection.</p>
+        <h5>BE EXTREMELY CAUTIOUS.</h5>
+        <p>The system does NOT associate IP addresses with usernames - it can't. If you are unsure who's IP address you are unbanning, contact someone who is sure before taking any action. We have no idea what that computer or network is capable of.</p>
+        <table class="table">
+            <tr>
+                <th style="width:50%">User</th>
+                <th>Banner</th>
+                <th>Timestamp</th>
+                <th>Actions</th>
+            </tr>
+
+            @foreach (var u in Model.IPBans)
+            {
+                <tr>
+                    <td>@u.Address</td>
+                    <td>
+                        @if (ACL.Granted(User.Identity.Name, "CanIssueIPBan"))
+                        {
+                                @Html.ActionLink("Unban", "UnbanIP", "Moderator", new { id = u.Id }, new { @class = "btn btn-danger" })
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

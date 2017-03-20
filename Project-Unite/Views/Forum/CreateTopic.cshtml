@@ -1,0 +1,86 @@
+﻿@model Project_Unite.Models.CreateTopicViewModel
+@{
+    ViewBag.Title = "Create topic";
+}
+
+<h2>Create topic</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(Model => Model.Category)
+
+    <table class="table">
+        <tr>
+            <td style="width:25%">@Html.DisplayNameFor(Model => Model.Subject)</td>
+            <td>@Html.TextBoxFor(Model => Model.Subject, new { @class = "form-control", style = "width:100%" })</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(Model => Model.Body)
+            <p>This is the content of your topic. You can use Markdown formatting to style your post.</p>
+            </td>
+            <td>@Html.TextAreaFor(Model => Model.Body, new { @class = "form-control", style = "width:100%", rows = "10" })</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Post" class="btn btn-primary" /></td>
+        </tr>
+    </table>
+
+    <h3>Topic options</h3>
+
+     
+        bool showGeneral = false;
+        if (ACL.Granted(User.Identity.Name, "CanStickyOwnTopics") || ACL.Granted(User.Identity.Name, "CanGlobalOwnTopics") || ACL.Granted(User.Identity.Name, "CanAnnounceOwnTopics"))
+        {
+            showGeneral = true;
+        }
+        string generalStyle = "tab-pane fade in";
+        string pollStyle = "tab-pane fade in";
+        if (showGeneral == true) {
+            generalStyle += " active";
+
+        }
+        else
+        {
+            pollStyle += " active";
+        }
+    
+
+    <ul id="tabs" data-tabs="tabs" class="nav nav-tabs" role="tablist">
+        @if (showGeneral)
+        {
+        <li class="active"><a data-toggle="tab" href="#t_general">Topic status</a></li>
+        <li><a data-toggle="tab" href="#t_polls">Polls</a></li>
+        }
+        else
+        {
+            <li class="active"><a data-toggle="tab" href="#t_polls">Polls</a></li>
+        }
+    </ul>
+
+    <div class="tab-content">
+        <div class="@generalStyle" id="t_general">
+            <h4>Topic status</h4>
+
+            <p>Below you can set the status of your topic.</p>
+
+            @if (ACL.Granted(User.Identity.Name, "CanStickyOwnTopics"))
+            {
+                <p><strong>Sticky: </strong>@Html.CheckBoxFor(Model => Model.IsSticky, new { @class = "form-control" })</p>
+            }
+            @if (ACL.Granted(User.Identity.Name, "CanAnnounceOwnTopics"))
+            {
+                <p><strong>Announcement: </strong>@Html.CheckBoxFor(Model => Model.IsAnnounce, new { @class = "form-control" })</p>
+            }
+            @if (ACL.Granted(User.Identity.Name, "CanGlobalOwnTopics"))
+            {
+                <p><strong>Global announcement: </strong>@Html.CheckBoxFor(Model => Model.IsGlobal, new { @class = "form-control" })</p>
+            }
+        </div>
+        <div class="@pollStyle" id="t_polls">
+            <h4>Polls</h4>
+            <p>Not yet implemented.</p>
+        </div>
+    </div>
+}

@@ -1,0 +1,24 @@
+﻿@model Project_Unite.Models.AddUserToRoleViewModel
+
+@{
+    ViewBag.Title = "Add user to role";
+}
+
+<h2>Add user to role</h2>
+
+@using (Html.BeginForm())
+{
+	<table class="table-condensed">
+		<tr>
+			<td>@Html.DisplayNameFor(model => model.Username)</td>
+			<td>@Html.TextBoxFor(model => model.Username)</td>
+		</tr>
+		<tr>
+			<td>@Html.DisplayNameFor(model => model.RoleId)</td>
+			<td>@Html.TextBoxFor(model => model.RoleId)</td>
+		</tr>
+
+	</table>
+	<input type="submit" class="btn btn-primary" value="Add" />
+}
+

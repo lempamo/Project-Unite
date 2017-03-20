@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/bootstrap-theme.css")
+    @Styles.Render("~/Content/Site.css")
+
+
+    @Scripts.Render("~/bundles/modernizr")
+    
+</head>
+<body>
+    @Scripts.Render("~/Scripts/highlight.js")
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div> <!--Let's just add some padding there so the page doesn't look fucked.-->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("ShiftOS", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Download", "Download", "Home")</li>
+                    <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Community <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Discord", "Discord", "Home")</li>
+                                <li>@Html.ActionLink("Forum", "Index", "Forum")</li>
+                                <li>@Html.ActionLink("Wiki", "Index", "Wiki")</li>
+                                <li>@Html.ActionLink("Developer blog", "Index", "Blog")</li>
+                                <li>@Html.ActionLink("Bug tracker", "Index", "Bugs")</li>
+                                <li><a href="http://github.com/shiftos-game/ShiftOS">GitHub</a></li>
+                            </ul>
+                        </li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.Modals != null)
+    {
+
+        foreach (var id in ViewBag.Modals)
+        {
+            <div id="m_@id.Key" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Are you sure?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Deleting this category will delete all child categories and topics associated with it. This <strong>cannot</strong> be undone.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="@id.Value" class="btn btn-primary">Yes</a>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Nope.</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        }
+
+    }
+
+    <div class="container clearfix body-content">
+        @if (!ACL.UserEmailConfirmed(User.Identity.Name))
+        {
+            <div class="panel panel-warning">
+                <div class="panel-body">
+                    <span class="glyphicon glyphicon-info-sign"></span> <strong>Email address not confirmed!</strong> Hi! It appears that your email has not been confirmed. Please check your email. @Html.ActionLink("Resend confirmation link", "ResendConf", "Account")
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.Moderator == true)
+        {
+            <ul class="nav nav-tabs">
+                <li>@Html.ActionLink("Home", "Index", "Moderator")</li>
+                @if (ACL.Granted(User.Identity.Name, "CanIssueBan"))
+                {
+                    <li>@Html.ActionLink("Bans", "Bans", "Moderator")</li>
+                }
+                @if (ACL.Granted(User.Identity.Name, "CanEditProfiles"))
+                {
+                    <li>@Html.ActionLink("Users", "Users", "Moderator")</li>
+                }
+                <li>@Html.ActionLink("Audit logs", "Logs", "Moderator")</li>
+            </ul>
+                @RenderBody();
+        }
+        else if (ACL.Granted(User.Identity.Name, ViewBag.ACLRule))
+        {
+		if (ViewBag.Admin == true)
+        {
+            if (ACL.Granted(User.Identity.Name, "CanAccessAdminCP"))
+            {
+				<ul class="nav nav-tabs">
+					<li>@Html.ActionLink("Home", "Index", "Admin")</li>
+					@if (ACL.Granted(User.Identity.Name, "CanEditRoles"))
+                    {
+						<li>@Html.ActionLink("Roles", "Roles", "Admin")</li>
+                        <li>@Html.ActionLink("Access Control", "AccessControl", "Admin")</li>
+
+                    }
+					@if (ACL.Granted(User.Identity.Name, "CanEditProfiles"))
+                    {
+						<li>@Html.ActionLink("Users", "Users", "Admin")</li>
+                    }
+                    @if (ACL.Granted(User.Identity.Name, "CanEditForumCategories"))
+                    {
+                        <li>@Html.ActionLink("Forum Categories", "Forums", "Admin")</li>
+                    }
+                    <li>@Html.ActionLink("Audit logs", "Logs", "Admin")</li>
+				</ul>
+				@RenderBody();
+            }
+            else
+            {
+				<h2>Access denied.</h2>
+				<p>You do not have permission to access this page. Contact an admin if this is in error.</p>
+            }
+        }
+        else
+        {
+			@RenderBody()
+
+        }
+        }
+        else
+        {
+            <h2>Access denied.</h2>
+                <p>You do not have permission to access this page. Contact an admin if this is in error.</p>
+
+        }<hr />
+
+		<footer>
+
+			<p>&copy; @DateTime.Now.Year Michael VanOverbeek and the ShiftOS Dev Team</p>
+			@if (ACL.Granted(User.Identity.Name, "CanAccessAdminCP"))
+			{
+				<p>@Html.ActionLink("Administrator Control Panel", "Index", "Admin")</p>
+			}
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,48 @@
+﻿@model Project_Unite.Models.AddForumCategoryViewModel
+@{
+    ViewBag.Title = "Add forum category";
+}
+
+<h2>Add forum category</h2>
+
+<p>This page allows you to add a new forum category to ShiftOS and define a set of ACL rules for this category.</p>
+
+<div class="panel panel-danger">
+    @if(ViewBag.Error != null)
+    {
+        <p><span class="glyphicon glyphicon-warning-sign"></span> @ViewBag.Error</p>
+    }
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(Model => Model.PossibleParents)
+    <table class="table-condensed">
+        <tr>
+            <td>@Html.DisplayNameFor(Model => Model.Name)</td>
+            <td>@Html.TextBoxFor(Model => Model.Name)</td>
+        </tr>    
+        <tr>
+            <td>@Html.DisplayNameFor(Model => Model.Description)</td>
+            <td>@Html.TextBoxFor(Model => Model.Description)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(Model => Model.Parent)</td>
+            <td>@Html.DropDownListFor(Model => Model.Parent, Model.PossibleParents)</td>
+        </tr>
+    </table>
+
+    <h4>ACL rule definitions</h4>
+    <p>ACL rules for this forum can be edited in the Access Control section. Additionally, you can select an existing forum to copy ACL data from.</p>
+
+    <p><strong>Copy ACL data from: </strong>@Html.DropDownListFor(Model=>Model.StealPermissionsFrom, Model.PossibleParents)</p>
+    <p>Leave this value as "Top Level" to not copy permissions. Default permission values are 'Can Post' for all roles.</p>
+    <h4>Adding new roles</h4>
+    <p>When you add a new role to the site, the ACL system will automatically add it to this forum, however its permission data will be set to the default "Can Post" value.</p>
+    <hr/>
+
+   
+    <input type="submit" value="Add" class="btn btn-primary" />
+    @Html.ActionLink("Cancel", "Forums", "Admin", null, new { @class="btn btn-default"})
+}

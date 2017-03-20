@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Project_Unite.Models.ApplicationUser>
+@{
+    ViewBag.Admin = true;
+    ViewBag.Title = "Users";
+}
+
+<h2>Users</h2>
+
+<p>Below is a list of all users in the database.</p>
+
+<table class="table">
+    <tr>
+        <th style="width:85%">User</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@Html.UserLink(user.Id)</td>
+            <td>
+
+                @Html.ActionLink("User details", "UserDetails", "Moderator", new { id = user.DisplayName }, new { @class = "btn btn-default" })
+                @if (ACL.Granted(User.Identity.Name, "CanAnonymizeUser"))
+                {
+                <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#u_anonymize"><span class="glyphicon glyphicon-warning-sign"></span> Anonymize this user</a>
+                <div class="modal fade in">
+                    <div class="modal-content" id="#u_anonymize">
+                        <div class="modal-header">
+                            <a class="close" data-dissmiss="modal"></a>
+                            <h2>Anonymize user</h2>
+                        </div>
+                        <div class="modal-body">
+                            <p>Anonymizing this user will prevent them from ever logging in, and will purge their profile data. Continue?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-default" data-dismiss="modal">No</a>
+                            @Html.ActionLink("Yes", "AnonymizeUser", "Admin", new { id = user.Id }, new { @class = "btn btn-danger" })
+                        </div>
+                    </div>
+                </div>
+                }
+            </td>
+        </tr>
+    }
+</table>

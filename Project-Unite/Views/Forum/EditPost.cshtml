@@ -1,0 +1,37 @@
+﻿@model Project_Unite.Models.EditPostViewModel
+@{
+    ViewBag.Title = "Edit post";
+}
+
+<h2>Edit post</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(Model=>Model.Id)
+    <table class="table">
+        <tr>
+            <td style="width:25%">
+                <p><strong>Body:</strong></p>
+                <p>Make your edits to the post in this field. CommonMark-compliant Markdown is supported.</p>
+            </td>
+            <td>
+                @Html.TextAreaFor(Model=>Model.Contents, new { rows = "10", @class="form-control" })
+            </td>
+        </tr>
+        <tr>
+            <td style="width:25%">
+                <p><strong>Edit reason:</strong></p>
+                <p>Why did you edit the post? This reason is displayed in the Moderator Control Panel as well as at the bottom of the post.</p>
+            </td>
+            <td>
+                @Html.TextBoxFor(Model => Model.EditReason, new { @class = "form-control" })
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Save" class="btn btn-primary" /></td>
+        </tr>
+    </table>
+}
+

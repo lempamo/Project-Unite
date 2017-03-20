@@ -1,0 +1,567 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Project_Unite.Models;
+
+namespace Project_Unite.Controllers
+{
+    //We have a custom ACL implementation so we do not need to use the ASP.NET role system to check if a user has an ACL rule.
+    [Authorize]
+    public class AdminController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        public ActionResult Index()
+        {
+            ViewBag.Admin = true;
+            return View();
+        }
+
+
+        public ActionResult DeleteForum(string id)
+        {
+            var frm = db.ForumCategories.FirstOrDefault(x => x.Id == id);
+            if (frm == null)
+                return new HttpStatusCodeResult(404);
+
+            //Purge ALL DATA RELATED TO THIS CATEGORY.
+            DeleteCategoryRecursive(frm);
+            db.SaveChanges();
+
+            return RedirectToAction("Forums");
+        }
+
+
+        public void DeleteCategoryRecursive(ForumCategory start)
+        {
+            foreach (var c in start.Children.ToArray())
+            {
+                DeleteCategoryRecursive(c);
+            }
+
+            foreach (var topic in start.Topics.ToArray())
+            {
+                DeleteTopic(topic);
+            }
+            db.ForumCategories.Remove(db.ForumCategories.FirstOrDefault(x => x.Id == start.Id));
+
+        }
+
+        public void DeleteTopic(ForumTopic topic)
+        {
+            foreach(var post in topic.Posts.ToArray())
+            {
+                DeletePost(post);
+            }
+            db.ForumTopics.Remove(topic);
+        }
+
+        public ActionResult AccessControl()
+        {
+            var model = new Dictionary<string, ForumPermission[]>();
+            var db = new ApplicationDbContext();
+            var forums = db.ForumCategories.ToArray();
+            foreach(var forum in forums)
+            {
+                ACL.UpdateACLDefinitions(forum.Id);
+                if(forum.Id != "root")
+                {
+                    if (!model.ContainsKey(forum.Id))
+                    {
+                        model.Add(forum.Id, forum.Permissions);
+                    }
+                }
+            }
+            return View(new AdminAccessControlViewModel(model));  
+        }
+
+        public ActionResult SetPermission(string id, string role, string permission)
+        {
+            if (!ACL.Granted(User.Identity.Name, "CanAccessAdminCP"))
+                return new HttpStatusCodeResult(403);
+            if (!ACL.Granted(User.Identity.Name, "CanEditRoles"))
+                return new HttpStatusCodeResult(403);
+            if (!ACL.Granted(User.Identity.Name, "CanEditForumCategories"))
+                return new HttpStatusCodeResult(403);
+
+            var db = new ApplicationDbContext();
+            var frm = db.ForumCategories.FirstOrDefault(x => x.Id == id);
+            if (frm == null)
+                return new HttpStatusCodeResult(403);
+            var rolePerm = db.ForumPermissions.Where(x => x.CategoryId == frm.Id).FirstOrDefault(x => x.RoleId == role);
+            if (rolePerm == null)
+                return new HttpStatusCodeResult(404);
+
+            rolePerm.Permissions = (PermissionPreset)Enum.Parse(typeof(PermissionPreset), permission);
+
+            db.AuditLogs.Add(new Models.AuditLog(User.Identity.GetUserId(), AuditLogLevel.Admin, "User altered the ACL definition for forum ID " + id + ", role ID " + role + ", to permission \"" + permission + "\"."));
+            db.SaveChanges();
+
+            return RedirectToAction("AccessControl");
+
+        }
+
+        public void DeletePost(ForumPost post)
+        {
+            db.ForumPosts.Remove(post);
+        }
+
+
+        // GET: Admin/Forums
+        public ActionResult Forums()
+        {
+            ViewBag.Admin = true;
+            var cats = db.ForumCategories.First(x => x.Id == "root").Children.Where(x=>x.Id != "root");
+            return View(cats);
+        }
+
+
+
+        public ActionResult AddForumCategory(string parentId)
+        {
+            ViewBag.Admin = true;
+            if (parentId == null)
+                parentId = "root";
+
+            var model = new AddForumCategoryViewModel();
+            model.PossibleParents = GetForumCategories();
+            model.Parent = (parentId);
+            return View(model);
+        }
+
+        public ActionResult RaisePriority(string id)
+        {
+            var uid = User.Identity.Name;
+            if(ACL.Granted(uid, "CanEditRoles"))
+            {
+                var db = new ApplicationDbContext();
+                var role = db.Roles.FirstOrDefault(x => x.Id == id) as Role;
+                if (role == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                if (role.Priority == db.Roles.Count() - 1)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                Role higherUp = null;
+                foreach(var r in db.Roles)
+                {
+                    if ((r as Role).Priority == role.Priority + 1)
+                        higherUp = r as Role;
+                }
+
+                higherUp.Priority--;
+                role.Priority++;
+                db.SaveChanges();
+
+                return RedirectToAction("Roles");
+            }
+            else
+            {
+                return new HttpStatusCodeResult(403);
+            }
+        }
+
+        public async Task<ActionResult> RemoveUserFromRole(string id, string usr)
+        {
+            if(ACL.CanManageRole(User.Identity.Name, id))
+            {
+                var uman = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                await uman.RemoveFromRoleAsync(usr, id);
+                return RedirectToAction("RoleDetails", new { @id = id });
+            }
+            else
+            {
+                return new HttpStatusCodeResult(403);
+            }
+        }
+
+        public ActionResult LowerPriority(string id)
+        {
+            var uid = User.Identity.Name;
+            if (ACL.Granted(uid, "CanEditRoles"))
+            {
+                var db = new ApplicationDbContext();
+                var role = db.Roles.FirstOrDefault(x => x.Id == id) as Role;
+                if (role == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                if (role.Priority == 0)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                Role higherUp = null;
+                foreach (var r in db.Roles)
+                {
+                    if ((r as Role).Priority == role.Priority - 1)
+                        higherUp = r as Role;
+                }
+
+                if(higherUp != null)
+                    higherUp.Priority++;
+                role.Priority--;
+                db.SaveChanges();
+
+                return RedirectToAction("Roles");
+            }
+            else
+            {
+                return new HttpStatusCodeResult(403);
+            }
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddForumCategory(AddForumCategoryViewModel model)
+        {
+            try
+            {
+                if (model == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                if (string.IsNullOrWhiteSpace(model.Name))
+                {
+                    ViewBag.Error = "Please specify a name for this forum category.";
+                    return View(model);
+                }
+
+                string DisallowedChars = "/.,\\][;':\"|?><!@#$%^&*()_+-=`~}{ ";
+
+                string id = model.Name.ToLower();
+
+                foreach (var c in DisallowedChars)
+                {
+                    id = id.Replace(c, '_');
+                }
+
+
+                var frm = new ForumCategory();
+
+                frm.Name = model.Name;
+                frm.Id = id;
+
+                frm.Description = model.Description;
+                frm.LinkUrl = null;
+                frm.Parent = db.ForumCategories.FirstOrDefault(x => x.Id == model.Parent).Id;
+                db.ForumCategories.Add(frm);
+
+                db.SaveChanges();
+                if (model.StealPermissionsFrom != "root")
+                {
+                    var frmToSteal = db.ForumCategories.FirstOrDefault(x => x.Id == model.StealPermissionsFrom);
+                    ACL.UpdateACLDefinitions(frmToSteal.Id); //Just to be sure..
+                    foreach(var perm in frmToSteal.Permissions)
+                    {
+                        var aclEntry = new ForumPermission();
+                        aclEntry.CategoryId = frm.Id;
+                        aclEntry.RoleId = perm.RoleId;
+                        aclEntry.Permissions = perm.Permissions;
+                        aclEntry.Id = Guid.NewGuid().ToString();
+                        db.ForumPermissions.Add(aclEntry);
+                    }
+                    db.SaveChanges();
+                }
+                else
+                {
+                    ACL.UpdateACLDefinitions(frm.Id);
+                    //This sets the permission data to the default values.
+                }
+
+
+                
+                return RedirectToAction("Forums");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.ToString();
+                return View(model);
+            }
+        }
+
+        public ActionResult AnonymizeUser(string id)
+        {
+            if (!ACL.Granted(User.Identity.Name, "CanAcessAdminCP"))
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            if (!ACL.Granted(User.Identity.Name, "CanAnonymizeUser"))
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            var db = new ApplicationDbContext();
+            var user = db.Users.FirstOrDefault(x => x.Id == id);
+            if (user == null)
+                return new HttpStatusCodeResult(404);
+
+            user.UserName = Guid.NewGuid().ToString() + "@system";
+            user.Email = Guid.NewGuid().ToString() + "@system";
+            user.PasswordHash = Guid.NewGuid().ToString();
+            user.EmailConfirmed = false;
+            user.Hobbies = "";
+            user.Interests = "";
+            user.Bio = @"# User anonymized.
+
+This user has been anonymized by an administrator.";
+            user.AvatarUrl = "";
+            user.BannerUrl = "";
+            var uman = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            foreach(var role in user.Roles)
+            {
+                uman.RemoveFromRole(user.Id, role.RoleId);
+            }
+            uman.AddToRole(user.Id, ACL.LowestPriorityRole().Id);
+            db.SaveChanges();
+            return RedirectToAction("Users");
+        }
+
+
+        public ActionResult Logs()
+        {
+            if (!ACL.Granted(User.Identity.Name, "CanAccessAdminCP"))
+                return new HttpStatusCodeResult(403);
+
+            var db = new ApplicationDbContext();
+
+            return View(db.AuditLogs);
+        }
+
+
+        public ActionResult Users()
+        {
+            return View(new ApplicationDbContext().Users);
+        }
+
+        public ActionResult EditForum(string id)
+        {
+            ViewBag.Admin = true;
+            var frm = db.ForumCategories.FirstOrDefault(x => x.Id == id);
+            if (frm == null)
+                return new HttpStatusCodeResult(404);
+
+            var m = new AddForumCategoryViewModel();
+            m.Id = frm.Id;
+            m.Parent = frm.Parent;
+            m.Description = frm.Description;
+            m.Name = frm.Name;
+            m.PossibleParents = GetForumCategories();
+            return View(m);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditForum(string id, AddForumCategoryViewModel m)
+        {
+            try
+            {
+                m.Id = id;
+                var frm = db.ForumCategories.FirstOrDefault(x => x.Id == id);
+
+                frm.Name = m.Name;
+                frm.Description = m.Description;
+
+
+
+                frm.Parent = m.Parent;
+                db.SaveChanges();
+                
+                return RedirectToAction("Forums");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.ToString();
+                return View(m);
+            }
+        }
+
+
+
+
+
+
+        // GET: Admin
+        public ActionResult Roles()
+        {
+            ViewBag.Admin = true;
+            return View(db.IdentityRoles.ToList());
+        }
+
+        // GET: Admin/RoleDetails/5
+        public ActionResult RoleDetails(string id)
+        {
+            ViewBag.Admin = true;
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Role role = db.IdentityRoles.Find(id);
+            if (role == null)
+            {
+                return HttpNotFound();
+            }
+            return View(role);
+        }
+
+        // GET: Admin/Create
+        public ActionResult CreateRole()
+        {
+            ViewBag.Admin = true;
+            return View();
+        }
+
+        // POST: Admin/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateRole(Role role)
+        {
+            if (ModelState.IsValid)
+            {
+                db.IdentityRoles.Add(role);
+                db.SaveChanges();
+                return RedirectToAction("Roles");
+            }
+
+            return View(role);
+        }
+
+        // GET: Admin/AddUserToRole
+        public ActionResult AddUserToRole()
+        {
+            ViewBag.Admin = true;
+            return View(new AddUserToRoleViewModel());
+        }
+
+        // POST: Admin/AddUserToRole
+        [HttpPost]
+        public async Task<ActionResult> AddUserToRole(AddUserToRoleViewModel model)
+        {
+            var r = db.Roles.FirstOrDefault(role => role.Name == model.RoleId);
+            var user = db.Users.FirstOrDefault(u => u.DisplayName == model.Username);
+            var uMan = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+            var isInRole = await uMan.IsInRoleAsync(user.Id, r.Id);
+            
+            if(isInRole)
+            {
+                ViewBag.Error = $"{model.Username} is already in the {r.Name} role.";
+                return View(model);
+            }
+            else
+            {
+                await uMan.AddToRoleAsync(user.Id, r.Name);
+                return RedirectToAction("Roles");
+            }
+
+
+        }
+
+        // GET: Admin/Edit/5
+        public ActionResult EditRole(string id)
+        {
+            ViewBag.Admin = true;
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Role role = db.IdentityRoles.Find(id);
+            if (role == null)
+            {
+                return HttpNotFound();
+            }
+            return View(role);
+        }
+
+        // POST: Admin/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditRole(Role role)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(role).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(role);
+        }
+
+        // GET: Admin/Delete/5
+        public ActionResult DeleteRole(string id)
+        {
+            ViewBag.Admin = true;
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Role role = db.IdentityRoles.Find(id);
+            if (role == null)
+            {
+                return HttpNotFound();
+            }
+            return View(role);
+        }
+
+        // POST: Admin/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteRoleConfirmed(string id)
+        {
+            Role role = db.IdentityRoles.Find(id);
+            db.IdentityRoles.Remove(role);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        public List<SelectListItem> GetForumCategories()
+        {
+            var items = new List<SelectListItem>();
+            items.Add(new SelectListItem
+            {
+                Value = "root",
+                Text = "Top Level"
+            });
+
+            foreach(var cat in getChildren("root", 1))
+            {
+                items.Add(cat);
+            }
+
+            return items;
+
+        }
+
+        private IEnumerable<SelectListItem> getChildren(string id, int dashcount)
+        {
+            var lst = new List<SelectListItem>();
+            db = new ApplicationDbContext();
+            foreach (var cat in db.ForumCategories.FirstOrDefault(c => c.Id == id).Children.Where(x=>x.Id != "root"))
+            {
+                string dashes = "";
+                for (int i = 0; i <= dashcount; i++)
+                    dashes += "-";
+                lst.Add(new SelectListItem
+                {
+                    Text = dashes + " " + cat.Name,
+                    Value = cat.Id,
+                });
+                lst.AddRange(getChildren(cat.Id, dashcount + 1));
+            }
+            return lst;
+        }
+    }
+}

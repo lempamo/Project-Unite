@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Project_Unite.Models.ForumCategory>
+
+@{
+    ViewBag.Title = "Forums";
+}
+
+<h2>Welcome to the forums.</h2>
+
+@foreach (var cat in Model)
+{
+	<table class="table">
+		<tr>
+			<th>@cat.Name</th>
+			<th>Topics</th>
+			<th>Posts</th>
+			<th>Most Recent Post</th>
+		</tr>
+		@foreach (var subcat in cat.Children)
+		{
+			<tr>
+				<td>@Html.ActionLink(subcat.Name, "ViewForum", "Forum", new { id = subcat.Id }, null) <br/>
+				<p>@subcat.Description</p>
+                @if(subcat.Children.Length > 0)
+                {
+                    <p><strong>Subforums: </strong>
+                    @foreach(var subfrm in subcat.Children)
+                    {
+                        <em> @Html.ActionLink(subfrm.Name, "ViewForum", "Forum", new { id = subfrm.Id }, null)&nbsp;</em> 
+                    }
+                    </p>
+                }
+				</td>
+				<td>@subcat.Topics.Length</td>
+				<td></td>
+				<td></td>
+			</tr>
+		}
+	</table>
+}

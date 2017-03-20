@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNet.Identity
+@model Project_Unite.Models.ForumPost
+
+@{ 
+    string acl_perm_delete = "CanDeletePosts";
+    string acl_perm_edit = "CanEditPosts";
+
+    if (User.Identity.GetUserId() == Model.AuthorId)
+    {
+        acl_perm_delete = "CanDeleteOwnPosts";
+        acl_perm_edit = "CanEditOwnPosts";
+    }
+}
+
+<ul class="nav nav-tabs">
+    @if(ACL.Granted(User.Identity.Name, acl_perm_edit))
+    {
+        <li><a href="@Url.Action("EditPost", "Forum", new { id = Model.Id })"><span class="glyphicon glyphicon-pencil"></span> Edit</a></li>
+    }
+    @if (ACL.Granted(User.Identity.Name, acl_perm_delete))
+    {
+        <li><a href="@Url.Action("DeletePost", "Forum", new { id = Model.Id })"><span class="glyphicon glyphicon-trash"></span> Delete</a></li>
+    }
+
+</ul>
+
+<hr/>

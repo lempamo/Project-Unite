@@ -1,0 +1,59 @@
+﻿@model Project_Unite.Models.AdminAccessControlViewModel
+
+
+@{
+    ViewBag.Title = "Access control";
+
+    Dictionary<string, string> EnumNames = new Dictionary<string, string> {
+        { "None", "No permissions" },
+        { "CanRead", "Read only" },
+        { "CanPost", "Can post new topics" },
+        {"CanReply", "Can reply" }
+    };
+
+    var availablePermissions = new List<SelectListItem>();
+    foreach (var v in Enum.GetValues(typeof(Project_Unite.Models.PermissionPreset)))
+    {
+        availablePermissions.Add(new SelectListItem
+        {
+            Value = v.ToString(),
+            Text = EnumNames[v.ToString()]
+        });
+    }
+
+}
+
+<h2>Access control</h2>
+
+<p>Below, you can modify the access control list (ACL) definitions for all forum categories.</p>
+
+    @foreach (var key in Model.IDs)
+    {
+        <h4>@key</h4>
+        <table class="table">
+            <tr>
+                <th>Role ID</th>
+                <th>Value</th>
+            </tr>
+            @foreach (var p in Model.ACLList.Where(x => x.CategoryId == key))
+            {
+                <tr>
+                    <td>@Html.DisplayFor(v => p.RoleId)</td>
+                    <td>
+                        @foreach(var r in EnumNames)
+                        {
+                            if(r.Key == p.Permissions.ToString())
+                            {
+                                <a href="#" class="btn btn-primary">@r.Value</a>
+                            }
+                            else
+                            {
+                                @Html.ActionLink(r.Value, "SetPermission", "Admin", new { id=p.CategoryId, role=p.RoleId, permission=r.Key}, new { @class = "btn btn-default" })
+                            }
+                        }
+                    </td>
+                </tr>                
+            }
+        </table>
+        
+    }

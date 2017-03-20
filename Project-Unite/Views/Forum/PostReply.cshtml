@@ -1,0 +1,27 @@
+﻿@model Project_Unite.Models.CreateTopicViewModel
+@{
+    ViewBag.Title = "Post reply";
+}
+
+<h2>Post reply</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(Model => Model.Category)
+
+    <table class="table">
+        <tr>
+            <td>@Html.DisplayNameFor(Model => Model.Body)
+            <p>This is the content of your topic. You can use Markdown formatting to style your post.</p>
+            </td>
+            <td>@Html.TextAreaFor(Model => Model.Body, new { @class = "form-control", style = "width:100%", rows = "10" })</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Post" class="btn btn-primary" /></td>
+        </tr>
+    </table>
+
+
+}
