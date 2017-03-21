@@ -71,7 +71,7 @@ namespace Project_Unite.Models
 
         [Required]
         [MaxLength(25, ErrorMessage ="Your username must be less than 25 characters long.")]
-        [MinLength(5, ErrorMessage ="Your username must have a minimum of 5 characters.")]
+        [MinLength(3, ErrorMessage ="Your username must have a minimum of 3 characters.")]
         [Display(Name = "Username")]
         public string Username { get; set; }
 

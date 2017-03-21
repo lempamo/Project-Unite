@@ -14,6 +14,11 @@ namespace Project_Unite.Controllers
             return View();
         }
 
+        public ActionResult License()
+        {
+            return View();
+        }
+
         // GET: Legal/Privacy
         public ActionResult Privacy()
         {

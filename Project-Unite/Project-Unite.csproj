@@ -503,11 +503,11 @@
     <Content Include="Views\Shared\_ModeratorBar.cshtml" />
     <Content Include="Views\Shared\_PostModerationBar.cshtml" />
     <Content Include="Views\Forum\EditPost.cshtml" />
+    <Content Include="Views\Legal\TOS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="Views\Legal\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
