@@ -24,6 +24,9 @@
     }
 }*/
 
+p,a,strong,b,u,i,em,h1,h2,h3,h4,h5,h6,s,pre,code,ul,ol,li{
+    overflow:auto;
+}
 
 .form-control{
     width:100%;
