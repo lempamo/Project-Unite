@@ -46,9 +46,15 @@ namespace Project_Unite
                 {
                     userRoles.Add(db.Roles.FirstOrDefault(r => r.Id == usrRole.RoleId) as Role);
                 }
-                var userRole = userRoles.OrderByDescending(m => m.Priority).First();
-                return hpr.Raw($@"<strong style=""color:{userRole.ColorHex}"">{hpr.Encode(usr.DisplayName)}</strong>");
-
+                var userRole = userRoles.OrderByDescending(m => m.Priority).FirstOrDefault();
+                if (userRole == null)
+                {
+                    return hpr.Raw($@"<strong>{hpr.Encode(usr.DisplayName)}</strong>");
+                }
+                else
+                {
+                    return hpr.Raw($@"<strong style=""color:{userRole.ColorHex}"">{hpr.Encode(usr.DisplayName)}</strong>");
+                }
             }
         }
 
