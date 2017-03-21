@@ -23,7 +23,7 @@ namespace Project_Unite.Migrations
                 Description = "These are the admins of the website - This is a persistent group and cannot be deleted.",
                 Priority = context.Roles.Count() + 1,
                 Name = "Administrators"
-            });
+            };
             foreach (var prop in adm.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
             {
                 if (prop.Name.StartsWith("Can") && prop.PropertyType == typeof(bool))
