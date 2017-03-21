@@ -18,6 +18,7 @@ namespace Project_Unite
         {
             var configuration = new Migrations.Configuration();
             var migrator = new DbMigrator(configuration);
+            
             migrator.Update();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -27,6 +28,11 @@ namespace Project_Unite
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
+            var configuration = new Migrations.Configuration();
+            var migrator = new DbMigrator(configuration);
+
+            migrator.Update();
+
 
             var addr = HttpContext.Current.Request.UserHostAddress;
             var db = new ApplicationDbContext();
