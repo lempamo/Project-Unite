@@ -412,10 +412,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet-Project-Unite-20170315114859.mdf" />
-    <Content Include="App_Data\aspnet-Project-Unite-20170315114859_log.ldf">
-      <DependentUpon>aspnet-Project-Unite-20170315114859.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -509,6 +505,7 @@
     <Content Include="Views\Forum\EditPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Views\Legal\" />
   </ItemGroup>
