@@ -29,8 +29,8 @@ namespace Project_Unite
                 {
                     userRoles.Add(db.Roles.FirstOrDefault(r => r.Id == usrRole.RoleId) as Role);
                 }
-                var userRole = userRoles.OrderByDescending(m => m.Priority).First();
-                return hpr.ActionLink(usr.DisplayName, "ViewProfile", "Profiles", new { name = usr.UserName }, new { style = @"color: " + userRole.ColorHex });
+                var userRole = userRoles.OrderByDescending(m => m.Priority).FirstOrDefault();
+                return hpr.ActionLink(usr.DisplayName, "ViewProfile", "Profiles", new { name = usr.UserName }, new { style = userRole == null ? "color:white;" : @"color: " + userRole.ColorHex });
 
             }
         }
