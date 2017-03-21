@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -15,6 +16,9 @@ namespace Project_Unite
     {
         protected void Application_Start()
         {
+            var configuration = new Migrations.Configuration();
+            var migrator = new DbMigrator(configuration);
+            migrator.Update();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
