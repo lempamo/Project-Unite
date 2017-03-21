@@ -41,7 +41,7 @@ namespace Project_Unite.Migrations
                 ColorHex = "#FFF"
             };
             context.Roles.AddOrUpdate(userRole);
-
+            context.SaveChanges();
 
         }
 
