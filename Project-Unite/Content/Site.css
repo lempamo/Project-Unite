@@ -24,7 +24,7 @@
     }
 }*/
 
-p,a,strong,b,u,i,em,h1,h2,h3,h4,h5,h6,s,pre,code,input,textarea,div,button{
+p,a,strong,b,u,i,em,h1,h2,h3,h4,h5,h6,s,pre,code,input,textarea{
     overflow:auto;
 }
 
