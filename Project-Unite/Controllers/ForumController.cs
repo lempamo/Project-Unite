@@ -254,6 +254,10 @@ namespace Project_Unite.Controllers
                 return new HttpStatusCodeResult(404);
 
             string subjectId = model.Subject;
+
+            if (String.IsNullOrWhiteSpace(model.Subject) == true)
+                ViewBag.Error = "hey no null subjects";
+
             char[] badChars = subjectId.Where(x => !AllowedChars.Contains(x)).ToArray();
 
             foreach(var c in badChars)
