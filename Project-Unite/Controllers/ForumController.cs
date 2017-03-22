@@ -154,16 +154,21 @@ namespace Project_Unite.Controllers
                 acl_perm = "CanDeleteOwnPosts";
             if (!ACL.Granted(User.Identity.Name, acl_perm))
                 return new HttpStatusCodeResult(403);
-            db.ForumPosts.Remove(topic);
             var parent = db.ForumTopics.FirstOrDefault(x => x.Id == topic.Parent);
-            db.SaveChanges();
-            if (parent.Posts.Length == 0)
+            bool redirectToParent = false;
+            string cat = "";
+            if (parent.Posts.Length - 1 == 0)
             {
-                string cat = parent.Parent;
+                cat = parent.Parent;
                 db.ForumTopics.Remove(parent);
                 db.SaveChanges();
-                RedirectToAction("ViewForum", new { id = cat });
+                redirectToParent = true;
             }
+            db.ForumPosts.Remove(topic);
+            db.SaveChanges();
+            if(redirectToParent)
+                return RedirectToAction("ViewForum", new { id = cat });
+
             return RedirectToAction("ViewTopic", new { id = db.ForumTopics.FirstOrDefault(x => x.Id == topic.Parent).Discriminator});
         }
 
