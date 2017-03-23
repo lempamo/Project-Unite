@@ -74,8 +74,12 @@
 			<p>This feature has not been implemented just yet.</p>
 		</div>
 		<div class="tab-pane" id="t_preferences">
-			<h4>Not yet implemented.</h4>
-			<p>This feature has not been implemented just yet.</p>
+			<table class="table">
+                <tr>
+                    <td style="width:25%"><strong>Password:</strong></td>
+                    <td>@Html.ActionLink("Change", "ChangePassword", "Manage", null, new { @class = "btn btn-default" })</td>
+                </tr>
+            </table>
 		</div>
 	</div>
 </div>
