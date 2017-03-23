@@ -1,5 +1,13 @@
 ﻿<!DOCTYPE html>
-<html>
+@{
+    string style = "";
+    if (ViewBag.Banner != null)
+    {
+        style = "background-image: url(\"" + ViewBag.Banner + "\") cover;";
+    }
+}
+
+<html style="@style">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,14 +20,7 @@
     @Scripts.Render("~/bundles/modernizr")
     
 </head>
-@{ 
-    string style = "";
-    if(ViewBag.Banner != null)
-    {
-        style = "background-image: url(\"" + ViewBag.Banner + "\") cover;";
-    }
-}
-<body style="@style">
+<body>
     @Scripts.Render("~/Scripts/highlight.js")
     <div class="navbar navbar-default navbar-fixed-top">
         <div> <!--Let's just add some padding there so the page doesn't look fucked.-->
