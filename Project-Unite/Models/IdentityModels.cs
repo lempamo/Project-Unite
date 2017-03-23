@@ -39,7 +39,6 @@ namespace Project_Unite.Models
         }
 
         public string LastKnownIPAddress { get; set; }
-
         public DateTime JoinedAt { get; set; }
         public DateTime LastLogin { get; set; }
         
@@ -91,7 +90,14 @@ namespace Project_Unite.Models
         public string Hobbies { get; set; }
         
 
-        
+        public UserPost[] Posts
+        {
+            get
+            {
+                var db = new ApplicationDbContext();
+                return db.UserPosts.Where(x => x.UserId == this.Id).ToArray();
+            }
+        }
     }
 
     public class BannedIP
@@ -118,6 +124,7 @@ namespace Project_Unite.Models
             return new ApplicationDbContext();
         }
 
+        public DbSet<UserPost> UserPosts { get; set; }
         public DbSet<ForumPostEdit> ForumPostEdits { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<ForumPermission> ForumPermissions { get; set; }
