@@ -9,7 +9,7 @@
         <li>@Html.NewestUser()</li>
         <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-user"></span> @Html.UserName(User.Identity.GetUserId()) <span class="caret"></span></a>
             <ul class="dropdown-menu">
-                <li><a href="@Url.Action("ViewProfile", "Profiles", new { name = User.Identity.Name })"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                <li><a href="@Url.Action("ViewProfile", "Profiles", new { id = ACL.UserNameRaw(User.Identity.GetUserId()) })"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
                 <li class="divider"></li>
                 <li class="dropdown-header">Settings</li>
                 @if(ACL.Granted(User.Identity.Name, "CanAccessAdminCP"))
