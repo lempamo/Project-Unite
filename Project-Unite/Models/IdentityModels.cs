@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -130,5 +131,35 @@ namespace Project_Unite.Models
         public DbSet<ForumPollVote> ForumPollVotes { get; set; }
         public DbSet<ForumPost> ForumPosts { get; set; }
         
+    }
+
+    public class UserPost
+    {
+        public string Id { get; set; }
+        public string UserId { get; set; }
+
+        [MaxLength(1000, ErrorMessage ="Your post can't have more than 1000 characters.")]
+        [AllowHtml]
+        [MinLength(20, ErrorMessage ="To prevent spam, you must have at least 20 characters in your post.")]
+        public string PostContents { get; set; }
+
+        public DateTime PostedAt { get; set; }
+
+        public Like[] Likes
+        {
+            get
+            {
+                return new ApplicationDbContext().Likes.Where(l => l.Topic == this.Id).Where(x => x.IsDislike == false).ToArray();
+            }
+        }
+
+        public Like[] Dislikes
+        {
+            get
+            {
+                return new ApplicationDbContext().Likes.Where(l => l.Topic == this.Id).Where(x => x.IsDislike == true).ToArray();
+            }
+        }
+
     }
 }

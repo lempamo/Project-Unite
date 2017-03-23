@@ -12,7 +12,14 @@
     @Scripts.Render("~/bundles/modernizr")
     
 </head>
-<body>
+@{ 
+    string style = "";
+    if(ViewBag.Model != null)
+    {
+        style = "background-image: url(\"" + ViewBag.Model + "\") cover;";
+    }
+}
+<body style="@style">
     @Scripts.Render("~/Scripts/highlight.js")
     <div class="navbar navbar-default navbar-fixed-top">
         <div> <!--Let's just add some padding there so the page doesn't look fucked.-->

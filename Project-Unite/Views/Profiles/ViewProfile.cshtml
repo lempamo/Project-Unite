@@ -1,0 +1,27 @@
+﻿@model Project_Unite.Models.ApplicationUser
+@{
+    ViewBag.Title = Model.DisplayName;
+    ViewBag.Banner = Model.BannerUrl;
+}
+
+<div class="row">
+    <h3>
+        <img src="@Model.AvatarUrl" width="64" height="64" /> @if (string.IsNullOrWhiteSpace(Model.FullName))
+        { <strong> @Model.DisplayName </strong>}
+        else
+        {
+            <strong>@Model.FullName</strong> <em>(@Model.DisplayName)</em>}
+    </h3>
+</div>
+
+<div class="row">
+    <div class="col-xs-4">
+        <h4>User stats</h4>
+        <ul>
+            <li><strong>@Model.Codepoints</strong> Codepoints</li>
+            <li><strong>Joined at: </strong>@Model.JoinedAt</li>
+            <li><strong>Posts: </strong>@Model.PostCount</li>
+            <li><strong>Topics: </strong>@Model.TopicCount</li>
+        </ul>
+    </div>
+</div>
