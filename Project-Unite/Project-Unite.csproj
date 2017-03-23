@@ -507,8 +507,7 @@
     <Content Include="Views\Forum\EditPost.cshtml" />
     <Content Include="Views\Legal\TOS.cshtml" />
     <Content Include="Views\Profiles\ViewProfile.cshtml" />
-    <Content Include="Views\Profile\ViewProfile.cshtml" />
-    <Content Include="Views\Profile\_NewPost.cshtml" />
+    <Content Include="Views\Profiles\_NewPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
