@@ -20,7 +20,7 @@ namespace Project_Unite
             if (user == null)
                 return hpr.Raw(@"<a href=""#"">No new users</a>");
             else
-                return hpr.Raw("<a href=\"/Profiles/ViewProfile/" + user.DisplayName + "\">Our newest user, <strong>" + user.DisplayName + "</strong></a>");
+                return hpr.Raw("<a href=\"/Profiles/ViewProfile/" + user.DisplayName + "\"><span class=\"glyphicon glyphicon-star\"></span> Our newest user, <strong>" + user.DisplayName + "</strong></a>");
         }
 
         public static IHtmlString Markdown(this HtmlHelper hpr, string md)
