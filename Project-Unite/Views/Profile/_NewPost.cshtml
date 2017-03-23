@@ -1,0 +1,14 @@
+﻿@model Project_Unite.Models.UserPost
+
+<div class="panel">
+    @using (Html.BeginForm("PostContent", "Profiles"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary();
+        @Html.TextAreaFor(Model=>Model.PostContents, new {@class="form-control", rows="5"})
+        <input type="submit" class="btn btn-default" value="Post" />
+    }
+</div>
+
+
+
