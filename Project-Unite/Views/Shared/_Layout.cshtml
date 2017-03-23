@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title &bull; Project: Unite</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/bootstrap-theme.css")
     @Styles.Render("~/Content/Site.css")
@@ -75,6 +75,12 @@
     }
 
     <div class="container clearfix body-content">
+        <div class="panel panel-success">
+            <div class="panel-body">
+                <p><span class="glyphicon glyphicon-exclamation-sign"></span> <strong>Welcome to Project: Unite!</strong> Things are a bit barren right now and not a lot of stuff is implemented - but feel free to explore!</p>
+            </div>
+        </div>
+        
         @if (!ACL.UserEmailConfirmed(User.Identity.Name))
         {
             <div class="panel panel-warning">

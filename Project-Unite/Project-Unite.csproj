@@ -405,6 +405,7 @@
     <Compile Include="Models\AdminViewModels.cs" />
     <Compile Include="Models\ForumCategory.cs" />
     <Compile Include="Models\ForumViewModels.cs" />
+    <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Role.cs" />

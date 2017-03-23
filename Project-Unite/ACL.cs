@@ -13,6 +13,16 @@ namespace Project_Unite
 {
     public static class ACL
     {
+        public static IHtmlString NewestUser(this HtmlHelper hpr)
+        {
+            var db = new ApplicationDbContext();
+            var user = db.Users.OrderByDescending(x => x.JoinedAt).FirstOrDefault();
+            if (user == null)
+                return hpr.Raw(@"<a href=""#"">No new users</a>");
+            else
+                return hpr.Raw("<a href=\"/Profiles/ViewProfile/" + user.DisplayName + "\">Our newest user, <strong>" + user.DisplayName + "</strong></a>");
+        }
+
         public static IHtmlString Markdown(this HtmlHelper hpr, string md)
         {
             return hpr.Raw(CommonMark.CommonMarkConverter.Convert(hpr.Encode(md)));
