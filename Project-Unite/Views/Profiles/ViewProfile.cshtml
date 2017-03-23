@@ -27,7 +27,7 @@
     <div class="col-xs-4">
         @if(Model.UserName == User.Identity.Name)
         {
-            Html.RenderPartial("~/Profiles/_NewPost.cshtml", new Project_Unite.Models.UserPost());
+            Html.RenderPartial("~/Views/Profiles/_NewPost.cshtml", new Project_Unite.Models.UserPost());
         }
         @foreach(var post in Model.Posts.OrderByDescending(x => x.PostedAt))
         {
