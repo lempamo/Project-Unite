@@ -142,7 +142,8 @@ namespace Project_Unite.Controllers
             return RedirectToAction("ViewProfile", new { id = ACL.UserNameRaw(tid) });
         }
 
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult PostContent(UserPost model)
         {
             var db = new ApplicationDbContext();
@@ -151,6 +152,8 @@ namespace Project_Unite.Controllers
             model.UserId = User.Identity.GetUserId();
             db.UserPosts.Add(model);
             db.SaveChanges();
+            NotificationDaemon.NotifyFollowers(User.Identity.GetUserId(), "New post from " + ACL.UserNameRaw(User.Identity.GetUserId()) + "!", ACL.UserNameRaw(User.Identity.GetUserId()) + " just posted something on their profile.", Url.Action("ViewProfile", new { id = ACL.UserNameRaw(User.Identity.GetUserId()) }));
+
             return RedirectToAction("ViewProfile", "Profiles", new { id = ACL.UserNameRaw(User.Identity.GetUserId()) });
             
         }

@@ -223,6 +223,8 @@ namespace Project_Unite.Controllers
             post.PostedAt = DateTime.Now;
             db.ForumPosts.Add(post);
             db.SaveChanges();
+            NotificationDaemon.NotifyFollowers(User.Identity.GetUserId(), "New post from " + ACL.UserNameRaw(User.Identity.GetUserId()) + "!", ACL.UserNameRaw(User.Identity.GetUserId()) + " just posted a reply to " + topic.Subject + ".", Url.Action("ViewTopic", new { id = topic.Discriminator }));
+            NotificationDaemon.NotifyUser(User.Identity.GetUserId(), topic.AuthorId, "New post from " + ACL.UserNameRaw(User.Identity.GetUserId()) + "!", ACL.UserNameRaw(User.Identity.GetUserId()) + " just posted a reply to " + topic.Subject + ".", Url.Action("ViewTopic", new { id = topic.Discriminator }));
 
             return RedirectToAction("ViewTopic", new { id = topic.Discriminator });
 
@@ -292,6 +294,7 @@ namespace Project_Unite.Controllers
             db.ForumTopics.Add(topic);
             db.ForumPosts.Add(post);
             db.SaveChanges();
+            NotificationDaemon.NotifyFollowers(User.Identity.GetUserId(), "New topic started by " + ACL.UserNameRaw(User.Identity.GetUserId()) + "!", ACL.UserNameRaw(User.Identity.GetUserId()) + " just started a topic: " + topic.Subject + ".", Url.Action("ViewTopic", new { id = topic.Discriminator }));
 
             return RedirectToAction("ViewTopic", new { id = topic.Discriminator });
 
