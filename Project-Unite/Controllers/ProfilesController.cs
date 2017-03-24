@@ -59,8 +59,9 @@ namespace Project_Unite.Controllers
                 like.IsDislike = true;
                 db.Likes.Add(like);
             }
+            string tid = topic.UserId;
             db.SaveChanges();
-            return RedirectToAction("ViewProfile", new { id = ACL.UserNameRaw(topic.UserId) });
+            return RedirectToAction("ViewProfile", new { id = ACL.UserNameRaw(tid) });
 
         }
 
@@ -96,8 +97,9 @@ namespace Project_Unite.Controllers
                 like.IsDislike = false;
                 db.Likes.Add(like);
             }
+            string tid = topic.UserId;
             db.SaveChanges();
-            return RedirectToAction("ViewProfile", new { id = ACL.UserNameRaw(topic.UserId) });
+            return RedirectToAction("ViewProfile", new { id = ACL.UserNameRaw(tid) });
         }
 
 
