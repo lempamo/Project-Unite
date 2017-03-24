@@ -13,6 +13,15 @@ namespace Project_Unite
 {
     public static class ACL
     {
+        public static IHtmlString NotificationCount(this HtmlHelper hpr, string uid)
+        {
+            var db = new ApplicationDbContext();
+            var usr = db.Users.FirstOrDefault(x => x.Id == uid);
+            if (usr == null)
+                return hpr.Raw("N/A");
+            return hpr.Raw(usr.UnreadNotifications.ToString());
+        }
+
         public static IHtmlString NewestUser(this HtmlHelper hpr)
         {
             var db = new ApplicationDbContext();

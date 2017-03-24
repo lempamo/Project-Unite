@@ -106,6 +106,23 @@ namespace Project_Unite.Models
             }
         }
 
+        public Notification[] Notifications
+        {
+            get
+            {
+                var db = new ApplicationDbContext();
+                return db.Notifications.Where(x => x.UserId == this.Id).ToArray();
+            }
+        }
+
+        public int UnreadNotifications
+        {
+            get
+            {
+                return Notifications.Where(x => x.IsRead == false).Count();
+            }
+        }
+
         public UserFollow[] Followed
         {
             get
@@ -149,6 +166,7 @@ namespace Project_Unite.Models
             return new ApplicationDbContext();
         }
 
+        public DbSet<Notification> Notifications { get; set; }
         public DbSet<UserFollow> Follows { get; set; }
         public DbSet<UserPost> UserPosts { get; set; }
         public DbSet<ForumPostEdit> ForumPostEdits { get; set; }
