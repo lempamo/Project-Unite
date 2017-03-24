@@ -17,7 +17,7 @@ namespace Project_Unite
         public static IHtmlString NotificationCount(this HtmlHelper hpr, string uid)
         {
             var db = new ApplicationDbContext();
-            var usr = db.Users.FirstOrDefault(x => x.Id == uid);
+            var usr = db.Users.FirstOrDefault(x => x.Id == uid||x.UserName==uid);
             if (usr == null)
                 return hpr.Raw("N/A");
             return hpr.Raw(usr.UnreadNotifications.ToString());
