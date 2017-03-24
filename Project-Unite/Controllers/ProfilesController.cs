@@ -28,7 +28,7 @@ namespace Project_Unite.Controllers
         }
 
         [Authorize]
-        public ActionResult DislikePosts(string id)
+        public ActionResult DislikePost(string id)
         {
             var db = new ApplicationDbContext();
             var topic = db.UserPosts.FirstOrDefault(x => x.Id == id);
