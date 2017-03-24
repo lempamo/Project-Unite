@@ -12,6 +12,13 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Project_Unite.Models
 {
+    public class UserFollow
+    {
+        public string Id { get; set; }
+        public string Follower { get; set; }
+        public string Followed { get; set; }
+    }
+
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
@@ -98,6 +105,24 @@ namespace Project_Unite.Models
                 return db.UserPosts.Where(x => x.UserId == this.Id).ToArray();
             }
         }
+
+        public UserFollow[] Followed
+        {
+            get
+            {
+                var db = new ApplicationDbContext();
+                return db.Follows.Where(x => x.Follower == this.Id).ToArray();
+            }
+        }
+
+        public UserFollow[] Followers
+        {
+            get
+            {
+                var db = new ApplicationDbContext();
+                return db.Follows.Where(x => x.Followed == this.Id).ToArray();
+            }
+        }
     }
 
     public class BannedIP
@@ -124,6 +149,7 @@ namespace Project_Unite.Models
             return new ApplicationDbContext();
         }
 
+        public DbSet<UserFollow> Follows { get; set; }
         public DbSet<UserPost> UserPosts { get; set; }
         public DbSet<ForumPostEdit> ForumPostEdits { get; set; }
         public DbSet<Like> Likes { get; set; }

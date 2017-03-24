@@ -28,6 +28,13 @@ namespace Project_Unite
             return hpr.Raw(CommonMark.CommonMarkConverter.Convert(hpr.Encode(md)));
         }
 
+        public static bool IsFollowed(string you, string fId)
+        {
+            var db = new ApplicationDbContext();
+            var uid = db.Users.FirstOrDefault(x => x.UserName == you).Id;
+            return db.Follows.FirstOrDefault(x => x.Follower == uid && x.Followed == fId) != null;
+        }
+
         public static IHtmlString UserLink(this HtmlHelper hpr, string userId)
         {
             using(var db = new ApplicationDbContext())
