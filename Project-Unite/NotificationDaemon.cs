@@ -43,6 +43,7 @@ namespace Project_Unite
                 Id = Guid.NewGuid().ToString(),
                 UserId = target,
                 Title = title,
+                Timestamp = DateTime.Now,
                 ActionUrl = url,
                 Description = desc,
                 AvatarUrl = user.AvatarUrl
