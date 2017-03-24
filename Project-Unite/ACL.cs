@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Diagnostics;
 using System.Web.Mvc.Html;
 using System.Data.Entity;
+using System.Text;
 
 namespace Project_Unite
 {
@@ -30,6 +31,35 @@ namespace Project_Unite
                 return hpr.Raw(@"<a href=""#"">No new users</a>");
             else
                 return hpr.Raw("<a href=\"/Profiles/ViewProfile/" + user.DisplayName + "\"><span class=\"glyphicon glyphicon-star\"></span> Our newest user, <strong>" + user.DisplayName + "</strong></a>");
+        }
+
+        public static IHtmlString GetLatestNotifications(this HtmlHelper hpr, string userName)
+        {
+            var db = new ApplicationDbContext();
+            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            if (user == null)
+                return hpr.Raw("");
+            var notesOrdered = user.Notifications.Where(x => x.IsRead == false).OrderByDescending(x => x.Timestamp).ToArray();
+            StringBuilder builder = new StringBuilder();
+
+            for (int i = 0; i < notesOrdered.Length && i < 5; i++)
+            {
+                builder.AppendLine("<li><a href=\"" + notesOrdered[i].ActionUrl + "\">");
+                //Avatar holder start:
+                builder.AppendLine("<div style=\"width:128px;height:128px;display:inline-block;\">");
+                //Avatar
+                builder.AppendLine("<img src=\"" + notesOrdered[i].AvatarUrl + "\" width=\"128\" height=\"128\"/>");
+                //Avatar holder end:
+                builder.AppendLine("</div>");
+
+                //Notification title.
+                builder.AppendLine("<strong>" + notesOrdered[i].Title + "</strong><br/>");
+                //Contents.
+                builder.AppendLine("<p>" + notesOrdered[i].Description + "</p>");
+
+                builder.AppendLine("</a></li>");
+            }
+            return hpr.Raw(builder.ToString());
         }
 
         public static IHtmlString Markdown(this HtmlHelper hpr, string md)

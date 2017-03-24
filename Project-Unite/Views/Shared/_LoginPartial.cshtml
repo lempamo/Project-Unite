@@ -7,7 +7,13 @@
 
     <ul class="nav navbar-nav navbar-right"  style="margin-right:15px;">
         <li>@Html.NewestUser()</li>
-        <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-bullhorn"></span> @Html.NotificationCount(User.Identity.GetUserId())</a></li>
+        <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-bullhorn"></span> @Html.NotificationCount(User.Identity.GetUserId())</a>
+            <ul class="dropdown-menu">
+                <li class="dropdown-header">Notifications (@Html.NotificationCount(User.Identity.Name) unread)</li>
+                @Html.GetLatestUnread(User.Identity.Name)
+                <li>@Html.ActionLink("View all", "Notifications", "Manage")</li>
+            </ul>
+        </li>
         <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-user"></span> @Html.UserName(User.Identity.GetUserId()) <span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li><a href="@Url.Action("ViewProfile", "Profiles", new { id = ACL.UserNameRaw(User.Identity.GetUserId()) })"><span class="glyphicon glyphicon-user"></span> Profile</a></li>

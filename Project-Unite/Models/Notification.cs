@@ -12,6 +12,9 @@ namespace Project_Unite.Models
         public string Discriminator { get; set; }
         public DateTime Timestamp { get; set; }
         public bool IsRead { get; set; }
-
+        public string AvatarUrl { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string ActionUrl { get; set; }
     }
 }
