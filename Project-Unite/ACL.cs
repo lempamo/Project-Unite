@@ -33,7 +33,7 @@ namespace Project_Unite
                 return hpr.Raw("<a href=\"/Profiles/ViewProfile/" + user.DisplayName + "\"><span class=\"glyphicon glyphicon-star\"></span> Our newest user, <strong>" + user.DisplayName + "</strong></a>");
         }
 
-        public static IHtmlString GetLatestNotifications(this HtmlHelper hpr, string userName)
+        public static IHtmlString GetLatestUnread(this HtmlHelper hpr, string userName)
         {
             var db = new ApplicationDbContext();
             var user = db.Users.FirstOrDefault(x => x.UserName == userName);
