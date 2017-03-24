@@ -68,4 +68,28 @@
             </div>
         }
     </div>
+    <div class="col-xs-3">
+        <div class="panel">
+            <div class="panel-body">
+                <h4>Followers</h4>
+                <ul>
+                    @foreach(var f in Model.Followers)
+                    {
+                        <li>@Html.UserLink(f.Follower)</li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-body">
+                <h4>Following</h4>
+                <ul>
+                    @foreach (var f in Model.Followed)
+                    {
+                        <li>@Html.UserLink(f.Followed)</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
