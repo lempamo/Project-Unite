@@ -29,7 +29,7 @@
 </ul>
 
 <div class="row">
-    <div class="col-xs-4">
+    <div class="col-xs-3">
         <h4>User stats</h4>
         <ul>
             <li><strong>@Model.Codepoints</strong> Codepoints</li>
@@ -38,7 +38,7 @@
             <li><strong>Topics: </strong>@Model.TopicCount</li>
         </ul>
     </div>
-    <div class="col-xs-4">
+    <div class="col-xs-5">
         @if(Model.UserName == User.Identity.Name)
         {
             Html.RenderPartial("~/Views/Profiles/_NewPost.cshtml", new Project_Unite.Models.UserPost());
