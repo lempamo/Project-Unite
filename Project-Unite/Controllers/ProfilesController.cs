@@ -60,7 +60,7 @@ namespace Project_Unite.Controllers
                 db.Likes.Add(like);
             }
             db.SaveChanges();
-            return RedirectToAction("ViewProfile", new { id = ACL.UserNameRaw(uid) });
+            return RedirectToAction("ViewProfile", new { id = ACL.UserNameRaw(topic.UserId) });
 
         }
 
@@ -97,7 +97,7 @@ namespace Project_Unite.Controllers
                 db.Likes.Add(like);
             }
             db.SaveChanges();
-            return RedirectToAction("ViewProfile", new { id = ACL.UserNameRaw(uid) });
+            return RedirectToAction("ViewProfile", new { id = ACL.UserNameRaw(topic.UserId) });
         }
 
 
