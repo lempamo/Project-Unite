@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -25,6 +26,45 @@ namespace Project_Unite.Controllers
                 return new HttpStatusCodeResult(404);
 
             return View(user);
+        }
+
+        public ActionResult UnfollowUser(string id)
+        {
+            var db = new ApplicationDbContext();
+            if (db.Users.FirstOrDefault(x => x.Id == id) == null)
+                return new HttpStatusCodeResult(404);
+            if (!ACL.IsFollowed(User.Identity.Name, id))
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var uid = User.Identity.GetUserId();
+            var userToFollow = db.Users.FirstOrDefault(x => x.Id == id);
+            var follow = db.Follows.FirstOrDefault(x=>x.Followed==userToFollow.Id&&x.Follower==uid);
+            if(follow != null)
+                db.Follows.Remove(follow);
+            db.SaveChanges();
+            return RedirectToAction("ViewProfile", new { id = userToFollow.DisplayName });
+
+
+        }
+
+
+        public ActionResult FollowUser(string id)
+        {
+            var db = new ApplicationDbContext();
+            if (db.Users.FirstOrDefault(x => x.Id == id) == null)
+                return new HttpStatusCodeResult(404);
+            if (ACL.IsFollowed(User.Identity.Name, id))
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var uid = User.Identity.GetUserId();
+            var userToFollow = db.Users.FirstOrDefault(x => x.Id == id);
+            var follow = new UserFollow();
+            follow.Id = Guid.NewGuid().ToString();
+            follow.Followed = id;
+            follow.Follower = uid;
+            db.Follows.Add(follow);
+            db.SaveChanges();
+            return RedirectToAction("ViewProfile", new { id = userToFollow.DisplayName });
+
+            
         }
 
         [Authorize]
