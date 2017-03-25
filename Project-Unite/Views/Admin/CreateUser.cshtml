@@ -1,0 +1,25 @@
+﻿@model Project_Unite.Models.CreateUserModel
+@{
+    ViewBag.Title = "Create user";
+    ViewBag.Admin = true;
+}
+
+<h2>Create a user</h2>
+
+<p>If you are migrating users from a database, all you need is their email and username. We'll handle the rest - like making them reset their password and confirm their email.</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <table class="table">
+        <tr>
+            <td><strong>User email: </strong></td>
+            <td>@Html.TextBoxFor(Model=>Model.Email, new{@class="form-control", type="email"})</td>
+        </tr>
+        <tr>
+            <td><strong>User display name: </strong></td>
+            <td>@Html.TextBoxFor(Model => Model.Username, new { @class = "form-control" })</td>
+        </tr>
+
+    </table>
+}
