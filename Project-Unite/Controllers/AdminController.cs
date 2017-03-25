@@ -55,6 +55,56 @@ namespace Project_Unite.Controllers
 
         }
 
+        public ActionResult CreateUser()
+        {
+            return View(new CreateUserModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateUser(CreateUserModel model)
+        {
+            var db = new ApplicationDbContext();
+
+            var user = new ApplicationUser();
+            user.AccessFailedCount = 0;
+            user.BannedAt = DateTime.Now;
+            user.Bio = "";
+            user.Codepoints = 0;
+            user.DisplayName = model.Username;
+            user.Email = model.Email;
+            user.EmailConfirmed = true;
+            user.FullName = "";
+            user.Hobbies = "";
+            user.Id = Guid.NewGuid().ToString();
+            user.IsBanned = false;
+            user.IsMuted = false;
+            user.IsPatreon = false;
+            user.JoinedAt = DateTime.Now;
+            user.LastKnownIPAddress = "127.0.0.1";
+            user.LastLogin = DateTime.Now;
+            user.LastMonthPaid = 0;
+            user.LockoutEnabled = false;
+            user.MajorVersion = 1;
+            user.MinorVersion = 0;
+            user.MutedAt = DateTime.Now;
+            user.PasswordHash = "ResetYourPassword.";
+            user.PhoneNumberConfirmed = false;
+            user.Revision = 0;
+            user.SecurityStamp = Guid.NewGuid().ToString();
+            user.ShiftnetSubscription = 0;
+            user.StoryPosition = 0;
+            user.TwoFactorEnabled = false;
+            user.UserName = model.Email;
+
+            db.Users.Add(user);
+
+            db.SaveChanges();
+            var uman = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            uman.AddToRole(user.Id, ACL.LowestPriorityRole().Name);
+            return RedirectToAction("Users");
+        }
+
         public void DeleteTopic(ForumTopic topic)
         {
             foreach(var post in topic.Posts.ToArray())

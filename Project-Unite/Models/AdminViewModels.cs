@@ -28,6 +28,14 @@ namespace Project_Unite.Models
         public List<ForumPermission> ACLList { get; set; }
     }
 
+    public class CreateUserModel
+    {
+        
+        public string Email { get; set; }
+        public string Username { get; set; }
+        
+    }
+
     public class AddForumCategoryViewModel
     {
         public string Name { get; set; }
