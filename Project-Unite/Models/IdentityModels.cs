@@ -194,6 +194,7 @@ namespace Project_Unite.Models
             return new ApplicationDbContext();
         }
 
+        public DbSet<Configuration> Configs { get; set; }
         public DbSet<ShiftoriumUpgrade> ShiftoriumUpgrades { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<UserFollow> Follows { get; set; }

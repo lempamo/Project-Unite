@@ -8,6 +8,8 @@ namespace Project_Unite
 {
     public static class NotificationDaemon
     {
+        public static Action<Notification> OnBroadcast;
+
         public static void NotifyFollowers(string uid, string title, string desc, string url)
         {
             var db = new ApplicationDbContext();

@@ -26,6 +26,8 @@ namespace Project_Unite
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
+        
+
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
             var configuration = new Migrations.Configuration();

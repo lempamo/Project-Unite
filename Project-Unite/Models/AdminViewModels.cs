@@ -92,4 +92,13 @@ namespace Project_Unite.Models
         Moderator,
         User
     }
+
+    public class Configuration
+    {
+        public string Id { get; set; }
+        public string SiteName { get; set; }
+        public string ReturnEmail { get; set; }
+        public string UniteBotToken { get; set; }
+        public string DiscordChannelId { get; set; }
+    }
 }
