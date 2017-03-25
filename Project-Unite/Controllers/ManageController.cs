@@ -237,6 +237,78 @@ namespace Project_Unite.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeFullName(ApplicationUser model)
+        {
+            var db = new ApplicationDbContext();
+            var usr = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            usr.FullName = model.FullName;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeBio(ApplicationUser model)
+        {
+            var db = new ApplicationDbContext();
+            var usr = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            usr.Bio = model.Bio;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeInterests(ApplicationUser model)
+        {
+            var db = new ApplicationDbContext();
+            var usr = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            usr.Interests = model.Interests;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeHobbies(ApplicationUser model)
+        {
+            var db = new ApplicationDbContext();
+            var usr = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            usr.Hobbies = model.Hobbies;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeYouTube(ApplicationUser model)
+        {
+            var db = new ApplicationDbContext();
+            var usr = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            usr.YoutubeUrl = model.YoutubeUrl;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeWebsite(ApplicationUser model)
+        {
+            var db = new ApplicationDbContext();
+            var usr = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            usr.Website = model.Website;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
+
         //
         // GET: /Manage/SetPassword
         public ActionResult SetPassword()

@@ -29,14 +29,12 @@
 				<tr>
 					<td><strong>Full name:</strong></td>
 					<td>
-						@if (string.IsNullOrWhiteSpace(Model.FullName))
-						{
-							<p><em>Not provided.</em></p>
-						}
-						else
-						{
-							<p>@Model.FullName</p>
-						}
+                        @using(Html.BeginForm("ChangeFullName", "Manage"))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.TextBoxFor(Model=>Model.FullName, new { @class="form-control"})
+                            <input type="submit" value="Set" class="btn btn-default" />
+                        }
 					</td>
 				</tr>
 				<tr>
@@ -47,18 +45,63 @@
 					<td><strong>Codepoints:</strong><p>If you have your in-game system linked with your account, your Codepoints will be shown here.</p></td>
 					<td><p>@Model.Codepoints</p></td>
 				</tr>
+                <tr>
+                    <td><strong>Hobbies</strong><br />What do you like to do? <em>Separate each hobby with a comma.</em></td>
+                    <td>
+                        @using (Html.BeginForm("ChangeHobbies", "Manage"))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.TextBoxFor(Model => Model.Hobbies, new { @class = "form-control" })
+                            <input type="submit" value="Set" class="btn btn-default" />
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Interests</strong><br />What are you interested in? <em>Separate each interest with a comma.</em></td>
+                    <td>
+                        @using (Html.BeginForm("ChangeInterests", "Manage"))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.TextBoxFor(Model => Model.Interests, new { @class = "form-control" })
+                            <input type="submit" value="Set" class="btn btn-default" />
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>About you</strong><br />Introduce yourself! <em>Markdown formatting is supported.</em></td>
+                    <td>
+                        @using (Html.BeginForm("ChangeBio", "Manage"))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.TextAreaFor(Model => Model.Bio, new { rows="5", @class = "form-control" })
+                            <input type="submit" value="Set" class="btn btn-default" />
+                        }
+                    </td>
+                </tr>
 				<tr>
-					<td>Links</td>
+					<td><strong>Website</strong><br/>If you have a website, post its URL here!</td>
 					<td>
-						@if (!string.IsNullOrWhiteSpace(Model.YoutubeUrl)) {
-							<a href="@Model.YoutubeUrl"><span class="glyphicon glyphicon-hd-video"></span></a>
-						}
-						&nbsp;&nbsp;
-						@if (!string.IsNullOrWhiteSpace(Model.Website)) {
-						<a href="@Model.Website">Website</a>
-						}
+                        @using (Html.BeginForm("ChangeWebsite", "Manage"))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.TextBoxFor(Model => Model.Website, new { @class = "form-control" })
+                            <input type="submit" value="Set" class="btn btn-default" />
+                        }
 					</td>
+                <tr/>
+                <tr>
+                    <td><strong>YouTube</strong><br />If you have a YouTube channel, post its URL here!</td>
+                    <td>
+                        @using (Html.BeginForm("ChangeYouTube", "Manage"))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.TextBoxFor(Model => Model.YoutubeUrl, new { @class = "form-control" })
+                            <input type="submit" value="Set" class="btn btn-default" />
+                        }
+                    </td>
+
 				</tr>
+
 			</table>
 		</div>
 		<div class="tab-pane" id="t_badges">
