@@ -24,7 +24,7 @@
         </tr>
         <tr>
             <td><strong>Long description:</strong><br/>This is a longer description for your skin. You can use Markdown to style it - use this to add notes, extra screenshots, etc, for your skin. It is displayed in the "view skin" page.</td>
-            <td>@Html.TextAreaFor(Model => Model.LongDescription, new { rows="5", data-easteregg="I love honeyfries.", @class = "form-control" })</td>
+            <td>@Html.TextAreaFor(Model => Model.LongDescription, new { rows="5", @class = "form-control" })</td>
         </tr>
         <tr>
             <td><strong>Skin file:</strong><br/>This is the actual skin - you can upload it to the repository and we'll host it for you. Skins are exported by the Skin Loader into <pre>My Documents\ShiftOS_Shared\skins</pre>.</td>
