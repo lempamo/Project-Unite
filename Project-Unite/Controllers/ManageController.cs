@@ -49,7 +49,7 @@ namespace Project_Unite.Controllers
             if (ModelState.IsValid == true)
             {
                 var db = new ApplicationDbContext();
-                var usr = db.Users.FirstOrDefault(x => x.Id == User.Identity.GetUserId());
+                var usr = db.Users.FirstOrDefault(x => x.UserName==User.Identity.Name);
                 string avatarRoot = $"~/Uploads/{usr.DisplayName}/Avatars";
                 string serverPath = Server.MapPath(avatarRoot);
                 if (!System.IO.Directory.Exists(serverPath))
