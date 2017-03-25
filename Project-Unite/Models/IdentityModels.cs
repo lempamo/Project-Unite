@@ -45,6 +45,34 @@ namespace Project_Unite.Models
             }
         }
 
+        public int StoryPosition { get; set; }
+        public string Language { get; set; }
+        public int MajorVersion { get; set; }
+        public int MinorVersion { get; set; }
+        public int Revision { get; set; }
+
+        public ShiftoriumUpgrade[] Upgrades
+        {
+            get
+            {
+                var db = new ApplicationDbContext();
+                return db.ShiftoriumUpgrades.Where(x => x.UserId == this.Id).ToArray();
+            }
+        }
+
+        public bool IsPatreon { get; set; }
+        
+        public int ShiftnetSubscription { get; set; }
+
+        public int LastMonthPaid { get; set; }
+        public Story[] Stories
+        {
+            get
+            {
+                return new ApplicationDbContext().Stories.Where(x => x.UserId == this.Id).ToArray();
+            }
+        }
+
         public string LastKnownIPAddress { get; set; }
         public DateTime JoinedAt { get; set; }
         public DateTime LastLogin { get; set; }
@@ -166,6 +194,7 @@ namespace Project_Unite.Models
             return new ApplicationDbContext();
         }
 
+        public DbSet<ShiftoriumUpgrade> ShiftoriumUpgrades { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<UserFollow> Follows { get; set; }
         public DbSet<UserPost> UserPosts { get; set; }
@@ -181,7 +210,7 @@ namespace Project_Unite.Models
         public DbSet<ForumPollOption> ForumPollOptions { get; set; }
         public DbSet<ForumPollVote> ForumPollVotes { get; set; }
         public DbSet<ForumPost> ForumPosts { get; set; }
-        
+        public DbSet<Story> Stories { get; set; }
     }
 
     public class UserPost
@@ -212,5 +241,19 @@ namespace Project_Unite.Models
             }
         }
 
+    }
+
+    public class ShiftoriumUpgrade
+    {
+        public string Id { get; set; }
+        public string UserId { get; set; }
+        public string EngineUpgradeId { get; set; }
+    }
+
+    public class Story
+    {
+        public string Id { get; set; }
+        public string UserId { get; set; }
+        public string EngineStoryId { get; set; }
     }
 }
