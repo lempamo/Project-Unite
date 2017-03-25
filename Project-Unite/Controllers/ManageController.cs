@@ -42,7 +42,15 @@ namespace Project_Unite.Controllers
         {
             string[] allowedTypes = new[] { ".png", ".jpg", ".bmp", ".jpeg", ".gif" };
 
-            bool containsAllowedType = !string.IsNullOrWhiteSpace(allowedTypes.FirstOrDefault(x => model.Image.FileName.EndsWith(x)));
+            bool containsAllowedType = false;
+            foreach(var ending in allowedTypes)
+            {
+                if (model.Image.FileName.EndsWith(ending))
+                {
+                    containsAllowedType = true;
+                    break;
+                }
+            }
             if (containsAllowedType == false)
                 ModelState.AddModelError("UploadImageViewModel", new Exception("File type not allowed."));
 
