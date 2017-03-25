@@ -102,6 +102,11 @@ namespace Project_Unite.Controllers
             db.SaveChanges();
             var uman = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             uman.AddToRole(user.Id, ACL.LowestPriorityRole().Name);
+            uman.SendEmail(user.Id, "Welcome to the Project: Unite open alpha.", $@"**Hey there, {user.DisplayName}!
+
+Michael here - it's finally happening. Project: Unite is coming together and it's time we merge everyone's user accounts.
+
+Unlike previous ShiftOS site revamps, your account got migrated over. However, there's one thing you need to do. You need to [reset your password]({Url.Action("ForgotPassword", "Account")})! Just click that link and follow the instructions and we'll send you another email with details on how to get into your account.");
             return RedirectToAction("Users");
         }
 
