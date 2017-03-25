@@ -7,15 +7,15 @@
 
 <p>Want to post your skin to the repository? Alright, just fill out this form and we'll do everything for you.</p>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("PostSkin", "Skins", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="panel panel-danger">
         @Html.ValidationSummary()
     </div>
     @Html.AntiForgeryToken()
     <table class="table">
-        <tr style="width:35%;">
-            <td><strong>Title:</strong></td>
+        <tr>
+            <td style="width:35%;"><strong>Title:</strong></td>
             <td>@Html.TextBoxFor(Model=>Model.Title, new{@class="form-control"})</td>
         </tr>
         <tr>
@@ -28,11 +28,11 @@
         </tr>
         <tr>
             <td><strong>Skin file:</strong><br/>This is the actual skin - you can upload it to the repository and we'll host it for you. Skins are exported by the Skin Loader into <pre>My Documents\ShiftOS_Shared\skins</pre>.</td>
-            <td>@Html.EditorFor(Model=>Model.SkinFile, new { @class = "form-control" })</td>
+            <td>@Html.TextBoxFor(Model=>Model.SkinFile, new { @class = "form-control", type="file" })</td>
         </tr>
         <tr>
             <td><strong>Screenshot:</strong><br />Here you can upload a main screenshot to show on the repo index and view skin pages. This isn't required, but is recommended so that users can see what your skin looks like before applying it.</td>
-            <td>@Html.EditorFor(Model => Model.ScreenshotFile, new { @class = "form-control" })</td>
+            <td>@Html.TextBoxFor(Model => Model.ScreenshotFile, new { @class = "form-control", type="file" })</td>
         </tr>
         <tr>
             <td></td>
