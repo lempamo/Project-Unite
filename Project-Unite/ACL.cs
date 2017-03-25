@@ -46,16 +46,16 @@ namespace Project_Unite
             {
                 builder.AppendLine("<li><a href=\"" + notesOrdered[i].ActionUrl + "\">");
                 //Avatar holder start:
-                builder.AppendLine("<div style=\"width:128px;height:128px;display:inline-block;\">");
+                builder.AppendLine("<div style=\"width:64px;height:64px;display:inline-block;\">");
                 //Avatar
-                builder.AppendLine("<img src=\"" + notesOrdered[i].AvatarUrl + "\" width=\"128\" height=\"128\"/>");
+                builder.AppendLine("<img src=\"" + notesOrdered[i].AvatarUrl + "\" width=\"64\" height=\"64\"/>");
                 //Avatar holder end:
                 builder.AppendLine("</div>");
 
                 //Notification title.
-                builder.AppendLine("<strong>" + notesOrdered[i].Title + "</strong><br/>");
+                builder.AppendLine("<p><strong>" + notesOrdered[i].Title + "</strong><br/><br/>");
                 //Contents.
-                builder.AppendLine("<p>" + notesOrdered[i].Description + "</p>");
+                builder.AppendLine(notesOrdered[i].Description + "</p>");
 
                 builder.AppendLine("</a></li>");
             }
