@@ -110,6 +110,65 @@ Unlike previous ShiftOS site revamps, your account got migrated over. However, t
             return RedirectToAction("Users");
         }
 
+        public ActionResult BackupDatabase()
+        {
+            var db = new ApplicationDbContext();
+            string backupDir = "~/Backups/Database";
+            string backupServerDir = Server.MapPath(backupDir);
+            if (!System.IO.Directory.Exists(backupServerDir))
+                System.IO.Directory.CreateDirectory(backupServerDir);
+
+            string backupUrl = backupDir.Remove(0, 1) + "/ShiftOS-" + DateTime.Now.ToString() + ".zip";
+            string backupname = backupServerDir + "\\ShiftOS-" + DateTime.Now.ToString() + ".zip";
+
+            System.IO.Compression.ZipFile.CreateFromDirectory(Server.MapPath("~/Uploads", backupname));
+
+            var backupData = new DatabaseBackup();
+            backupData.Id = Guid.NewGuid().ToString();
+            backupData.UserId = User.Identity.GetUserId();
+            backupData.DownloadUrl = backupUrl;
+            backupData.Timestamp = DateTime.Now;
+            db.AssetBackups.Add(backupData);
+            db.SaveChanges();
+            return RedirectToAction("Backups");
+        }
+
+        public ActionResult BackupAssets()
+        {
+            var db = new ApplicationDbContext();
+            string backupDir = "~/Backups/Assets";
+            string backupServerDir = Server.MapPath(backupDir);
+            if (!System.IO.Directory.Exists(backupServerDir))
+                System.IO.Directory.CreateDirectory(backupServerDir);
+
+            string backupUrl = backupDir.Remove(0, 1) + "/ShiftOS-" + DateTime.Now.ToString() + ".sql";
+            string backupname = backupServerDir + "\\ShiftOS-" + DateTime.Now.ToString() + ".sql";
+            const string sqlCommand = @"BACKUP DATABASE [{0}] TO  DISK = N'{1}' WITH NOFORMAT, NOINIT,  NAME = N'ShiftOS Database Backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10";
+            int path = db.Database.ExecuteSqlCommand(System.Data.Entity.TransactionalBehavior.DoNotEnsureTransaction, string.Format(sqlCommand, db.Database.Connection.Database, backupname));
+            var backupData = new DatabaseBackup();
+            backupData.Id = Guid.NewGuid().ToString();
+            backupData.UserId = User.Identity.GetUserId();
+            backupData.DownloadUrl = backupUrl;
+            backupData.Timestamp = DateTime.Now;
+            db.Backups.Add(backupData);
+            db.SaveChanges();
+            return RedirectToAction("Backups");
+        }
+
+
+
+
+        public ActionResult Backups()
+        {
+            ViewBag.Admin = true;
+            var backups = new BackupViewModel();
+            var db = new ApplicationDbContext();
+            backups.Databases = db.Backups.OrderByDescending(x => x.Timestamp);
+            backups.AssetFolders = db.AssetBackups.OrderByDescending(x => x.Timestamp);
+
+            return View(backups);
+        }
+
         public void DeleteTopic(ForumTopic topic)
         {
             foreach(var post in topic.Posts.ToArray())

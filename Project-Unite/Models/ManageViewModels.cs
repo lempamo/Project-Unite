@@ -14,6 +14,12 @@ namespace Project_Unite.Models
         public bool BrowserRemembered { get; set; }
     }
 
+    public class BackupViewModel
+    {
+        public IEnumerable<DatabaseBackup> Databases { get; set; }
+        public IEnumerable<DatabaseBackup> AssetFolders { get; set; }
+    }
+
     public class ManageLoginsViewModel
     {
         public IList<UserLoginInfo> CurrentLogins { get; set; }

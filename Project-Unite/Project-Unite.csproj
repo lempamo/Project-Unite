@@ -121,6 +121,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -527,6 +529,7 @@
     <Content Include="Views\Skins\PostSkin.cshtml" />
     <Content Include="Views\Manage\ListAvatars.cshtml" />
     <Content Include="Views\Manage\UploadAvatar.cshtml" />
+    <Content Include="Views\Admin\Backups.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

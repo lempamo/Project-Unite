@@ -1,0 +1,66 @@
+﻿@model Project_Unite.Models.BackupViewModel
+@{
+    ViewBag.Title = "Backups";
+}
+
+<h2>Backups</h2>
+
+<p>On this page you can request a backup of the current database and/or asset folder - or restore from a previous backup.</p>
+
+<ul id="tabs" data-tabs="tabs" class="nav nav-tabs" role="tablist">
+    <li class="active"><a data-toggle="tab" href="#t_dbs">Databases</a></li>
+    <li><a data-toggle="tab" href="#t_assets">Assets</a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="t_dbs">
+        <h4>Databases</h4>
+        <p>The database is what holds the bulk of the data on the ShiftOS site - forum posts, users, ACL rules, etc. Backing up the database can help in the case of spam, or a bug, or if you need to export the data to another software platform.</p>
+        
+        <ul class="nav nav-pills">
+            <li><a href="@Url.Action("BackupDatabase")"><span class="glyphicon glyphicon-plus"></span> Backup database</a></li>
+        </ul>
+        <table class="table">
+            <tr>
+                <th style="width:65%">Backup</th>
+                <th>Actions</th>
+            </tr>
+            @foreach(var backup in Model.Databases)
+            {
+                <tr>
+                    <td>@Html.UserLink(backup.UserId) on @backup.Timestamp</td>
+                    <td>
+                        <a href="@backup.DownloadUrl" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span> Download</a>
+                        @Html.ActionLink("Restore", "RestoreDatabaseBackup", new { id = backup.Id });
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="tab-pane fade in" id="t_assets">
+        <h4>Asset folders</h4>
+        <p>The asset folder is a dumping ground for user-created content hosted by ShiftOS. Avatars, profile backdrops, skins, game releases and other files not suited for storage within the database are put here.</p>
+
+        <p>User data is sorted by the site into folders named after the user. Backing this folder up can help in case the site's server goes down unexpectedly and cannot get back up and running - at least you have the user-created content and can bring it to a new server.</p>
+
+        <ul class="nav nav-pills">
+            <li><a href="@Url.Action("BackupAssets")"><span class="glyphicon glyphicon-plus"></span> Backup assets</a></li>
+        </ul>
+        <table class="table">
+            <tr>
+                <th style="width:65%">Backup</th>
+                <th>Actions</th>
+            </tr>
+            @foreach (var backup in Model.AssetFolders)
+            {
+                <tr>
+                    <td>@Html.UserLink(backup.UserId) on @backup.Timestamp</td>
+                    <td>
+                        <a href="@backup.DownloadUrl" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span> Download</a>
+                        @Html.ActionLink("Restore", "RestoreAssetBackup", new { id = backup.Id });
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

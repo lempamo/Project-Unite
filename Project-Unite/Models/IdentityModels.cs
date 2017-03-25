@@ -204,6 +204,8 @@ namespace Project_Unite.Models
             return new ApplicationDbContext();
         }
 
+        public DbSet<DatabaseBackup> Backups { get; set; }
+        public DbSet<DatabaseBackup> AssetBackups { get; set; }
         public DbSet<Avatar> UserAvatars { get; set; }
         public DbSet<Skin> Skins { get; set; }
         public DbSet<Configuration> Configs { get; set; }
@@ -277,5 +279,13 @@ namespace Project_Unite.Models
         public string UserId { get; set; }
         public string AvatarUrl { get; set; }
         public DateTime UploadedAt { get; set; }
+    }
+
+    public class DatabaseBackup
+    {
+        public string Id { get; set; }
+        public DateTime Timestamp { get; set; }
+        public string UserId { get; set; }
+        public string DownloadUrl { get; set; }
     }
 }
