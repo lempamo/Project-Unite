@@ -43,12 +43,15 @@ namespace Project_Unite.Controllers
             string[] allowedTypes = new[] { ".png", ".jpg", ".bmp", ".jpeg", ".gif" };
 
             bool containsAllowedType = false;
-            foreach(var ending in allowedTypes)
+            if (model.Image != null)
             {
-                if (model.Image.FileName.EndsWith(ending))
+                foreach (var ending in allowedTypes)
                 {
-                    containsAllowedType = true;
-                    break;
+                    if (model.Image.FileName.EndsWith(ending))
+                    {
+                        containsAllowedType = true;
+                        break;
+                    }
                 }
             }
             if (containsAllowedType == false)

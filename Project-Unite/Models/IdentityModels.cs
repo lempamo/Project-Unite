@@ -23,6 +23,7 @@ namespace Project_Unite.Models
     public class UploadImageViewModel
     {
         [Required(ErrorMessage = "Please select an image to upload.")]
+        [DataType(DataType.Upload)]
         public HttpPostedFileBase Image { get; set; }
     }
 
