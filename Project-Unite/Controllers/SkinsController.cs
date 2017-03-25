@@ -59,12 +59,12 @@ namespace Project_Unite.Controllers
                 Directory.CreateDirectory(Server.MapPath(screenshotFolder));
 
 
-            skin.DownloadUrl = Path.Combine(repoFolder.Remove(0,1), model.SkinFile.FileName);
+            skin.DownloadUrl = repoFolder.Remove(0,1) + "/" + model.SkinFile.FileName;
             model.SkinFile.SaveAs(Path.Combine(Server.MapPath(repoFolder), model.SkinFile.FileName));
 
             if (model.ScreenshotFile != null && model.ScreenshotFile.ContentLength > 0)
             {
-                skin.ScreenshotUrl = Path.Combine(screenshotFolder.Remove(0, 1), model.ScreenshotFile.FileName);
+                skin.ScreenshotUrl = screenshotFolder.Remove(0, 1) + "/" + model.ScreenshotFile.FileName;
                 model.ScreenshotFile.SaveAs(Path.Combine(Server.MapPath(screenshotFolder), model.ScreenshotFile.FileName));
             }
             db.Skins.Add(skin);
