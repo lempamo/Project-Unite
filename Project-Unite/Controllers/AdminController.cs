@@ -128,7 +128,7 @@ Unlike previous ShiftOS site revamps, your account got migrated over. However, t
             backupData.UserId = User.Identity.GetUserId();
             backupData.DownloadUrl = backupUrl;
             backupData.Timestamp = DateTime.Now;
-            db.AssetBackups.Add(backupData);
+            db.Backups.Add(backupData);
             db.SaveChanges();
             return RedirectToAction("Backups");
         }
@@ -150,7 +150,7 @@ Unlike previous ShiftOS site revamps, your account got migrated over. However, t
             backupData.UserId = User.Identity.GetUserId();
             backupData.DownloadUrl = backupUrl;
             backupData.Timestamp = DateTime.Now;
-            db.Backups.Add(backupData);
+            db.AssetBackups.Add(backupData);
             db.SaveChanges();
             return RedirectToAction("Backups");
         }
