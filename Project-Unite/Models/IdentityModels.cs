@@ -194,6 +194,7 @@ namespace Project_Unite.Models
             return new ApplicationDbContext();
         }
 
+        public DbSet<Skin> Skins { get; set; }
         public DbSet<Configuration> Configs { get; set; }
         public DbSet<ShiftoriumUpgrade> ShiftoriumUpgrades { get; set; }
         public DbSet<Notification> Notifications { get; set; }
@@ -212,6 +213,7 @@ namespace Project_Unite.Models
         public DbSet<ForumPollVote> ForumPollVotes { get; set; }
         public DbSet<ForumPost> ForumPosts { get; set; }
         public DbSet<Story> Stories { get; set; }
+        public DbSet<View> Views { get; set; }
     }
 
     public class UserPost

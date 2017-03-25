@@ -1,0 +1,23 @@
+﻿@model Project_Unite.Models.Skin
+@{
+    ViewBag.Title = Model.Name + " - Skin Repository";
+}
+
+<h2>@Model.Name</h2>
+
+<p>...a skin by @Html.UserLink(Model.UserId) on @Model.PostedAt</p>
+
+<div class="panel">
+    <div class="panel-body">
+        <a href="@Model.ScreenshotUrl"><img src="@Model.ScreenshotUrl" style="max-width:100%;width:auto;height:auto;" alt="Screenshot of @Model.Name. Click to show full-size image." /></a>
+
+        <ul class="nav nav-pills">
+            <li><a href="@Model.DownloadUrl"><span class="glyphicon glyphicon-arrow-down"></span> Download</a></li>
+        </ul>
+
+        <p>@Model.ShortDescription</p>
+        
+        <p>@Html.Markdown(Model.FullDescription)</p>
+    </div>
+</div>
+
