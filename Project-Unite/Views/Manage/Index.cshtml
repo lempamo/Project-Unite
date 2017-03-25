@@ -26,6 +26,10 @@
 	<div class="tab-content">
 		<div class="tab-pane active" id="t_profile">
 			<table class="table">
+                <tr>
+                    <td><strong>Avatar</strong></td>
+                    <td><img src="@Model.AvatarUrl" width="128" height="128" /> @Html.ActionLink("Change", "ListAvatars")</td>
+                </tr>
 				<tr>
 					<td style="width:35%;"><strong>Full name:</strong></td>
 					<td>
