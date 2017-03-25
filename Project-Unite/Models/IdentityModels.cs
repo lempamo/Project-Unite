@@ -205,7 +205,7 @@ namespace Project_Unite.Models
         }
 
         public DbSet<DatabaseBackup> Backups { get; set; }
-        public DbSet<DatabaseBackup> AssetBackups { get; set; }
+        public DbSet<AssetBackup> AssetBackups { get; set; }
         public DbSet<Avatar> UserAvatars { get; set; }
         public DbSet<Skin> Skins { get; set; }
         public DbSet<Configuration> Configs { get; set; }
@@ -282,6 +282,14 @@ namespace Project_Unite.Models
     }
 
     public class DatabaseBackup
+    {
+        public string Id { get; set; }
+        public DateTime Timestamp { get; set; }
+        public string UserId { get; set; }
+        public string DownloadUrl { get; set; }
+    }
+
+    public class AssetBackup
     {
         public string Id { get; set; }
         public DateTime Timestamp { get; set; }

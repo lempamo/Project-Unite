@@ -145,7 +145,7 @@ Unlike previous ShiftOS site revamps, your account got migrated over. However, t
             string backupname = backupServerDir + "\\ShiftOS-" + DateTime.Now.ToString() + ".sql";
             const string sqlCommand = @"BACKUP DATABASE [{0}] TO  DISK = N'{1}' WITH NOFORMAT, NOINIT,  NAME = N'ShiftOS Database Backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10";
             int path = db.Database.ExecuteSqlCommand(System.Data.Entity.TransactionalBehavior.DoNotEnsureTransaction, string.Format(sqlCommand, db.Database.Connection.Database, backupname));
-            var backupData = new DatabaseBackup();
+            var backupData = new AssetBackup();
             backupData.Id = Guid.NewGuid().ToString();
             backupData.UserId = User.Identity.GetUserId();
             backupData.DownloadUrl = backupUrl;

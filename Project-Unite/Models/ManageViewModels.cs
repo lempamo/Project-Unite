@@ -17,7 +17,7 @@ namespace Project_Unite.Models
     public class BackupViewModel
     {
         public IEnumerable<DatabaseBackup> Databases { get; set; }
-        public IEnumerable<DatabaseBackup> AssetFolders { get; set; }
+        public IEnumerable<AssetBackup> AssetFolders { get; set; }
     }
 
     public class ManageLoginsViewModel
