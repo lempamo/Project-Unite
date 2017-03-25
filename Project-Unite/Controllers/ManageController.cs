@@ -20,6 +20,67 @@ namespace Project_Unite.Controllers
         {
         }
 
+        public ActionResult SetAvatar(string id)
+        {
+            var db = new ApplicationDbContext();
+            var usr = db.Users.FirstOrDefault(x => x.Id == User.Identity.GetUserId());
+            var avtr = db.UserAvatars.FirstOrDefault(x => x.Id == id);
+            usr.AvatarUrl = avtr.AvatarUrl;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult UploadAvatar()
+        {
+            var model = new UploadImageViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadAvatar(UploadImageViewModel model)
+        {
+            string[] allowedTypes = new[] { ".png", ".jpg", ".bmp", ".jpeg", ".gif" };
+
+            bool containsAllowedType = !string.IsNullOrWhiteSpace(allowedTypes.FirstOrDefault(x => model.Image.FileName.EndsWith(x)));
+            if (containsAllowedType == false)
+                ModelState.AddModelError("UploadImageViewModel", new Exception("File type not allowed."));
+
+            if (ModelState.IsValid == true)
+            {
+                var db = new ApplicationDbContext();
+                var usr = db.Users.FirstOrDefault(x => x.Id == User.Identity.GetUserId());
+                string avatarRoot = $"~/Uploads/{usr.DisplayName}/Avatars";
+                string serverPath = Server.MapPath(avatarRoot);
+                if (!System.IO.Directory.Exists(serverPath))
+                    System.IO.Directory.CreateDirectory(serverPath);
+
+                avatarRoot += "/" + model.Image.FileName;
+                serverPath += "\\" + model.Image.FileName;
+
+                model.Image.SaveAs(serverPath);
+
+                var avatar = new Avatar();
+                avatar.Id = Guid.NewGuid().ToString();
+                avatar.AvatarUrl = avatarRoot.Remove(0, 1);
+                avatar.UserId = usr.Id;
+                avatar.UploadedAt = DateTime.Now;
+                usr.AvatarUrl = avatar.AvatarUrl;
+                db.UserAvatars.Add(avatar);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+
+            return View(model);
+        }
+
+        public ActionResult ListAvatars()
+        {
+            var avatars = new ApplicationDbContext().UserAvatars.Where(x => x.UserId == User.Identity.GetUserId());
+            return View(avatars);
+        }
+
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;

@@ -1,0 +1,16 @@
+﻿@model Project_Unite.Models.UploadImageViewModel
+@{
+    ViewBag.Title = "Upload avatar";
+}
+
+<h2>Upload an avatar</h2>
+
+<p>Let's put a face on your profile, shall we? Upload an image from your local computer and we'll display it as your avatar.</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <p><strong>File to upload: </strong>@Html.TextBoxFor(Model=>Model.Image, new { @class = "form-control", type = "file" })</p>
+    <input type="submit" class="form-control" value="Upload!" />
+}

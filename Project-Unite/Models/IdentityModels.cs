@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -17,6 +18,12 @@ namespace Project_Unite.Models
         public string Id { get; set; }
         public string Follower { get; set; }
         public string Followed { get; set; }
+    }
+
+    public class UploadImageViewModel
+    {
+        [Required(ErrorMessage = "Please select an image to upload.")]
+        public HttpPostedFileBase Image { get; set; }
     }
 
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
@@ -189,11 +196,14 @@ namespace Project_Unite.Models
             ((IObjectContextAdapter)this).ObjectContext.DeleteObject(obj);
         }
 
+        
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
 
+        public DbSet<Avatar> UserAvatars { get; set; }
         public DbSet<Skin> Skins { get; set; }
         public DbSet<Configuration> Configs { get; set; }
         public DbSet<ShiftoriumUpgrade> ShiftoriumUpgrades { get; set; }
@@ -258,5 +268,13 @@ namespace Project_Unite.Models
         public string Id { get; set; }
         public string UserId { get; set; }
         public string EngineStoryId { get; set; }
+    }
+
+    public class Avatar
+    {
+        public string Id { get; set; }
+        public string UserId { get; set; }
+        public string AvatarUrl { get; set; }
+        public DateTime UploadedAt { get; set; }
     }
 }

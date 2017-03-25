@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Project_Unite.Models.Avatar>
+
+@{
+    ViewBag.Title = "Change avatar";
+}
+
+<h2>Change avatar</h2>
+
+<p>You can choose a new avatar on this page - you can set an existing avatar that you've uploaded or upload a new one.</p>
+
+<div class="row">
+    <div class="col-sm-2">
+        <a href="@Url.Action("UploadAvatar")" class="btn btn-default" style="width:128px;height:128px;"><span class="glyphicon glyphicon-plus"></span></a>
+    </div>
+
+    @foreach(var avatar in Model.OrderByDescending(x=>x.UploadedAt))
+    {
+        <div class="col-sm-2">
+            <a href="@Url.Action("SetAvatar", "Manage", new { id = avatar.Id })")"><img src="@avatar.AvatarUrl" width="128" height="128" /></a>
+        </div>
+    }
+</div>

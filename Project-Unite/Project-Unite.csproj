@@ -525,6 +525,8 @@
     <Content Include="Views\Skins\ViewSkin.cshtml" />
     <Content Include="Views\Skins\Index.cshtml" />
     <Content Include="Views\Skins\PostSkin.cshtml" />
+    <Content Include="Views\Manage\ListAvatars.cshtml" />
+    <Content Include="Views\Manage\UploadAvatar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
