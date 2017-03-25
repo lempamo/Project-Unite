@@ -7,7 +7,7 @@
 
 <p>Let's put a face on your profile, shall we? Upload an image from your local computer and we'll display it as your avatar.</p>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("UploadAvatar", "Manage", null, FormMethod.Post, new { enctype = "multipart/post-avatar" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
