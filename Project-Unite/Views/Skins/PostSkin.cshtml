@@ -1,0 +1,42 @@
+﻿@model Project_Unite.Models.CreateSkinViewModel
+@{
+    ViewBag.Title = "Create skin - Skin Repository";
+}
+
+<h2>Create a skin</h2>
+
+<p>Want to post your skin to the repository? Alright, just fill out this form and we'll do everything for you.</p>
+
+@using (Html.BeginForm())
+{
+    <div class="panel panel-danger">
+        @Html.ValidationSummary()
+    </div>
+    @Html.AntiForgeryToken()
+    <table class="table">
+        <tr style="width:35%;">
+            <td><strong>Title:</strong></td>
+            <td>@Html.TextBoxFor(Model=>Model.Title, new{@class="form-control"})</td>
+        </tr>
+        <tr>
+            <td><strong>Short description:</strong><br/>This is a short summary of your skin that displays on the index page. Keep it under 500 characters.</td>
+            <td>@Html.TextBoxFor(Model => Model.ShortDescription, new { @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td><strong>Long description:</strong><br/>This is a longer description for your skin. You can use Markdown to style it - use this to add notes, extra screenshots, etc, for your skin. It is displayed in the "view skin" page.</td>
+            <td>@Html.TextBoxFor(Model => Model.Title, new { @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td><strong>Skin file:</strong><br/>This is the actual skin - you can upload it to the repository and we'll host it for you. Skins are exported by the Skin Loader into <pre>My Documents\ShiftOS_Shared\skins</pre>.</td>
+            <td>@Html.EditorFor(Model=>Model.SkinFile, new { @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td><strong>Screenshot:</strong><br />Here you can upload a main screenshot to show on the repo index and view skin pages. This isn't required, but is recommended so that users can see what your skin looks like before applying it.</td>
+            <td>@Html.EditorFor(Model => Model.ScreenshotFile, new { @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Post!" class="btn btn-primary" /></td>
+        </tr>
+    </table>
+}

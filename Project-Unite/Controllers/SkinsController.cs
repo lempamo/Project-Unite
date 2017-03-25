@@ -51,8 +51,16 @@ namespace Project_Unite.Controllers
             skin.FullDescription = model.LongDescription;
             skin.UserId = User.Identity.GetUserId();
             skin.VersionId = "";
-            skin.DownloadUrl = Path.Combine("~/Uploads", model.SkinFile.FileName);
-            model.SkinFile.SaveAs(Path.Combine(Server.MapPath("~/Uploads"), model.SkinFile.FileName));
+            string repoFolder = $"~/Uploads/{ACL.UserNameRaw(skin.UserId)}/SkinFiles";
+            string screenshotFolder = $"~/Uploads/{ACL.UserNameRaw(skin.UserId)}/Screenshots";
+            skin.DownloadUrl = Path.Combine(repoFolder, model.SkinFile.FileName);
+            model.SkinFile.SaveAs(Path.Combine(Server.MapPath(repoFolder), model.SkinFile.FileName));
+
+            if (model.ScreenshotFile != null && model.ScreenshotFile.ContentLength > 0)
+            {
+                skin.ScreenshotUrl = Path.Combine(screenshotFolder, model.ScreenshotFile.FileName);
+                model.ScreenshotFile.SaveAs(Path.Combine(Server.MapPath(screenshotFolder), model.ScreenshotFile.FileName));
+            }
             db.Skins.Add(skin);
             db.SaveChanges();
             return RedirectToAction("ViewSkin", new { id = skin.Name });

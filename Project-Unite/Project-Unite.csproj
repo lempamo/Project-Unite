@@ -524,6 +524,7 @@
     <Content Include="Views\Admin\CreateUser.cshtml" />
     <Content Include="Views\Skins\ViewSkin.cshtml" />
     <Content Include="Views\Skins\Index.cshtml" />
+    <Content Include="Views\Skins\PostSkin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

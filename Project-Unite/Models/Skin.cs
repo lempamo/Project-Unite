@@ -68,5 +68,9 @@ namespace Project_Unite.Models
         [Required]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase SkinFile { get; set; }
+
+        [DataType(DataType.Upload)]
+        public HttpPostedFileBase ScreenshotFile { get; set; }
+
     }
 }
