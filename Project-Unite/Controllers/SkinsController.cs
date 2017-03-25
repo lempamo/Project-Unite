@@ -53,6 +53,12 @@ namespace Project_Unite.Controllers
             skin.VersionId = "";
             string repoFolder = $"~/Uploads/{ACL.UserNameRaw(skin.UserId)}/SkinFiles";
             string screenshotFolder = $"~/Uploads/{ACL.UserNameRaw(skin.UserId)}/Screenshots";
+            if (!Directory.Exists(Server.MapPath(repoFolder)))
+                Directory.CreateDirectory(Server.MapPath(repoFolder));
+            if (!Directory.Exists(Server.MapPath(screenshotFolder)))
+                Directory.CreateDirectory(Server.MapPath(screenshotFolder));
+
+
             skin.DownloadUrl = Path.Combine(repoFolder, model.SkinFile.FileName);
             model.SkinFile.SaveAs(Path.Combine(Server.MapPath(repoFolder), model.SkinFile.FileName));
 
