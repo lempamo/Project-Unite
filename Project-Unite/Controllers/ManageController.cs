@@ -77,7 +77,8 @@ namespace Project_Unite.Controllers
 
         public ActionResult ListAvatars()
         {
-            var avatars = new ApplicationDbContext().UserAvatars.Where(x => x.UserId == User.Identity.GetUserId());
+            string id = User.Identity.GetUserId();
+            var avatars = new ApplicationDbContext().UserAvatars.Where(x => x.UserId == id);
             return View(avatars);
         }
 
