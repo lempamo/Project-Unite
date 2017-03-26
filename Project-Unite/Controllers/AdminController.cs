@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -119,7 +120,7 @@ Unlike previous ShiftOS site revamps, your account got migrated over. However, t
                 System.IO.Directory.CreateDirectory(backupServerDir);
 
             string backupUrl = backupDir.Remove(0, 1) + "/ShiftOS-" + DateTime.Now.ToString() + ".zip";
-            string backupname = backupServerDir + "\\ShiftOS-" + DateTime.Now.ToString() + ".zip";
+            string backupname = Path.Combine(backupServerDir, "ShiftOS-" + DateTime.Now.ToString() + ".zip");
 
             System.IO.Compression.ZipFile.CreateFromDirectory(Server.MapPath("~/Uploads"), backupname);
 
