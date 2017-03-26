@@ -175,7 +175,9 @@ Unlike previous ShiftOS site revamps, your account got migrated over. However, t
             {
                 DeletePost(post);
             }
-            db.ForumTopics.Remove(topic);
+            string id = topic.Id;
+            db.Likes.RemoveRange(db.Likes.Where(x => x.Topic == id));
+            db.ForumTopics.Remove(db.ForumTopics.FirstOrDefault(x=>x.Id==id));
         }
 
         public ActionResult AccessControl()
@@ -225,7 +227,9 @@ Unlike previous ShiftOS site revamps, your account got migrated over. However, t
 
         public void DeletePost(ForumPost post)
         {
-            db.ForumPosts.Remove(post);
+            string id = post.Id;
+
+            db.ForumPosts.Remove(db.ForumPosts.FirstOrDefault(x=>x.Id==id));
         }
 
 
