@@ -122,8 +122,14 @@ Unlike previous ShiftOS site revamps, your account got migrated over. However, t
             string backupUrl = backupDir.Remove(0, 1) + "/ShiftOS-" + DateTime.Now.ToString() + ".zip";
             string backupname = Path.Combine(backupServerDir, "ShiftOS-" + DateTime.Now.ToString() + ".zip");
 
-            System.IO.Compression.ZipFile.CreateFromDirectory(Server.MapPath("~/Uploads"), backupname);
-
+            try
+            {
+                System.IO.Compression.ZipFile.CreateFromDirectory(Server.MapPath("~/Uploads"), backupname);
+            }
+            catch
+            {
+                return Content(backupname);
+            }
             var backupData = new AssetBackup();
             backupData.Id = Guid.NewGuid().ToString();
             backupData.UserId = User.Identity.GetUserId();
