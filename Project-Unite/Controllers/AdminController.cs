@@ -579,7 +579,7 @@ This user has been anonymized by an administrator.";
                 });
             }
 
-            return View(new AddUserToRoleViewModel());
+            return View(model);
         }
 
         // POST: Admin/AddUserToRole
