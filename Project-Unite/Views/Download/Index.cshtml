@@ -1,0 +1,203 @@
+﻿@model IEnumerable<Project_Unite.Models.Download>
+@{
+    ViewBag.Title = "Download";
+}
+
+<h2>Download ShiftOS</h2>
+
+<p>So you're ready to jump into the world of ShiftOS, are you? Well, first things first, let's get you a client executable. This is the file that will let you enter the world of ShiftOS. Choose the release type that is right for you.</p>
+
+<div class="row">
+    <div class="col-xs-3 panel">
+        <div class="panel-body">
+            <h4>Stable releases</h4>
+            <p>If you're looking for the most simple, bug-free way to experience ShiftOS, stable releases are for you.</p>
+            <p><u>Pros:</u></p>
+            <ul>
+                <li>Long-term support</li>
+                <li>Virtually no bugs</li>
+                <li>Easy to set up</li>
+            </ul>
+            <a href="#stable" class="btn btn-default">Show stable downloads</a>
+        </div>
+    </div>
+
+    <div class="col-xs-3 panel">
+        <div class="panel-body">
+            <h4>Unstable releases</h4>
+            <p>If you're looking for a simple way to get into the game, but want cutting-edge features, and know what you're doing, unstable builds are for you.</p>
+            <p><u>Pros:</u></p>
+            <ul>
+                <li>Cutting-edge features</li>
+                <li>Released more often</li>
+                <li>Easy to set up</li>
+            </ul>
+            <p><u>Cons:</u></p>
+            <ul>
+                <li>Can be buggy.</li>
+                <li>Intermediate/advanced knowledge of ShiftOS is necessary.</li>
+            </ul>
+            <a href="#unstable" class="btn btn-warning">Show unstable downloads</a>
+        </div>
+    </div>
+
+    <div class="col-xs-3 panel">
+        <div class="panel-body">
+            <h4>Rolling-release edition</h4>
+            <p>Like Unstable builds, rolling-release versions of ShiftOS contain the most bleeding edge features, however they are not tested thoroughly and can contain game-breaking glitches that are in the middle of being worked on.</p>
+            <p><u>Pros:</u></p>
+            <ul>
+                <li>Bleeding-edge features/bugfixes</li>
+                <li>Compiled IMMEDIATELY after a change is made to the game</li>
+                
+            </ul>
+            <p><u>Cons:</u></p>
+            <ul>
+                <li>Extremely buggy.</li>
+                <li>Unfinished features.</li>
+                <li>A debugging environment is recommended.</li>
+                
+            </ul>
+            <a href="#rolling-release" class="btn btn-default">Learn more</a>
+        </div>
+    </div>
+
+    <div class="col-xs-3 panel">
+        <div class="panel-body">
+            <h4>Source Code</h4>
+            <p>Know C#? Want to add to the game? Want to compile the latest source code? This option is for you.</p>
+            <p><u>Pros:</u></p>
+            <ul>
+                <li>Ability to add your own features.</li>
+                <li>Full source code of the engine, game, and server.</li>
+                
+            </ul>
+            <p><u>Cons: </u></p>
+            <ul>
+                <li>Knowledge of C# required.</li>
+                <li>Visual Studio or MonoDevelop IDE required.</li>
+                <li>Ability to compile the source code required.</li>
+            </ul>
+            <a href="#src" class="btn btn-default">Learn more</a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <h3>A brief disclaimer about ShiftOS</h3>
+    <p>We at ShiftOS are in no way a professional game development studio. We just do this for fun and as a hobby.</p>
+    <p>While we do accept bug reports and attempt to fix them as soon as possible, and while we do enjoy developing the game, development may slow down due to us being busy with our lives.</p>
+    <p>So, if you see that we aren't making any releases or videos, please be patient with us.</p>
+</div>
+
+<div class="row" id="stable">
+    <h3>Stable releases</h3>
+
+    <p>Stable releases are the most simple way to get into ShiftOS. Here's a chronologically-ordered list of all stable releases:</p>
+
+    @{ 
+        var stable = Model.Where(x => x.IsStable == true).OrderByDescending(x => x.PostDate);
+    }
+
+    <table>
+        <tr>
+            <th style="width:65%">Release</th>
+            <th>Actions</th>
+        </tr>
+        @if(stable.Count() == 0)
+        {
+            <tr>
+                <td>
+                    <strong><em>No stable releases have been made yet. Check back later.</em></strong>
+                </td>
+                <td></td>
+            </tr>
+        }
+
+        @foreach(var s in stable)
+        {
+            <tr>
+                <td>
+                    <a href="@Url.Action("ViewRelease", new {id=s.Name})">
+                        @if(s.Obsolete == true)
+                        {
+                            <strong>OBSOLETE: </strong>
+                        }
+                        @s.Name
+                    </a><br/>
+                    <p>Released on @s.PostDate by @Html.UserLink(s.ReleasedBy)</p>
+                </td>
+                <td>
+                    <a href="@s.DownloadUrl" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span> Download</a>
+                    @Html.ActionLink("View details", "ViewDownload", "Download", new { id = s.Name }, new { @class = "btn btn-default" })
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<div class="row" id="unstable">
+    <h3>Unstable releases</h3>
+
+    <p>Unstable releases are easy-to-setup ways of getting more cutting-edge features that may not be present in stable releases. They may be buggy, so try at your own risk!</p>
+
+    @{
+        var unstable = Model.Where(x => x.IsStable == false).OrderByDescending(x => x.PostDate);
+    }
+
+    <table>
+        <tr>
+            <th style="width:65%">Release</th>
+            <th>Actions</th>
+        </tr>
+        @if (unstable.Count() == 0)
+        {
+            <tr>
+                <td>
+                    <strong><em>No unstable releases have been made yet. Check back later.</em></strong>
+                </td>
+                <td></td>
+            </tr>
+        }
+
+        @foreach (var s in unstable)
+        {
+            <tr>
+                <td>
+                    <a href="@Url.Action("ViewRelease", new {id=s.Name})">
+                        @if (s.Obsolete == true)
+                        {
+                            <strong>OBSOLETE: </strong>
+                        }
+                        @s.Name
+                    </a><br />
+                    <p>Released on @s.PostDate by @Html.UserLink(s.ReleasedBy)</p>
+                </td>
+                <td>
+                    <a href="@s.DownloadUrl" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span> Download</a>
+                    @Html.ActionLink("View details", "ViewDownload", "Download", new { id = s.Name }, new { @class = "btn btn-default" })
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<div class="row" id="rolling-release">
+    <h3>ShiftOS - Rolling Release Edition</h3>
+
+    <p>Using the power of <a href="http://appveyor.com">AppVeyor</a>, we are able to give you precompiled versions of the latest source code - containing the most bleeding edge features and bugfixes, without the complication of having to compile the game yourself.</p>
+
+    <p>All you have to do is go to our <a href="https://ci.appveyor.com/project/ComputeLinux/shiftos">AppVeyor page</a>, and go to <strong>Artifacts</strong>. There, you will see the most recent successful build with download links containing various different parts of the game.</p>
+
+    <p>Pay attention to the build status though! If it is <strong>"Build passing"</strong>, you are downloading the most recent version of the code. If it does not, AppVeyor is either still compiling the game, or it has failed, and until the issue is resolved you'll be on a slightly older version of the game.</p>
+
+    <p>The AppVeyor build status is shown at the top of every page.</p>
+</div>
+
+<div class="row" id="src">
+    <h3>Source code</h3>
+
+    <p>ShiftOS is open-source software - which means our code is fully available for you to see, use, modify and distribute (as long as you abide by the @Html.ActionLink("software license", "SoftwareLicense", "Legal") and @Html.ActionLink("terms of service", "TOS", "Legal"), of course).</p>
+
+    <p>If you know C# and can compile Visual Studio projects, then go ahead and head over to our <a href="http://github.com/shiftos-game/ShiftOS">GitHub repository</a>! We'll see you there!</p>
+</div>

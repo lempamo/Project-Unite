@@ -238,6 +238,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LegalController.cs" />
@@ -416,6 +417,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddUserToRoleViewModel.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
+    <Compile Include="Models\Download.cs" />
     <Compile Include="Models\ForumCategory.cs" />
     <Compile Include="Models\ForumViewModels.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
@@ -530,6 +532,7 @@
     <Content Include="Views\Manage\ListAvatars.cshtml" />
     <Content Include="Views\Manage\UploadAvatar.cshtml" />
     <Content Include="Views\Admin\Backups.cshtml" />
+    <Content Include="Views\Download\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -204,6 +204,7 @@ namespace Project_Unite.Models
             return new ApplicationDbContext();
         }
 
+        public DbSet<Download> Downloads { get; set; }
         public DbSet<DatabaseBackup> Backups { get; set; }
         public DbSet<AssetBackup> AssetBackups { get; set; }
         public DbSet<Avatar> UserAvatars { get; set; }
