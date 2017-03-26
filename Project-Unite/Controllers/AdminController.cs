@@ -631,10 +631,10 @@ This user has been anonymized by an administrator.";
         [ValidateAntiForgeryToken]
         public ActionResult DeleteRoleConfirmed(string id)
         {
-            Role role = db.IdentityRoles.Find(id);
-            db.IdentityRoles.Remove(role);
+            var role = db.Roles.FirstOrDefault(x=>x.Id==id);
+            db.Roles.Remove(role);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Roles");
         }
 
         protected override void Dispose(bool disposing)
