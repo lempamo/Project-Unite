@@ -8,6 +8,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
 	<table class="table-condensed">
 		<tr>
 			<td>@Html.DisplayNameFor(Model => Model.Username)</td>
