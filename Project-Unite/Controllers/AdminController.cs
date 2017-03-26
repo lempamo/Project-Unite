@@ -51,7 +51,7 @@ namespace Project_Unite.Controllers
             {
                 DeleteTopic(topic);
             }
-            db.ForumCategories.Remove(db.ForumCategories.FirstOrDefault(x => x.Id == start.Id));
+            db.ForumCategories.Remove(start);
 
         }
 
