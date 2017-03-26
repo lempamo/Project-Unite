@@ -275,7 +275,8 @@ Unlike previous ShiftOS site revamps, your account got migrated over. However, t
                         higherUp = r as Role;
                 }
 
-                higherUp.Priority--;
+                if(higherUp != null)
+                    higherUp.Priority--;
                 role.Priority++;
                 db.SaveChanges();
 
