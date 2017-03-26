@@ -44,6 +44,11 @@ p,a,strong,b,u,i,em,h1,h2,h3,h4,h5,h6,s,pre,code,input,textarea{
  * @author ocodia
  */
 
+.modal{
+    width:100%;
+    height:100%;
+}
+
 code[class*="language-"],
 pre[class*="language-"] {
 	color: #f8f8f2;
