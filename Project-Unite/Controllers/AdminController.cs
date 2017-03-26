@@ -120,7 +120,7 @@ Unlike previous ShiftOS site revamps, your account got migrated over. However, t
                 System.IO.Directory.CreateDirectory(backupServerDir);
 
             string backupUrl = backupDir.Remove(0, 1) + "/ShiftOS-" + DateTime.Now.ToString() + ".zip";
-            string backupname = Path.Combine(backupServerDir, "ShiftOS-" + DateTime.Now.ToString() + ".zip");
+            string backupname = Path.Combine(backupServerDir, "ShiftOS-" + DateTime.Now.ToString().Replace("/", "-") + ".zip");
 
             try
             {
