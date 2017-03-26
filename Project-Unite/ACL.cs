@@ -284,16 +284,19 @@ namespace Project_Unite
 
             if (forum.Permissions.Length < db.Roles.Count())
             {
-                var rolesToAdd = db.Roles.Where(r => forum.Permissions.FirstOrDefault(p => p.RoleId == r.Id) == null);
-                foreach(var role in rolesToAdd)
+                var roles = db.Roles.ToArray();
+                foreach(var role in roles)
                 {
-                    var perm = new ForumPermission();
-                    perm.Id = Guid.NewGuid().ToString();
-                    perm.CategoryId = forum.Id;
-                    perm.RoleId = role.Id;
-                    perm.Permissions = PermissionPreset.CanPost;
-                    db.ForumPermissions.Add(perm);
-                    recordsAdded++;
+                    if (db.ForumPermissions.FirstOrDefault(x => x.CategoryId == fid && x.RoleId == role.Id) == null)
+                    {
+                        var perm = new ForumPermission();
+                        perm.Id = Guid.NewGuid().ToString();
+                        perm.CategoryId = forum.Id;
+                        perm.RoleId = role.Id;
+                        perm.Permissions = PermissionPreset.CanPost;
+                        db.ForumPermissions.Add(perm);
+                        recordsAdded++;
+                    }
                 }
                 db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, $"Automatic forum ACL update occurred - Forum: {forum.Name}, records added: {recordsAdded}."));
                 db.SaveChanges();
