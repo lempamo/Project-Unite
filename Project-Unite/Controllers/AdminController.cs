@@ -588,7 +588,7 @@ This user has been anonymized by an administrator.";
         public async Task<ActionResult> AddUserToRole(AddUserToRoleViewModel model)
         {
             var r = db.Roles.FirstOrDefault(role => role.Id == model.RoleId);
-            var user = db.Users.FirstOrDefault(u => u.DisplayName == model.Username);
+            var user = db.Users.FirstOrDefault(u => u.Id == model.Username);
             var uMan = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
             var isInRole = await uMan.IsInRoleAsync(user.Id, r.Name);
