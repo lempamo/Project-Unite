@@ -11,11 +11,11 @@
 	<table class="table-condensed">
 		<tr>
 			<td>@Html.DisplayNameFor(model => model.Username)</td>
-			<td>@Html.TextBoxFor(model => model.Username)</td>
+			<td>@Html.DropdownListFor(model => model.Username, Model.Users, new { @class = "form-control" })</td>
 		</tr>
 		<tr>
 			<td>@Html.DisplayNameFor(model => model.RoleId)</td>
-			<td>@Html.TextBoxFor(model => model.RoleId)</td>
+			<td>@Html.DropDownListFor(model => model.RoleId, Model.Roles, new { @class = "form-control" })</td>
 		</tr>
 
 	</table>

@@ -548,21 +548,50 @@ This user has been anonymized by an administrator.";
         }
 
         // GET: Admin/AddUserToRole
-        public ActionResult AddUserToRole()
+        public ActionResult AddUserToRole(string id = "")
         {
             ViewBag.Admin = true;
+            var model = new AddUserToRoleViewModel();
+
+            if (id == "")
+                id = "user";
+            model.RoleId = id;
+            model.Users = new List<SelectListItem>();
+            foreach (var u in db.Users.ToArray())
+            {
+                var user = u as ApplicationUser;
+                model.Users.Add(new SelectListItem
+                {
+                    Value = user.Id,
+                    Text = user.DisplayName
+                });
+            }
+
+
+            model.Roles = new List<SelectListItem>();
+            foreach(var role in db.Roles.ToArray())
+            {
+                var r = role as Role;
+                model.Roles.Add(new SelectListItem
+                {
+                    Value = r.Id,
+                    Text = r.Name
+                });
+            }
+
             return View(new AddUserToRoleViewModel());
         }
 
         // POST: Admin/AddUserToRole
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddUserToRole(AddUserToRoleViewModel model)
         {
-            var r = db.Roles.FirstOrDefault(role => role.Name == model.RoleId);
+            var r = db.Roles.FirstOrDefault(role => role.Id == model.RoleId);
             var user = db.Users.FirstOrDefault(u => u.DisplayName == model.Username);
             var uMan = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
-            var isInRole = await uMan.IsInRoleAsync(user.Id, r.Id);
+            var isInRole = await uMan.IsInRoleAsync(user.Id, r.Name);
             
             if(isInRole)
             {

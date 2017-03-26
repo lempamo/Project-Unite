@@ -20,6 +20,10 @@
 
 <p>Below is a list of users in this role.</p>
 
+<ul class="nav nav-pills">
+    <li><a href="@Url.Action("AddUserToRole", new { id = Model.Id })"><span class="glyphicon glyphicon-plus"></span> Add user to role</a></li>
+</ul>
+
 <table class="table">
     <tr>
         <th style="width:65%">User</th>
