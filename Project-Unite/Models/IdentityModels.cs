@@ -204,6 +204,9 @@ namespace Project_Unite.Models
             
         }
 
+        public DbSet<WikiPage> WikiPages { get; set; }
+        public DbSet<WikiCategory> WikiCategories { get; set; }
+
         public void DeleteObject(object obj)
         {
             ((IObjectContextAdapter)this).ObjectContext.DeleteObject(obj);

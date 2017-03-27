@@ -1,0 +1,76 @@
+﻿@model Project_Unite.Models.WikiViewModel
+
+@{
+    if (Model.Page == null)
+    {
+        ViewBag.Title = "Wiki";
+    }
+    else
+    {
+        ViewBag.Title = Model.Page.Name + " - Wiki";
+    }
+}
+
+@helper CreateCategoryListRecursive(Project_Unite.Models.WikiCategory category) { 
+    <li>@category.Name
+        <ul>
+            @foreach(var cat in category.Children)
+            {
+                CreateCategoryListRecursive(cat);
+            }
+            @foreach(var page in category.Pages)
+            {
+                <li>@Html.ActionLink(page.Name, "Index", "Wiki", new { id = page.Id }, null)</li>
+            }
+        </ul>
+    </li>
+}
+
+<div class="row">
+    <div class="col-xs-4 panel">
+        <div class="panel-body">
+            <h4>Pages</h4>
+
+            <ul>
+                @foreach(var cat in Model.Categories)
+                {
+                    CreateCategoryListRecursive(cat);
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-xs-8 panel">
+        <div class="panel-body">
+            @if(Model.Page != null)
+            {
+                <h1>@Model.Page.Name</h1>
+
+                <p>@Html.Markdown(Model.Page.Contents)</p>
+            }
+            else
+            {
+                <h1>ShiftOS Wiki</h1>
+
+                <p>The ShiftOS Wiki is a community and developer-driven handbook for everything you need to know about ShiftOS. It contains tutorials, guides, code examples, and loads of other interesting things. Read on!</p>
+
+                <h3>How to post to and edit the wiki</h3>
+
+                <p>If you have a ShiftOS account, and have the right privileges to a category, simply click the "Add new page" button at the top, and fill in the blanks.</p>
+
+                <p>If you don't have a ShiftOS account, this is the perfect time to @Html.ActionLink("create one", "Register", "Account")! Without one, how would you play the game?</p>
+
+                <h3>Adding categories</h3>
+
+                <p>Adding categories is only available to those with the `CanManageWikiCategories` access control definition. If you have this ACL definition, you may manage wiki categories from the Developer Control Panel.</p>
+
+                <h3>This wiki supports Markdown!</h3>
+
+                <p>You can use Markdown in the wiki, just like you would in a forum post, skin description or user status update. We use the CommonMark standard - which is the standard used by websites and software like GitHub, Discourse, Gitter, and various others.</p>
+
+
+            }
+        </div>
+    </div>
+</div>
+
