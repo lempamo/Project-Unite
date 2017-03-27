@@ -533,6 +533,7 @@
     <Content Include="Views\Manage\UploadAvatar.cshtml" />
     <Content Include="Views\Admin\Backups.cshtml" />
     <Content Include="Views\Download\Index.cshtml" />
+    <Content Include="Views\Forum\ViewUnread.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

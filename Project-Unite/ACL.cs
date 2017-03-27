@@ -62,6 +62,35 @@ namespace Project_Unite
             return hpr.Raw(builder.ToString());
         }
 
+        public static bool IsUnlisted(string topicId)
+        {
+            return new ApplicationDbContext().ForumTopics.FirstOrDefault(x => x.Id == topicId).IsUnlisted;
+        }
+
+        public static bool IsUnread(string user, string postId)
+        {
+            var db = new ApplicationDbContext();
+            var u = db.Users.FirstOrDefault(x => x.Id == user);
+            return u.UnreadPosts.FirstOrDefault(x => x.Id == postId) != null;
+        }
+
+        public static void MarkRead(string userId, string postId)
+        {
+            var mark = new ReadPost();
+            mark.Id = Guid.NewGuid().ToString();
+            mark.PostId = postId;
+            mark.UserId = userId;
+            var db = new ApplicationDbContext();
+            db.ReadPosts.Add(mark);
+            db.SaveChanges();
+        }
+
+        public static IHtmlString TopicLinkFor(this HtmlHelper hpr, string topicId)
+        {
+            var topic = new ApplicationDbContext().ForumTopics.FirstOrDefault(x => x.Id == topicId);
+            return hpr.ActionLink(topic.Subject, "ViewTopic", "Forum", new { id = topic.Discriminator }, null);
+        }
+
         public static IHtmlString Markdown(this HtmlHelper hpr, string md)
         {
             return hpr.Raw(CommonMark.CommonMarkConverter.Convert(hpr.Encode(md)));

@@ -1,0 +1,34 @@
+﻿@model Project_Unite.Models.ForumPost[]
+@{
+    ViewBag.Title = "Unread posts";
+}
+
+<h2>Unread Forum Posts</h2>
+
+<p>Here is a summary of what's been said since you last visited the forums:</p>
+
+<table class="table">
+    <tr>
+        <th style="width:75%">Post</th>
+        <th>Actions</th>
+    </tr>
+    @if(Model.Length == 0)
+    {
+        <tr>
+            <td><em>No unread posts! You're all caught up :)</em></td>
+            <td></td>
+        </tr>
+    }
+    @foreach(var post in Model)
+    {
+        <tr>
+            <td>re: @Html.TopicLinkFor(post.Parent) <br/>
+                <p>By <strong>@Html.UserLink(post.AuthorId)</strong> on @post.PostedAt</p>
+            </td>
+            <td>
+                @Html.ActionLink("Mark as read", "MarkRead", "Forum", new { id = post.Id }, new { @class = "btn btn-default" });
+            </td>
+        </tr>
+        
+    }
+</table>

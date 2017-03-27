@@ -303,6 +303,22 @@ namespace Project_Unite.Controllers
         const string AllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
 
         [Authorize]
+        public ActionResult ViewUnread()
+        {
+            var db = new ApplicationDbContext();
+            var posts = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name).UnreadPosts;
+
+            return View(posts);
+        }
+
+        [Authorize]
+        public ActionResult MarkRead(string id)
+        {
+            ACL.MarkRead(User.Identity.GetUserId(), id);
+            return RedirectToAction("ViewUnread");
+        }
+
+        [Authorize]
         public ActionResult ViewTopic(string id, bool triedtolikeowntopic = false)
         {
             if (triedtolikeowntopic)

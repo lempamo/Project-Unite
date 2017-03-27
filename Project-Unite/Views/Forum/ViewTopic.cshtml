@@ -32,6 +32,14 @@
 
 @foreach (var post in Model.Posts.OrderBy(x => x.PostedAt))
 {
+    if (Request.IsAuthenticated)
+    {
+        if (ACL.IsUnread(User.Identity.GetUserId(), post.Id))
+        {
+            ACL.MarkRead(User.Identity.GetUserId(), post.Id);
+        }
+    }
+
     <div class="row panel panel-default">
         <div class="panel-body">
             <div class="col-xs-4"> <!--Mini profile data-->
