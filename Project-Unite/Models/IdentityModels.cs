@@ -46,7 +46,7 @@ namespace Project_Unite.Models
                 var db = new ApplicationDbContext();
 
 
-                var posts = db.ForumPosts.Where(x => ACL.IsUnlisted(x.Parent) && db.ReadPosts.FirstOrDefault(y => y.UserId == this.Id && y.PostId == x.Id) == null);
+                var posts = db.ForumPosts.Where(x => db.ForumTopics.FirstOrDefault(z=>z.Id==x.Parent).IsUnlisted == false && db.ReadPosts.FirstOrDefault(y => y.UserId == this.Id && y.PostId == x.Id) == null);
                 return posts.ToArray();
             }
         }
