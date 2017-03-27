@@ -39,6 +39,16 @@ namespace Project_Unite.Models
             
         }
 
+        public ForumPost[] UnreadPosts
+        {
+            get
+            {
+                var db = new ApplicationDbContext();
+                var posts = db.ForumPosts.Where(x => db.ReadPosts.FirstOrDefault(y => y.UserId == this.Id && y.PostId == x.Id) == null);
+                return posts.ToArray();
+            }
+        }
+
         public Role HighestRole
         {
             get
@@ -204,6 +214,7 @@ namespace Project_Unite.Models
             return new ApplicationDbContext();
         }
 
+        public DbSet<ReadPost> ReadPosts { get; set; }
         public DbSet<Download> Downloads { get; set; }
         public DbSet<DatabaseBackup> Backups { get; set; }
         public DbSet<AssetBackup> AssetBackups { get; set; }
@@ -228,6 +239,13 @@ namespace Project_Unite.Models
         public DbSet<ForumPost> ForumPosts { get; set; }
         public DbSet<Story> Stories { get; set; }
         public DbSet<View> Views { get; set; }
+    }
+
+    public class ReadPost
+    {
+        public string Id { get; set; }
+        public string PostId { get; set; }
+        public string UserId { get; set; }
     }
 
     public class UserPost

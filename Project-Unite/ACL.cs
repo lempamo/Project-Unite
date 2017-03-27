@@ -67,6 +67,11 @@ namespace Project_Unite
             return hpr.Raw(CommonMark.CommonMarkConverter.Convert(hpr.Encode(md)));
         }
 
+        public static int UnreadPostsCount(string username)
+        {
+            return new ApplicationDbContext().Users.FirstOrDefault(x => x.UserName == username).UnreadPosts.Length;
+        }
+
         public static bool IsFollowed(string you, string fId)
         {
             var db = new ApplicationDbContext();

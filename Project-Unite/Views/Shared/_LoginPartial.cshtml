@@ -7,6 +7,7 @@
 
     <ul class="nav navbar-nav navbar-right"  style="margin-right:15px;">
         <li>@Html.NewestUser()</li>
+        <li><a href="@Url.Action("ViewUnread", "Forum")"><span class="glyphicon glyphicon-star-empty"></span> @ACL.UnreadPostsCount(User.Identity.Name) unread posts</a></li>
         <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-bullhorn"></span> @Html.NotificationCount(User.Identity.GetUserId())</a>
             <ul class="dropdown-menu">
                 <li class="dropdown-header">Notifications (@Html.NotificationCount(User.Identity.Name) unread)</li>
