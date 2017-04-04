@@ -38,9 +38,23 @@ namespace Project_Unite
 <p>" + CommonMark.CommonMarkConverter.Convert(message.Body) + "</p>";
                 sMsg.Subject =  $"[{siteConfig.SiteName}] " + message.Subject;
                 sMsg.IsBodyHtml = true;
-                smtp.SendAsync(sMsg, null);
                 var db = new ApplicationDbContext();
-                db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, $"Email sent successfully.<br/><br/><strong>To:</strong> {sMsg.To}<br/><strong>Subject:</strong><br/>{sMsg.Subject}"));
+                db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, $"Email sending...<br/><br/><strong>To:</strong> {sMsg.To}<br/><strong>Subject:</strong><br/>{sMsg.Subject}"));
+                db.SaveChanges();
+                smtp.SendCompleted += (o, a) =>
+                {
+                    var alog = new AuditLog("system", AuditLogLevel.Admin, "");
+                    if (a.Cancelled == true)
+                        alog.Description += "Send cancelled.<br/>";
+                    if (a.Error == null)
+                        alog.Description += "No errors detected.</br>";
+                    else
+                        alog.Description += $"Error:<br/><pre><code class=\"language-csharp\">{a.Error}</code></pre>";
+                    var ndb = new ApplicationDbContext();
+                    ndb.AuditLogs.Add(alog);
+                    ndb.SaveChanges();
+                };
+                smtp.SendAsync(sMsg, null);
             }
             catch (Exception ex)
             {
