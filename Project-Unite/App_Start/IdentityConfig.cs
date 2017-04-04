@@ -25,6 +25,8 @@ namespace Project_Unite
                 var siteConfig = new ApplicationDbContext().Configs.FirstOrDefault();
 
                 var smtp = new SmtpClient(siteConfig.SMTPServer, siteConfig.SMTPPort);
+                if (siteConfig.UseTLSEncryption)
+                    smtp.EnableSsl = true; //This is misleading... We want TLS but all we have is SSL. Oh well.
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = new NetworkCredential(siteConfig.SMTPUsername, siteConfig.SMTPPassword);
                 var sMsg = new MailMessage(siteConfig.SMTPReturnAddress, message.Destination);
