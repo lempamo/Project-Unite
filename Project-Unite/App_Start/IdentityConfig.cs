@@ -20,20 +20,32 @@ namespace Project_Unite
     {
         public Task SendAsync(IdentityMessage message)
         {
-            var smtp = new SmtpClient("in-v3.mailjet.com", 25);
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new NetworkCredential("fcc885a166c73e91ba6592345f64dfeb", "84b7c56e71b6c9bd1b26a98222494823");
-            var sMsg = new MailMessage("sys@michaeltheshifter.me", message.Destination);
-            
-            sMsg.Body = @"<img src=""https://cdn.discordapp.com/attachments/241613675545231360/280020406528901131/unknown.png""/>
+            try
+            {
+                var siteConfig = new ApplicationDbContext().Configs.FirstOrDefault();
+
+                var smtp = new SmtpClient(siteConfig.SMTPServer, siteConfig.SMTPPort);
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential(siteConfig.SMTPUsername, siteConfig.SMTPPassword);
+                var sMsg = new MailMessage(siteConfig.SMTPReturnAddress, message.Destination);
+
+                sMsg.Body = @"<img src=""https://cdn.discordapp.com/attachments/241613675545231360/280020406528901131/unknown.png""/>
 
 <h1>Message from the ShiftOS staff</h1>
 
 <p>" + CommonMark.CommonMarkConverter.Convert(message.Body) + "</p>";
-            sMsg.Subject = "[ShiftOS (Project: Unite)] " + message.Subject;
-            sMsg.IsBodyHtml = true;
-            smtp.Send(sMsg);
-           
+                sMsg.Subject =  $"[{siteConfig.SiteName}] " + message.Subject;
+                sMsg.IsBodyHtml = true;
+                smtp.Send(sMsg);
+            }
+            catch (Exception ex)
+            {
+                var db = new ApplicationDbContext();
+                db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, $@"Failed to send email:
+
+{ex}"));
+                db.SaveChanges();
+            }
             return Task.FromResult(0);
         }
     }

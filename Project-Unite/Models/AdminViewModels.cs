@@ -100,5 +100,12 @@ namespace Project_Unite.Models
         public string ReturnEmail { get; set; }
         public string UniteBotToken { get; set; }
         public string DiscordChannelId { get; set; }
+
+        public string SMTPServer { get; set; }
+        public int SMTPPort { get; set; }
+        public string SMTPUsername { get; set; }
+        public string SMTPPassword { get; set; }
+        public bool UseTLSEncryption { get; set; }
+        public string SMTPReturnAddress { get; set; }
     }
 }
