@@ -17,7 +17,7 @@
     @foreach(var i in Model.OrderByDescending(x=>x.Timestamp))
     {
         <tr>
-            <td>@i.Description</td>
+            <td>@Html.Raw(Html.Encode(i.Description))</td>
             <td>@Html.UserLink(i.UserId) at @i.Timestamp</td>
             <td>@i.Level</td>
         </tr>
