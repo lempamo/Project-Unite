@@ -113,7 +113,8 @@ namespace Project_Unite
             using(var db = new ApplicationDbContext())
             {
                 var usr = db.Users.Include(x=>x.Roles).FirstOrDefault(x => x.Id == userId);
-
+                if (usr == null)
+                    return hpr.Raw("<a href=\"#\">system</a>");
                 var userRoles = new List<Role>();
                 foreach (var usrRole in usr.Roles)
                 {
