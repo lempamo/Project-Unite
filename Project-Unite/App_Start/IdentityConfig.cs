@@ -18,7 +18,7 @@ namespace Project_Unite
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace Project_Unite
                 var db = new ApplicationDbContext();
                 db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, $"Email sending...<br/><br/><strong>To:</strong> {sMsg.To}<br/><strong>Subject:</strong><br/>{sMsg.Subject}"));
                 db.SaveChanges();
-                smtp.SendCompleted += (o, a) =>
+                smtp.SendCompleted += async (o, a) =>
                 {
                     var alog = new AuditLog("system", AuditLogLevel.Admin, "");
                     if (a.Cancelled == true)
@@ -52,7 +52,7 @@ namespace Project_Unite
                         alog.Description += $"Error:<br/><pre><code class=\"language-csharp\">{a.Error}</code></pre>";
                     var ndb = new ApplicationDbContext();
                     ndb.AuditLogs.Add(alog);
-                    ndb.SaveChanges();
+                    await ndb.SaveChangesAsync();
                 };
                 smtp.SendAsync(sMsg, null);
             }
@@ -64,7 +64,7 @@ namespace Project_Unite
 {ex}"));
                 db.SaveChanges();
             }
-            return Task.FromResult(0);
+            return;
         }
 
         
