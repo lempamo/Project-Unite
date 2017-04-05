@@ -181,8 +181,44 @@
 		<footer>
 
 			<p>&copy; @DateTime.Now.Year Michael VanOverbeek and the ShiftOS Dev Team</p>
-			@if (ACL.Granted(User.Identity.Name, "CanAccessAdminCP"))
-			{
+			<p>Website styling courtesy of <a href="http://vicr123.github.io/">Victor Tran</a>.</p>
+            
+            <div class="row">
+                <div class="col-xs-4">
+                    <p><strong>Community</strong></p>
+                    <ul>
+                        <li>@Html.ActionLink("Forums", "Index", "Forum")</li>
+                        <li>@Html.ActionLink("Discord", "Discord", "Home")</li>
+                        <li>@Html.ActionLink("Wiki", "Index", "Wiki")</li>
+                        <li>@Html.ActionLink("Skin Repository", "Index", "Skins")</li>
+                    </ul>
+                </div>
+                <div class="col-xs-4">
+                    <p><strong>Discover</strong></p>
+                    <ul>
+                        <li><a href="http://youtube.com/ShiftOS">YouTube</a></li>
+                        <li><a href="http://github.com/shiftos-game">ShiftOS on GitHub</a></li>
+                        <li><a href="http://github.com/ShiftOS-CSharp/TheShiftOSMemorial">The Memorial</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-4">
+                    <p><strong>Help &amp; About</strong></p>
+                    <ul>
+                        <li>@Html.ActionLink("Terms of service", "TOS", "Legal")</li>
+                        <li>@Html.ActionLink("Privacy Policy", "Privacy", "Legal")</li>
+                        <li>@Html.ActionLink("About Project: Unite", "AboutUnite", "Home")</li>
+                        <li>@Html.ActionLink("About ShiftOS", "About", "Home")</li>
+                        <li>@Html.ActionLink("Get in touch", "Contact", "Home")</li>
+                    </ul>
+                </div>
+                
+            </div>
+
+            <p><strong>We'd like to formally thank Philip Adams.</strong> Without him, we would not exist. Phil has contributed years of work and help to ShiftOS and is the original developer of the game. He has written code that is still used to this day in modern ShiftOS, and much of the ideas and mechanics in the game are from his mind.</p>
+            <p>Check Phil out on YouTube: <a href="http://youtube.com/OSFirstTimer">OSFirstTimer</a> | <a href="https://www.youtube.com/user/AstralPhaser">AstralPhaser</a> | <a href="https://www.youtube.com/channel/UC2wLfbZrHQOxP2e5zkxYRjA">YouTube Millionaire</a></p>
+
+            @if (ACL.Granted(User.Identity.Name, "CanAccessAdminCP"))
+            {
 				<p>@Html.ActionLink("Administrator Control Panel", "Index", "Admin")</p>
 			}
         </footer>
