@@ -32,9 +32,11 @@
             {
                 <tr>
                     <td>
-                        @if(release.Obsolete==true)
+                        @if (release.Obsolete == true)
+                        {
                             <strong>OBSOLETE: </strong>
-                        @Html.ActionLink(release.Name, "ViewRelease", "Download", new { id = release.Id }, null)<br/>
+                        }
+                         @Html.ActionLink(release.Name, "ViewRelease", "Download", new { id = release.Id }, null)<br/>
                         <p>...released by @Html.UserLink(release.ReleasedBy), released on @Model.PostDate</p>
                     </td>
                     <td>
@@ -69,7 +71,9 @@
                 <tr>
                     <td>
                         @if (release.Obsolete == true)
+                        {
                             <strong>OBSOLETE: </strong>
+                        }
                         @Html.ActionLink(release.Name, "ViewRelease", "Download", new { id = release.Id }, null)<br />
                         <p>...released by @Html.UserLink(release.ReleasedBy), released on @Model.PostDate</p>
                     </td>
