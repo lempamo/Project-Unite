@@ -7,3 +7,65 @@
 <h1 class="text-danger">Error.</h1>
 <h2 class="text-danger">An error occurred while processing your request.</h2>
 
+<h2>Error summary:</h2>
+
+<p><strong>@Model.Exception.Message</strong></p>
+
+<h3>Stacktrace (for nerdy Shifters):</h3>
+
+<pre>
+<code class="language-csharp">
+    @Model.Exception.StackTrace
+</code>
+</pre>
+
+<h3>Full exception details:</h3>
+
+<pre>
+<code>
+    @Model.Exception.ToString()
+</code>
+</pre>
+
+<p><em><strong>Requested action: </strong>@Html.Raw(Model.ControllerName + "/" + Model.ActionName)</em></p>
+
+<h2>What can you do?</h2>
+
+<div class="row">
+    <div class="col-xs-6">
+        <h4>If you are a user...</h4>
+
+        <ul>
+            <li>Try again in a bit - there may be a temporary issue preventing this request from going through.</li>
+            <li>Try another page - does this error show on other pages?</li>
+            <li>Give us a bit of time - We already saw this error - it got sent to us when you received this page.</li>
+        </ul>
+    </div>
+    <div class="col-xs-6">
+        <h4>If you're an admin or a dev...</h4>
+
+        <ul>
+            <li>Check your Audit Logs - if you are an admin, head over to @Html.ActionLink("this link", "Logs", "Admin") - the crash has been logged.</li>
+            <li>Check the GitHub Issues page - there may be a bugreport. <a href="http://github.com/MichaelTheShifter/Project-Unite/issues">View issues.</a></li>
+        </ul>
+    </div>
+</div>
+
+@{ 
+    var db = new Project_Unite.Models.ApplicationDbContext();
+    var auditlog = new Project_Unite.Models.AuditLog("crash_reporter_daemon", Project_Unite.Models.AuditLogLevel.Admin, "");
+
+    var sb = new System.Text.StringBuilder();
+
+    sb.AppendLine("<strong>Crash report</strong><br/>");
+    sb.AppendLine("<br/>");
+    sb.AppendLine("<pre><code class=\"language-csharp\">");
+    sb.AppendLine(Model.Exception.ToString());
+    sb.AppendLine("</code></pre><br/>");
+    sb.Append("<strong>Requested action: ");
+    sb.Append(Model.ControllerName + "/" + Model.ActionName);
+    sb.AppendLine("</strong>");
+    auditlog.Description = sb.ToString();
+    db.AuditLogs.Add(auditlog);
+    db.SaveChanges();
+}
