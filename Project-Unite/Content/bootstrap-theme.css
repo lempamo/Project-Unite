@@ -2006,6 +2006,7 @@ select[multiple].input-lg {
   -ms-user-select: none;
   user-select: none;
   text-decoration: none !important;
+  font-variant: small-caps;
 }
 .btn:focus,
 .btn:active:focus,
@@ -2042,7 +2043,7 @@ fieldset[disabled] .btn {
 .btn-default:focus,
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
-  color: black;
+  color: white;
   background-color: rgba(255, 255, 255, 0.25);
   border: none;
 }
