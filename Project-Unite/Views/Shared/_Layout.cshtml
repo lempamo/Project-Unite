@@ -115,7 +115,7 @@
             </ul>
                 @RenderBody();
         }
-        else if (ViewBag.Developer)
+        else if (ViewBag.Developer == true)
         {
             <ul class="nav nav-pills">
                 <li>@Html.ActionLink("Home", "Index", "Developer")</li>
