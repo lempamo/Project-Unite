@@ -30,7 +30,7 @@ p,a,strong,b,u,i,em,h1,h2,h3,h4,h5,h6,s,pre,code,input,textarea{
 
 .form-control{
     width:100%;
-    background-color:black;
+    background-color: transparent;
     color:white;
     width:100%;
     max-width:none;
