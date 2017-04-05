@@ -539,6 +539,7 @@
     <Content Include="Views\Forum\ViewUnread.cshtml" />
     <Content Include="Views\Wiki\Index.cshtml" />
     <Content Include="Views\Developer\Index.cshtml" />
+    <Content Include="Views\Developer\Releases.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

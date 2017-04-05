@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Project_Unite.Models;
 
 namespace Project_Unite.Controllers
 {
@@ -14,6 +15,12 @@ namespace Project_Unite.Controllers
         {
             ViewBag.Developer = true;
             return View();
+        }
+
+        public ActionResult Releases()
+        {
+            var db = new ApplicationDbContext();
+            return View(db.Downloads);
         }
     }
 }

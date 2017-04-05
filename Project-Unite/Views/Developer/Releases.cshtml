@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Project_Unite.Models.Download>
+@{
+    ViewBag.Title = "Releases";
+    ViewBag.Developer = true;
+}
+
+<h2>Releases</h2>
+
+<ul class="nav nav-pills">
+    <li><a href="@Url.Action("AddRelease", "Developer")"><span class="glyphicon glyphicon-plus"></span> Release new build.</a></li>
+</ul>
+
+<p>Below is a list of all ShiftOS releases, sorted by date in descending order, categorized by stability.</p>
+
+<ul id="tabs" data-tabs="tabs" class="nav nav-tabs" role="tablist">
+    <li class="active"><a data-toggle="tab" href="#t_stable">Stable</a></li>
+    <li><a data-toggle="tab" href="#t_unstable">Unstable</a></li>
+    
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="t_stable">
+        <h4>Stable releases</h4>
+        <p>Stable builds of ShiftOS are generally more trusted - they may not contain all the latest features, but they are also bug-free... mostly.</p>
+        
+        <table class="table">
+            <tr>
+                <th style="width:45%">Release</th>
+                <th>Actions</th>
+            </tr>
+            @foreach(var release in Model.Where(x => x.IsStable == true && x.Obsolete == false).OrderByDescending(x => x.PostDate))
+            {
+                <tr>
+                    <td>
+                        @if(release.Obsolete==true)
+                            <strong>OBSOLETE: </strong>
+                        @Html.ActionLink(release.Name, "ViewRelease", "Download", new { id = release.Id }, null)<br/>
+                        <p>...released by @Html.UserLink(release.ReleasedBy), released on @Model.PostDate</p>
+                    </td>
+                    <td>
+                        <a href="http://youtube.com/watch?v=@release.DevUpdateId" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Watch dev update</a>
+                        @Html.ActionLink("Make Unstable", "MakeUnstable", "Developer", new { id = release.Id }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Toggle Obsolete", "ToggleObsolete", "Developer", new { id = release.Id }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Delete", "Delete", "Developer", new { id = release.Id }, new { @class = "btn btn-danger" })
+
+
+
+
+
+
+
+
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="tab-pane fade in" id="t_unstable">
+        <h4>Unstable releases</h4>
+        <p>Unstable builds are in-between builds of ShiftOS. They are more feature-rich, released faster, but that comes at the cost of stability. These builds may be really buggy. Seriously. I've released some that don't even boot.</p>
+
+        <table class="table">
+            <tr>
+                <th style="width:45%">Release</th>
+                <th>Actions</th>
+            </tr>
+            @foreach (var release in Model.Where(x => x.IsStable == false).OrderByDescending(x => x.PostDate))
+            {
+                <tr>
+                    <td>
+                        @if (release.Obsolete == true)
+                            <strong>OBSOLETE: </strong>
+                        @Html.ActionLink(release.Name, "ViewRelease", "Download", new { id = release.Id }, null)<br />
+                        <p>...released by @Html.UserLink(release.ReleasedBy), released on @Model.PostDate</p>
+                    </td>
+                    <td>
+                        <a href="http://youtube.com/watch?v=@release.DevUpdateId" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Watch dev update</a>
+                        @Html.ActionLink("Make Stable", "MakeStable", "Developer", new { id = release.Id }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Toggle Obsolete", "ToggleObsolete", "Developer", new { id = release.Id }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Delete", "Delete", "Developer", new { id = release.Id }, new { @class = "btn btn-danger" })
+
+
+
+
+
+
+
+
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
