@@ -3013,12 +3013,14 @@ input[type="button"].btn-block {
   margin: 2px 0 0;
   list-style: none;
   font-size: 14px;
-  background-color: #222222;
-  border: 1px solid #444444;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  background-color: black;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+  border-top: none;
+  border-radius: 0px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
   background-clip: padding-box;
 }
 .dropdown-menu.pull-right {
@@ -3044,7 +3046,7 @@ input[type="button"].btn-block {
 .dropdown-menu > li > a:focus {
   text-decoration: none;
   color: #ffffff;
-  background-color: #2a9fd6;
+  background-color: rgb(50, 50, 50);
 }
 .dropdown-menu > .active > a,
 .dropdown-menu > .active > a:hover,
@@ -5698,7 +5700,7 @@ button.close {
   }
 }
 .navbar {
-  border-bottom: 1px solid #282828;
+  border-bottom: 1px solid white;
 }
 .text-primary,
 .text-primary:hover {
