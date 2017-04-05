@@ -1692,10 +1692,10 @@ output {
   padding: 8px 12px;
   font-size: 14px;
   line-height: 1.42857143;
-  color: #BDBDBD;
+  color: #707070;
   background-color: #ffffff;
   background-image: none;
-  border: 1px solid #282828;
+  border: 2px solid #282828;
   border-radius: 0px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
