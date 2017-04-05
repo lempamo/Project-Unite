@@ -2031,16 +2031,15 @@ fieldset[disabled] .btn {
 }
 .btn-default {
   color: #ffffff;
-  background-color: transparent;
-  /* border-color: #424242; */
+  background-color: rgba(255, 255, 255, 0.0625);
 }
 .btn-default:hover,
 .btn-default:focus,
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
   color: black;
-  background-color: white;
-  /* border-color: #232323; */
+  background-color: rgba(255, 255, 255, 0.25);
+  border: none;
 }
 .btn-default:active, {
   color: black;
