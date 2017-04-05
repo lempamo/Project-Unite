@@ -115,21 +115,37 @@
             </ul>
                 @RenderBody();
         }
+        else if (ViewBag.Developer)
+        {
+            <ul class="nav nav-pills">
+                <li>@Html.ActionLink("Home", "Index", "Developer")</li>
+                <li>@Html.ActionLink("Releases", "Releases", "Developer")</li>
+                <li>@Html.ActionLink("Wiki", "Wiki", "Developer")</li>
+                <li>@Html.ActionLink("Bugs", "Bugs", "Developer")</li>
+
+            </ul>
+
+
+            @RenderBody();
+        }
         else if (ACL.Granted(User.Identity.Name, ViewBag.ACLRule))
         {
-		if (ViewBag.Admin == true)
-        {
-            if (ACL.Granted(User.Identity.Name, "CanAccessAdminCP"))
+            if (ViewBag.Admin == true)
             {
-				<ul class="nav nav-tabs">
+                if (ACL.Granted(User.Identity.Name, "CanAccessAdminCP"))
+                {
+
+                <ul class="nav nav-tabs">
 					<li>@Html.ActionLink("Home", "Index", "Admin")</li>
-					@if (ACL.Granted(User.Identity.Name, "CanEditRoles"))
+
+                    @if (ACL.Granted(User.Identity.Name, "CanEditRoles"))
                     {
 						<li>@Html.ActionLink("Roles", "Roles", "Admin")</li>
                         <li>@Html.ActionLink("Access Control", "AccessControl", "Admin")</li>
 
                     }
-					@if (ACL.Granted(User.Identity.Name, "CanEditProfiles"))
+
+                    @if (ACL.Granted(User.Identity.Name, "CanEditProfiles"))
                     {
 						<li>@Html.ActionLink("Users", "Users", "Admin")</li>
                     }
@@ -139,7 +155,8 @@
                     }
                     <li>@Html.ActionLink("Audit logs", "Logs", "Admin")</li>
 				</ul>
-				@RenderBody();
+
+                @RenderBody();
             }
             else
             {
@@ -149,7 +166,8 @@
         }
         else
         {
-			@RenderBody()
+
+            @RenderBody()
 
         }
         }
