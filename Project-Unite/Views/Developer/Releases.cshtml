@@ -37,7 +37,7 @@
                             <strong>OBSOLETE: </strong>
                         }
                          @Html.ActionLink(release.Name, "ViewRelease", "Download", new { id = release.Id }, null)<br/>
-                        <p>...released by @Html.UserLink(release.ReleasedBy), released on @Model.PostDate</p>
+                        <p>...released by @Html.UserLink(release.ReleasedBy), released on @release.PostDate</p>
                     </td>
                     <td>
                         <a href="http://youtube.com/watch?v=@release.DevUpdateId" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Watch dev update</a>
@@ -75,7 +75,7 @@
                             <strong>OBSOLETE: </strong>
                         }
                         @Html.ActionLink(release.Name, "ViewRelease", "Download", new { id = release.Id }, null)<br />
-                        <p>...released by @Html.UserLink(release.ReleasedBy), released on @Model.PostDate</p>
+                        <p>...released by @Html.UserLink(release.ReleasedBy), released on @release.PostDate</p>
                     </td>
                     <td>
                         <a href="http://youtube.com/watch?v=@release.DevUpdateId" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Watch dev update</a>
