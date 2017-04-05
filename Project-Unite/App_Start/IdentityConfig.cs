@@ -25,6 +25,7 @@ namespace Project_Unite
                 var siteConfig = new ApplicationDbContext().Configs.FirstOrDefault();
 
                 var smtp = new SmtpClient(siteConfig.SMTPServer, siteConfig.SMTPPort);
+                smtp.UseDefaultCredentials = false;
                 if (siteConfig.UseTLSEncryption)
                     smtp.EnableSsl = true; //This is misleading... We want TLS but all we have is SSL. Oh well.
                 smtp.UseDefaultCredentials = false;
@@ -38,6 +39,7 @@ namespace Project_Unite
 <p>" + CommonMark.CommonMarkConverter.Convert(message.Body) + "</p>";
                 sMsg.Subject =  $"[{siteConfig.SiteName}] " + message.Subject;
                 sMsg.IsBodyHtml = true;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 var db = new ApplicationDbContext();
                 db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, $"Email sending...<br/><br/><strong>To:</strong> {sMsg.To}<br/><strong>Subject:</strong><br/>{sMsg.Subject}"));
                 db.SaveChanges();
