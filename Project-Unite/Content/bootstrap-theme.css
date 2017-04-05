@@ -1,7 +1,7 @@
 ﻿/* Dark Admin Bootstrap Theme by PrepBootstrap - http://www.prepbootstrap.com */
 @font-face {
     font-family: "Contemporary";
-    src: url(/Contemporary-Regular.ttf) format("truetype");
+    src: url('/fonts/Contemporary-Regular.ttf') format("truetype");
 }
 
 html {
