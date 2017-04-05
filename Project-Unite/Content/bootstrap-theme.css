@@ -692,8 +692,8 @@ samp {
 code {
   padding: 2px 4px;
   font-size: 90%;
-  color: #c7254e;
-  background-color: #f9f2f4;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
   white-space: nowrap;
   border-radius: 4px;
 }
@@ -1399,7 +1399,7 @@ pre code {
 }
 table {
   max-width: 100%;
-  background-color: #181818;
+  background-color: rgb(50, 50, 50);
 }
 th {
   text-align: left;
@@ -3505,7 +3505,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
   color: #ffffff;
-  background-color: #2a9fd6;
+  background-color: rgb(50, 50, 50);
   border: 1px solid #282828;
   border-bottom-color: transparent;
   cursor: default;
