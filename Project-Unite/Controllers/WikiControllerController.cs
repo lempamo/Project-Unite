@@ -20,6 +20,18 @@ namespace Project_Unite.Controllers
             return View(model);
         }
 
+        public ActionResult Random()
+        {
+            var db = new ApplicationDbContext();
+            var rnd = new Random();
+            var index = rnd.Next(0, db.WikiPages.Count());
+            if (db.WikiPages.Count() == 0)
+                return RedirectToAction("Index");
+
+            var wiki = db.WikiPages.ToArray()[index].Id;
+            return RedirectToAction("Index", new { id = wiki });
+        }
+
         [Authorize]
         public ActionResult AddPage()
         {

@@ -26,12 +26,22 @@
     </li>
 }
 
+@if (Request.IsAuthenticated)
+{
+    <ul class="nav nav-tabs">
+        <li><a href="@Url.Action("AddPage")"><span class="glyphicon glyphicon-plus"></span> Add new page.</a></li>
+    </ul>
+}
+
 <div class="row">
     <div class="col-xs-4 panel">
         <div class="panel-body">
             <h4>Pages</h4>
 
             <ul>
+                <li>@Html.ActionLink("Index", "Index")</li>
+                <li>@Html.ActionLink("Random page", "Random")</li>
+
                 @foreach(var cat in Model.Categories)
                 {
                     @CreateCategoryListRecursive(cat);
