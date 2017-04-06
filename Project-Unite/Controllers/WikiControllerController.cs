@@ -13,7 +13,7 @@ namespace Project_Unite.Controllers
         {
             var db = new ApplicationDbContext();
             var model = new WikiViewModel();
-            var wikicategories = db.WikiCategories.Where(x => x.Parent == null);
+            var wikicategories = db.WikiCategories.Where(x => x.Parent == "none");
             model.Categories = wikicategories;
             model.Page = db.WikiPages.FirstOrDefault(x => x.Id == id);
             return View(model);
