@@ -140,6 +140,54 @@ namespace Project_Unite.Controllers
             var cats = db.WikiCategories;
             return View(cats);
         }
+
+        public ActionResult AddWikiCategory()
+        {
+            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
+                return new HttpStatusCodeResult(403);
+
+            var mdl = new AddWikiCategoryViewModel();
+            return View(mdl);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddWikiCategory(AddWikiCategoryViewModel model)
+        {
+            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
+                return new HttpStatusCodeResult(403);
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var db = new ApplicationDbContext();
+            var cat = new WikiCategory();
+
+            var new_id = model.Name.ToLower();
+
+            foreach(var c in new_id.ToArray())
+            {
+                if(c == '.' || !ApprovedIdChars.Contains(c))
+                {
+                    new_id = new_id.Replace(c, '_');
+                }
+            }
+
+            cat.Id = new_id;
+            cat.Name = model.Name;
+
+            cat.Parent = model.ParentId;
+
+            db.WikiCategories.Add(cat);
+            db.SaveChanges();
+
+            return RedirectToAction("Wiki");
+
+
+
+        }
+
     }
 
 
