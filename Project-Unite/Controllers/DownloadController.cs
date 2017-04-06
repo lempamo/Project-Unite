@@ -20,8 +20,7 @@ namespace Project_Unite.Controllers
         {
             var db = new ApplicationDbContext();
             var release = db.Downloads.FirstOrDefault(x => x.Id == id);
-            if (release == null)
-                return new HttpStatusCodeResult(404);
+           
             return View(release);
         }
     }
