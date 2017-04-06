@@ -15,18 +15,24 @@ namespace Project_Unite.Controllers
         // GET: Developer
         public ActionResult Index()
         {
+            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
+                return new HttpStatusCodeResult(403);
             ViewBag.Developer = true;
             return View();
         }
 
         public ActionResult Releases()
         {
+            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
+                return new HttpStatusCodeResult(403);
             var db = new ApplicationDbContext();
             return View(db.Downloads);
         }
 
         public ActionResult AddRelease()
         {
+            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
+                return new HttpStatusCodeResult(403);
             if (!ACL.Granted(User.Identity.Name, "CanReleaseBuild"))
                 return new HttpStatusCodeResult(403);
             ViewBag.Developer = true;
@@ -41,6 +47,8 @@ namespace Project_Unite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddRelease(PostDownloadViewModel model)
         {
+            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
+                return new HttpStatusCodeResult(403);
             if (!ACL.Granted(User.Identity.Name, "CanReleaseBuild"))
                 return new HttpStatusCodeResult(403);
             if (!ModelState.IsValid)
@@ -120,6 +128,17 @@ namespace Project_Unite.Controllers
             db.SaveChanges();
 
             return RedirectToAction("Releases");
+        }
+        
+        [Authorize]
+        public ActionResult Wiki()
+        {
+            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
+                return new HttpStatusCodeResult(403);
+            ViewBag.Developer = true;
+            var db = new ApplicationDbContext();
+            var cats = db.WikiCategories;
+            return View(cats);
         }
     }
 

@@ -1,10 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Project_Unite.Models
 {
+    public class AddWikiCategoryViewModel
+    {
+        public AddWikiCategoryViewModel()
+        {
+
+        }
+
+        public List<SelectListItem> Parents { get; set; }
+
+
+        [Required(AllowEmptyStrings = false, ErrorMessage ="Please name your category.")]
+        [MinLength(5, ErrorMessage ="Your category's name must be at least 5 characters long.")]
+        [MaxLength(25, ErrorMessage ="Your category's name must be at most 25 characters long.")]
+        public string Name { get; set; }
+
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please select a parent category.")]
+        public string ParentId { get; set; }
+    }
+
     public class WikiCategory
     {
         public string Id { get; set; }
