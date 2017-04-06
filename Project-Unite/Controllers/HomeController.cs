@@ -28,5 +28,10 @@ namespace Project_Unite.Controllers
 
             return View();
         }
+
+        public ActionResult Discord()
+        {
+            return View();
+        }
     }
 }
