@@ -15,7 +15,8 @@
 <ul id="tabs" data-tabs="tabs" class="nav nav-tabs" role="tablist">
     <li class="active"><a data-toggle="tab" href="#t_stable">Stable</a></li>
     <li><a data-toggle="tab" href="#t_unstable">Unstable</a></li>
-    
+    <li><a data-toggle="tab" href="#t_obsolete">Obsolete</a></li>
+
 </ul>
 
 <div class="tab-content">
@@ -43,8 +44,7 @@
                         <a href="http://youtube.com/watch?v=@release.DevUpdateId" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Watch dev update</a>
                         @Html.ActionLink("Make Unstable", "MakeUnstable", "Developer", new { id = release.Id }, new { @class = "btn btn-warning" })
                         @Html.ActionLink("Toggle Obsolete", "ToggleObsolete", "Developer", new { id = release.Id }, new { @class = "btn btn-warning" })
-                        @Html.ActionLink("Delete", "Delete", "Developer", new { id = release.Id }, new { @class = "btn btn-danger" })
-
+                        
 
 
 
@@ -81,8 +81,7 @@
                         <a href="http://youtube.com/watch?v=@release.DevUpdateId" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Watch dev update</a>
                         @Html.ActionLink("Make Stable", "MakeStable", "Developer", new { id = release.Id }, new { @class = "btn btn-warning" })
                         @Html.ActionLink("Toggle Obsolete", "ToggleObsolete", "Developer", new { id = release.Id }, new { @class = "btn btn-warning" })
-                        @Html.ActionLink("Delete", "Delete", "Developer", new { id = release.Id }, new { @class = "btn btn-danger" })
-
+                        
 
 
 
@@ -95,4 +94,35 @@
             }
         </table>
     </div>
+
+    <div class="tab-pane fade in" id="t_obsolete">
+        <h4>Obsolete releases</h4>
+        <p>Obsolete releases are kept up for archival purposes only. Rather than deleting a build, make it obsolete. That way, users can still play it if they want to (or can), but we don't have to accept bug reports for the obsolete release.</p>
+
+        <table class="table">
+            <tr>
+                <th style="width:45%">Release</th>
+                <th>Actions</th>
+            </tr>
+            @foreach (var release in Model.Where(x => x.Obsolete==true).OrderByDescending(x => x.PostDate))
+            {
+                <tr>
+                    <td>
+                        @if (release.Obsolete == true)
+                        {
+                            <strong>OBSOLETE: </strong>
+                        }
+                        @Html.ActionLink(release.Name, "ViewRelease", "Download", new { id = release.Id }, null)<br />
+                        <p>...released by @Html.UserLink(release.ReleasedBy), released on @release.PostDate</p>
+                    </td>
+                    <td>
+                        <a href="http://youtube.com/watch?v=@release.DevUpdateId" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Watch dev update</a>
+                        @Html.ActionLink("Toggle Obsolete", "ToggleObsolete", "Developer", new { id = release.Id }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Delete", "Delete", "Developer", new { id = release.Id }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
 </div>
