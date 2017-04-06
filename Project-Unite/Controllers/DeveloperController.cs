@@ -27,7 +27,7 @@ namespace Project_Unite.Controllers
 
         public ActionResult AddRelease()
         {
-            if (!ACL.Granted(User.Identity.Name, "CanReleaseBuilds"))
+            if (!ACL.Granted(User.Identity.Name, "CanReleaseBuild"))
                 return new HttpStatusCodeResult(403);
             ViewBag.Developer = true;
 
@@ -41,7 +41,7 @@ namespace Project_Unite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddRelease(PostDownloadViewModel model)
         {
-            if (!ACL.Granted(User.Identity.Name, "CanReleaseBuilds"))
+            if (!ACL.Granted(User.Identity.Name, "CanReleaseBuild"))
                 return new HttpStatusCodeResult(403);
             if (!ModelState.IsValid)
                 return View(model);
