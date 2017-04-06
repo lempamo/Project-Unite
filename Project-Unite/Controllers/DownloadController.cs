@@ -16,6 +16,7 @@ namespace Project_Unite.Controllers
             return View(db.Downloads);
         }
 
+        // GET: http://getshiftos.ml/Download/ViewRelease/shiftos_0.0.7_alpha_4.1_0
         public ActionResult ViewRelease(string id)
         {
             var db = new ApplicationDbContext();
