@@ -542,6 +542,7 @@
     <Content Include="Views\Developer\Releases.cshtml" />
     <Content Include="Views\Developer\AddRelease.cshtml" />
     <Content Include="Views\Download\ViewRelease.cshtml" />
+    <Content Include="Views\Home\Discord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
