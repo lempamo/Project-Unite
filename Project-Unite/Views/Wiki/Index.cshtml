@@ -16,7 +16,7 @@
         <ul>
             @foreach(var cat in category.Children)
             {
-                CreateCategoryListRecursive(cat);
+                @CreateCategoryListRecursive(cat);
             }
             @foreach(var page in category.Pages)
             {
