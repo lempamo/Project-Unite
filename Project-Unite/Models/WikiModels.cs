@@ -11,7 +11,22 @@ namespace Project_Unite.Models
     {
         public AddWikiCategoryViewModel()
         {
-
+            var db = new ApplicationDbContext();
+            Parents = new List<SelectListItem>();
+            Parents.Add(new SelectListItem
+            {
+                Value = "none",
+                Text = "No parent"
+            });
+            foreach(var cat in db.WikiCategories)
+            {
+                Parents.Add(new SelectListItem
+                {
+                    Value = cat.Id,
+                    Text = cat.Name
+                });
+            }
+            db.Dispose();
         }
 
         public List<SelectListItem> Parents { get; set; }
