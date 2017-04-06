@@ -146,6 +146,8 @@ namespace Project_Unite.Controllers
             if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
                 return new HttpStatusCodeResult(403);
 
+            ViewBag.Developer = true;
+
             var mdl = new AddWikiCategoryViewModel();
             return View(mdl);
 
@@ -157,7 +159,7 @@ namespace Project_Unite.Controllers
         {
             if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
                 return new HttpStatusCodeResult(403);
-
+            ViewBag.Developer = true;
             if (!ModelState.IsValid)
                 return View(model);
 

@@ -1,0 +1,36 @@
+﻿@model Project_Unite.Models.AddWikiCategoryViewModel
+@{
+    ViewBag.Title = "Add wiki category";
+}
+
+<h2>Add wiki category</h2>
+
+<p>Please fill the form to add a new category.</p>
+
+@using (Html.BeginForm())
+{
+<div class="panel panel-danger">
+    <div class="panel-body">
+        @Html.ValidationSummary()
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <td>Category name:</td>
+        <td>
+            @Html.TextBoxFor(Model=>Model.Name, new { @class="form-control"})
+        </td>
+    </tr>
+    <tr>
+        <td>Parent category:</td>
+        <td>
+            @Html.DropDownListFor(Model => Model.ParentId, Model.Parents, new { @class = "form-control" })
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="submit" value="Add!" /></td>
+    </tr>
+</table>
+}
