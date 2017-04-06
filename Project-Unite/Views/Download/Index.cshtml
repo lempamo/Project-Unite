@@ -129,7 +129,7 @@
                 </td>
                 <td>
                     <a href="@s.DownloadUrl" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span> Download</a>
-                    @Html.ActionLink("View details", "ViewDownload", "Download", new { id = s.Name }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("View details", "ViewRelease", "Download", new { id = s.Id }, new { @class = "btn btn-default" })
                 </td>
             </tr>
         }
@@ -175,7 +175,7 @@
                 </td>
                 <td>
                     <a href="@s.DownloadUrl" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span> Download</a>
-                    @Html.ActionLink("View details", "ViewDownload", "Download", new { id = s.Name }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("View details", "ViewRelease", "Download", new { id = s.Id }, new { @class = "btn btn-default" })
                 </td>
             </tr>
         }
