@@ -90,7 +90,7 @@ namespace Project_Unite.Controllers
             string file_name_d = model.Download.FileName.ToLower();
             foreach(var c in file_name_d.ToCharArray())
             {
-                if (!ApprovedIdChars.Contains(c) && c != '.')
+                if (!ApprovedIdChars.Contains(c) || c == '.')
                     file_name_d = file_name_d.Replace(c, '_');
             }
             download_dir += file_name_d;
