@@ -42,21 +42,23 @@ namespace Project_Unite.Models
 
     public class PostDownloadViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "You must name your build!")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage ="A screenshot is necessary for getting users into the game.")]
+        [DataType(DataType.Upload)]
         public HttpPostedFileBase Screenshot { get; set; }
 
         public string DevUpdateId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Well, is it a beta or not?")]
         public bool IsStable { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Can you...describe the build?")]
         [AllowHtml]
         public string Changelog { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="We can't just pull a download out of thin air! Please, upload a release.")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase Download { get; set; }
         

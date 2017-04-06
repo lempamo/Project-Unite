@@ -540,6 +540,7 @@
     <Content Include="Views\Wiki\Index.cshtml" />
     <Content Include="Views\Developer\Index.cshtml" />
     <Content Include="Views\Developer\Releases.cshtml" />
+    <Content Include="Views\Developer\AddRelease.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

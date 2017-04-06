@@ -1,0 +1,48 @@
+﻿@model Project_Unite.Models.PostDownloadViewModel
+@{
+    ViewBag.Title = "Add release";
+}
+
+<h2>Add release</h2>
+
+<p>Ready to release a new build of ShiftOS? It's never been easier. Just fill out this form:</p>
+
+@using (Html.BeginForm("AddRelease", "Developer", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="panel panel-danger">
+        @Html.ValidationSummary()
+    </div>
+    @Html.AntiForgeryToken()
+    <table class="table">
+        <tr>
+            <td style="width:35%;"><strong>Title:</strong>
+            <p>This is the title of the build. It should contain the major and minor build numbers, release status ("alpha", "beta", "RC", etc), build number, and revision. For example, <strong>ShiftOS 1.0 Beta 1.4</strong></p>
+            </td>
+            <td>@Html.TextBoxFor(Model => Model.Name, new { @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td><strong>Screenshot</strong><br />A screenshot can give potential players an idea of what's going on in this build. Be sure to show key features, key UI changes, etc.</td>
+            <td>@Html.TextBoxFor(Model => Model.Screenshot, new { @class = "form-control", type="file" })</td>
+        </tr>
+        <tr>
+            <td><strong>Changelog/Build description:</strong><br />When users view full details about this build, these are the details shown. Try to include a list of new features, a list of bugs, and a list of bugfixes. You can also post additional screenshots, videos, etc here. Make this build shine! <strong>Markdown is supported.</strong></td>
+            <td>@Html.TextAreaFor(Model => Model.Changelog, new { rows = "5", @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td><strong>Development update YouTube ID:</strong><br/>If you or another dev has done a ShiftOS dev update on the YouTube channel for this release, paste its video ID here. You can get it by browsing the video and copying the text immediately after the "watch?v=" in the video URL.</td>
+            <td>@Html.TextBoxFor(Model=>Model.DevUpdateId, new { @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td><strong>Download:</strong><br />This is the actual release. Simply upload a .ZIP file containing all .dll and .exe files found in your ShiftOS bin/Debug folder.</td>
+            <td>@Html.TextBoxFor(Model => Model.Download, new { @class = "form-control", type = "file" })</td>
+        </tr>
+        <tr>
+            <td><strong>Is it stable?</strong><br />If this build has no known bugs, then check this value. Usually it'd be the lead dev making stables but as long as I approve, you can as well. I mean, unless you're me, in which case it's your site... do what you want, future Michael! I hope you also finished all your homework. And I hope you got a good French mark... :)</td>
+            <td>@Html.CheckBoxFor(Model => Model.IsStable, new { @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Release!" class="btn btn-primary" /></td>
+        </tr>
+    </table>
+}
