@@ -45,7 +45,6 @@ namespace Project_Unite.Models
         [Required(ErrorMessage = "You must name your build!")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage ="A screenshot is necessary for getting users into the game.")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase Screenshot { get; set; }
 

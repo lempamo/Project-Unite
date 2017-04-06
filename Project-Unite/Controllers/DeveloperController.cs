@@ -145,21 +145,24 @@ namespace Project_Unite.Controllers
             //Now the download is saved in the DB. Let's get it on the server.
             model.Download.SaveAs(mapped_dir);
 
-            download_dir = "~/Uploads/Releases/Screenshots/";
-            mapped_dir = Server.MapPath(download_dir);
-            if (!Directory.Exists(mapped_dir))
-                Directory.CreateDirectory(mapped_dir);
-
-            file_name_d = model.Screenshot.FileName.ToLower(); ;
-            foreach (var c in file_name_d.ToCharArray())
+            if (model.Screenshot != null)
             {
-                if (!ApprovedIdChars.Contains(c))
-                    file_name_d = file_name_d.Replace(c, '_');
+                download_dir = "~/Uploads/Releases/Screenshots/";
+                mapped_dir = Server.MapPath(download_dir);
+                if (!Directory.Exists(mapped_dir))
+                    Directory.CreateDirectory(mapped_dir);
+
+                file_name_d = model.Screenshot.FileName.ToLower(); ;
+                foreach (var c in file_name_d.ToCharArray())
+                {
+                    if (!ApprovedIdChars.Contains(c))
+                        file_name_d = file_name_d.Replace(c, '_');
+                }
+                download_dir += file_name_d;
+                mapped_dir = Server.MapPath(download_dir);
+                download.ScreenshotUrl = download_dir.Remove(0, 1);
+                model.Screenshot.SaveAs(mapped_dir);
             }
-            download_dir += file_name_d;
-            mapped_dir = Server.MapPath(download_dir);
-            download.ScreenshotUrl = download_dir.Remove(0,1);
-            model.Screenshot.SaveAs(mapped_dir);
 
             //Now we just save to the database...
             db.Downloads.Add(download);

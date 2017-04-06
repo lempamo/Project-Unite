@@ -24,7 +24,10 @@
             <iframe src="http://youtube.com/embed/@Model.DevUpdateId" frameborder="0" allowfullscreen autoplay="true" style="width:720px;height:480px;"></iframe>
 
         }
+        @if (!string.IsNullOrWhiteSpace(Model.ScreenshotUrl))
+        {
         <img src="@Model.ScreenshotUrl" style="width:auto;height:auto;max-width:100%" />
+        }
 
         @Html.Markdown(Model.Changelog)
     </div>
