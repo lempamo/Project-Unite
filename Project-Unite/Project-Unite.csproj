@@ -545,6 +545,7 @@
     <Content Include="Views\Home\Discord.cshtml" />
     <Content Include="Views\Developer\Wiki.cshtml" />
     <Content Include="Views\Developer\AddWikiCategory.cshtml" />
+    <Content Include="Views\Wiki\AddPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

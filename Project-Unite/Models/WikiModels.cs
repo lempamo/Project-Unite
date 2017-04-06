@@ -7,6 +7,17 @@ using System.Web.Mvc;
 
 namespace Project_Unite.Models
 {
+    public class AddWikiPageViewModel : AddWikiCategoryViewModel
+    {
+        public AddWikiPageViewModel() : base()
+        {
+            Parents.Remove(Parents.FirstOrDefault(x => x.Value == "none"));
+        }
+        [AllowHtml]
+        [Required(ErrorMessage = "Please enter content for your page.")]
+        public string Content { get; set; }
+    }
+
     public class AddWikiCategoryViewModel
     {
         public AddWikiCategoryViewModel()
@@ -32,9 +43,9 @@ namespace Project_Unite.Models
         public List<SelectListItem> Parents { get; set; }
 
 
-        [Required(AllowEmptyStrings = false, ErrorMessage ="Please name your category.")]
-        [MinLength(5, ErrorMessage ="Your category's name must be at least 5 characters long.")]
-        [MaxLength(25, ErrorMessage ="Your category's name must be at most 25 characters long.")]
+        [Required(AllowEmptyStrings = false, ErrorMessage ="Please name your category/page.")]
+        [MinLength(5, ErrorMessage ="Your category/page's name must be at least 5 characters long.")]
+        [MaxLength(25, ErrorMessage ="Your category/page's name must be at most 25 characters long.")]
         public string Name { get; set; }
 
 

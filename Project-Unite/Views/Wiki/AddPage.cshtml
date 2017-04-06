@@ -1,0 +1,37 @@
+﻿@model Project_Unite.Models.AddWikiPageViewModel
+@{
+    ViewBag.Title = "Add new page";
+}
+
+<h2>Add new page</h2>
+
+<p>Want to contribute to the wiki and add a new page? Awesome. We'll get the page up - just fill in this form.</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="panel panel-danger">
+        <div class="panel-body">
+            @Html.ValidationSummary()
+        </div>
+    </div>
+
+    <table class="table">
+        <tr>
+            <td style="width:35%">Page title:</td>
+            <td>@Html.TextBoxFor(Model => Model.Name, new{@class="form-control"})</td>
+        </tr>
+        <tr>
+            <td style="width:35%">Category:</td>
+            <td>@Html.DropDownListFor(Model => Model.ParentId, Model.Parents, new { @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td>Page contents:</td>
+            <td>@Html.TextAreaFor(Model => Model.Content, new { @rows = "10", @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Post" class="form-control" /></td>
+        </tr>
+    </table>
+}
