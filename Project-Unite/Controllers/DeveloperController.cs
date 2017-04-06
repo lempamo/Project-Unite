@@ -54,9 +54,9 @@ namespace Project_Unite.Controllers
             //Set the ID.
             string new_id = model.Name.ToLower();
 
-            foreach(var c in new_id.ToCharArray() || c == '.')
+            foreach(var c in new_id.ToCharArray())
             {
-                if (!ApprovedIdChars.Contains(c))
+                if (!ApprovedIdChars.Contains(c) || c == '.')
                     new_id = new_id.Replace(c, '_');
             }
             new_id += "_" + db.Downloads.Count().ToString();
