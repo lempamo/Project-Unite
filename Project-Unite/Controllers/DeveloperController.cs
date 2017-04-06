@@ -21,6 +21,44 @@ namespace Project_Unite.Controllers
             return View();
         }
 
+        public ActionResult ToggleObsolete(string id)
+        {
+            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
+                return new HttpStatusCodeResult(403);
+
+            var db = new ApplicationDbContext();
+            var release = db.Downloads.FirstOrDefault(x => x.Id == id);
+            release.Obsolete = !release.Obsolete;
+            db.SaveChanges();
+            return RedirectToAction("Releases");
+        }
+
+        public ActionResult MakeUnstable(string id)
+        {
+            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
+                return new HttpStatusCodeResult(403);
+
+            var db = new ApplicationDbContext();
+            var release = db.Downloads.FirstOrDefault(x => x.Id == id);
+            release.IsStable = false;
+            db.SaveChanges();
+            return RedirectToAction("Releases");
+        }
+
+
+        public ActionResult MakeStable(string id)
+        {
+            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
+                return new HttpStatusCodeResult(403);
+
+            var db = new ApplicationDbContext();
+            var release = db.Downloads.FirstOrDefault(x => x.Id == id);
+            release.IsStable = true;
+            db.SaveChanges();
+            return RedirectToAction("Releases");
+        }
+
+
         public ActionResult Releases()
         {
             if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
