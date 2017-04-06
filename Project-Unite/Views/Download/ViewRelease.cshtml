@@ -1,0 +1,47 @@
+﻿@model Project_Unite.Models.Download
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<h2>@Model.Name</h2>
+
+<p>Released by @Html.UserLink(Model.ReleasedBy) at @Model.PostDate - 
+    
+    @if (Model.IsStable)
+    {
+        <span class="glyphicon glyphicon-star"></span> <strong>This build is stable!</strong>
+    }
+    else
+    {
+        <span class="glyphicon glyphicon-star-empty"></span> <strong>This build is unstable.</strong>
+    }
+    </p>
+
+<div class="row">
+    <div class="col-xs-8">
+        @if (!string.IsNullOrWhiteSpace(Model.DevUpdateId))
+        {
+            <iframe src="http://youtube.com/embed/@Model.DevUpdateId" frameborder="0" allowfullscreen autoplay="true" style="width:100%"></iframe>
+
+        }
+        <img src="@Model.ScreenshotUrl" style="width:auto;height:auto;max-width:100%" />
+
+        @Html.Markdown(Model.Changelog)
+    </div>
+    <div class="col-xs-4">
+        <h3>Download</h3>
+        
+        <a href="@Model.DownloadUrl" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span> Download .ZIP</a>
+
+        <p>At ShiftOS, we strive to make your experience in the multi-user domain as reliable as possible.</p>
+        <p>If you have any issues with this build, please let us know. Also, to find out a bit more about the build, if you haven't already, check out the details to the left!</p>
+
+        @if (Model.Obsolete)
+        {
+        <h4>This build is obsolete!</h4>
+
+        <p>We no longer support this build, and thus, any issues with this build that arise as we develop the game further will not be fixed. Consider picking up a more up-to-date build?</p>
+        }
+    </div>
+</div>
+

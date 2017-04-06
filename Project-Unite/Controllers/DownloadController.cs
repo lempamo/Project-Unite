@@ -15,5 +15,14 @@ namespace Project_Unite.Controllers
             var db = new ApplicationDbContext();
             return View(db.Downloads);
         }
+
+        public ActionResult ViewRelease(string id)
+        {
+            var db = new ApplicationDbContext();
+            var release = db.Downloads.Where(x => x.Id == id);
+            if (release == null)
+                return new HttpStatusCodeResult(404);
+            return View(release);
+        }
     }
 }

@@ -541,6 +541,7 @@
     <Content Include="Views\Developer\Index.cshtml" />
     <Content Include="Views\Developer\Releases.cshtml" />
     <Content Include="Views\Developer\AddRelease.cshtml" />
+    <Content Include="Views\Download\ViewRelease.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
