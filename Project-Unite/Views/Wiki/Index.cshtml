@@ -26,6 +26,15 @@
     </li>
 }
 
+@if (!string.IsNullOrWhiteSpace(ViewBag.Error))
+{
+    <div class="panel panel-danger">
+        <div class="panel-body">
+            <p><span class="glyphicon glyphicon-exclamation-sign"></span> @ViewBag.Error</p>
+        </div>
+    </div>
+}
+
 @if (Request.IsAuthenticated)
 {
     <ul class="nav nav-tabs">
@@ -73,6 +82,16 @@
                     <p><strong>Last edited by @Html.UserLink(edit.UserId) on @edit.EditedAt</strong></p>
 
                 <p>@Html.Markdown(Model.Page.Contents)</p>
+
+                if (Request.IsAuthenticated)
+                {
+                    <ul class="nav nav-pills">
+                        <li>Was this page helpful?</li>
+                        <li><a href="@Url.Action("LikePage", new { id = Model.Page.Id })"><span class="glyphicon glyphicon-check"></span> @Model.Page.Likes.Length</a></li>
+                        <li><a href="@Url.Action("DislikePage", new { id = Model.Page.Id })"><span class="close"></span> @Model.Page.Dislikes.Length</a></li>
+
+                    </ul>
+                }
             }
             else
             {

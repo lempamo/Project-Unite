@@ -10,13 +10,15 @@ namespace Project_Unite.Controllers
 {
     public class WikiController : Controller
     {
-        public ActionResult Index(string id = "")
+        public ActionResult Index(string id = "", bool triedtolikeowntopic=false)
         {
             var db = new ApplicationDbContext();
             var model = new WikiViewModel();
             var wikicategories = db.WikiCategories.Where(x => x.Parent == "none");
             model.Categories = wikicategories;
             model.Page = db.WikiPages.FirstOrDefault(x => x.Id == id);
+            if (triedtolikeowntopic)
+                ViewBag.Error = "You cannot like or dislike your own wiki page.";
             return View(model);
         }
 
@@ -74,5 +76,78 @@ namespace Project_Unite.Controllers
 
             return RedirectToAction("Index", new { id = edit.Id });
         }
+
+        [Authorize]
+        public ActionResult DislikePage(string id)
+        {
+            var db = new ApplicationDbContext();
+            var topic = db.WikiPages.FirstOrDefault(x => x.Id == id);
+            var uid = User.Identity.GetUserId();
+            if (topic == null)
+                return new HttpStatusCodeResult(404);
+            if (topic.EditHistory.OrderBy(x => x.EditedAt).First().UserId == User.Identity.GetUserId())
+                return RedirectToAction("Index", new { id = id, triedtolikeowntopic = true });
+            var like = db.Likes.Where(x => x.Topic == topic.Id).FirstOrDefault(x => x.User == uid);
+            if (like != null)
+            {
+                if (like.IsDislike == false)
+                {
+                    like.IsDislike = true;
+                }
+                else
+                {
+                    db.Likes.Remove(like);
+                }
+            }
+            else
+            {
+                like = new Models.Like();
+                like.Id = Guid.NewGuid().ToString();
+                like.User = User.Identity.GetUserId();
+                like.Topic = topic.Id;
+                like.LikedAt = DateTime.Now;
+                like.IsDislike = true;
+                db.Likes.Add(like);
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index", new { id = id });
+        }
+
+        [Authorize]
+        public ActionResult LikePage(string id)
+        {
+            var db = new ApplicationDbContext();
+            var topic = db.WikiPages.FirstOrDefault(x => x.Id == id);
+            var uid = User.Identity.GetUserId();
+            if (topic == null)
+                return new HttpStatusCodeResult(404);
+            if (topic.EditHistory.OrderBy(x=>x.EditedAt).First().UserId == User.Identity.GetUserId())
+                return RedirectToAction("Index", new { id = id, triedtolikeowntopic = true });
+            var like = db.Likes.Where(x => x.Topic == topic.Id).FirstOrDefault(x => x.User == uid);
+            if (like != null)
+            {
+                if (like.IsDislike == true)
+                {
+                    like.IsDislike = false;
+                }
+                else
+                {
+                    db.Likes.Remove(like);
+                }
+            }
+            else
+            {
+                like = new Models.Like();
+                like.Id = Guid.NewGuid().ToString();
+                like.User = User.Identity.GetUserId();
+                like.Topic = topic.Id;
+                like.LikedAt = DateTime.Now;
+                like.IsDislike = false;
+                db.Likes.Add(like);
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index", new { id = id });
+        }
+
     }
 }

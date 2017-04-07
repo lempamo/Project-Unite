@@ -108,6 +108,25 @@ namespace Project_Unite.Models
 
                 return list.ToArray();
             }
+
+
+            
+        }
+
+        public Like[] Likes
+        {
+            get
+            {
+                return new ApplicationDbContext().Likes.Where(x => x.Topic == this.Id && x.IsDislike == false).ToArray();
+            }
+        }
+
+        public Like[] Dislikes
+        {
+            get
+            {
+                return new ApplicationDbContext().Likes.Where(x => x.Topic == this.Id && x.IsDislike == true).ToArray();
+            }
         }
 
         public string Contents { get; set; }
