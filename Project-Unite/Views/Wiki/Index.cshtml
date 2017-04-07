@@ -87,8 +87,8 @@
                 {
                     <ul class="nav nav-pills">
                         <li>Was this page helpful?</li>
-                        <li><a href="@Url.Action("LikePage", new { id = Model.Page.Id })"><span class="glyphicon glyphicon-check"></span> @Model.Page.Likes.Length</a></li>
-                        <li><a href="@Url.Action("DislikePage", new { id = Model.Page.Id })"><span class="close"></span> @Model.Page.Dislikes.Length</a></li>
+                        <li><a href="@Url.Action("LikePage", new { id = Model.Page.Id })"><span class="glyphicon glyphicon-thumbs-up"></span> @Model.Page.Likes.Length</a></li>
+                        <li><a href="@Url.Action("DislikePage", new { id = Model.Page.Id })"><span class="glyphicon glyphicon-thumbs-down"></span> @Model.Page.Dislikes.Length</a></li>
 
                     </ul>
                 }
