@@ -16,6 +16,7 @@ namespace Project_Unite.Models
         [AllowHtml]
         [Required(ErrorMessage = "Please enter content for your page.")]
         public string Content { get; set; }
+        public string PageId { get; set; }
     }
 
     public class AddWikiCategoryViewModel

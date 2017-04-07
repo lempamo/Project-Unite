@@ -546,6 +546,7 @@
     <Content Include="Views\Developer\Wiki.cshtml" />
     <Content Include="Views\Developer\AddWikiCategory.cshtml" />
     <Content Include="Views\Wiki\AddPage.cshtml" />
+    <Content Include="Views\Wiki\EditPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

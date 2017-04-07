@@ -1,0 +1,29 @@
+﻿@model Project_Unite.Models.AddWikiPageViewModel
+@{
+    ViewBag.Title = "Edit page";
+}
+
+<h2>Edit @Model.Name</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(Model=>Model.PageId)
+    @Html.HiddenFor(Model=>Model.Name)
+
+    <table class="table">
+        <tr>
+            <td style="width:35%">Category:</td>
+            <td>@Html.DropDownListFor(Model=>Model.ParentId, Model.Parents, new{@class="form-control"})</td>
+        </tr>
+        <tr>
+            <td>Contents:</td>
+            <td>@Html.TextAreaFor(Model=>Model.Content, new{@class="form-control", rows="10"})</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" class="btn btn-primary" value="Edit" /></td>
+        </tr>
+    </table>
+}
+

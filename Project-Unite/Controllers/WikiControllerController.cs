@@ -22,6 +22,50 @@ namespace Project_Unite.Controllers
             return View(model);
         }
 
+        [Authorize]
+        public ActionResult EditPage(string id)
+        {
+            var db = new ApplicationDbContext();
+            var model = new AddWikiPageViewModel();
+            var wiki = db.WikiPages.FirstOrDefault(x => x.Id == id);
+            if (wiki == null)
+                return new HttpStatusCodeResult(404);
+            model.Content = wiki.Contents;
+            model.Name = wiki.Name;
+            model.ParentId = wiki.CategoryId;
+            model.PageId = id;
+            return View(model);
+        }
+
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult EditPage(AddWikiPageViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            var db = new ApplicationDbContext();
+
+            var wiki = db.WikiPages.FirstOrDefault(x => x.Id == model.PageId);
+            if (wiki == null)
+                return new HttpStatusCodeResult(404);
+            var edit = new ForumPostEdit();
+            edit.PreviousState = wiki.Contents;
+            edit.EditedAt = DateTime.Now;
+            edit.UserId = User.Identity.GetUserId();
+            edit.Id = Guid.NewGuid().ToString();
+            edit.Parent = wiki.Id;
+
+            db.ForumPostEdits.Add(edit);
+
+            wiki.Contents = model.Content;
+            wiki.CategoryId = model.ParentId;
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index", new { id = model.PageId });
+        }
+
         public ActionResult Random()
         {
             var db = new ApplicationDbContext();

@@ -81,6 +81,13 @@
 
                     <p><strong>Last edited by @Html.UserLink(edit.UserId) on @edit.EditedAt</strong></p>
 
+                if (Request.IsAuthenticated)
+                {
+                    <ul>
+                        <li><a href="@Url.Action("EditPage", new { id = Model.Page.Id })"><span class="glyphicon glyphicon-pencil"></span> Edit this page</a></li>
+                    </ul>
+                }
+
                 <p>@Html.Markdown(Model.Page.Contents)</p>
 
                 if (Request.IsAuthenticated)
