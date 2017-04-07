@@ -1,4 +1,15 @@
 ﻿@using Microsoft.AspNet.Identity
+
+<ul class="nav navbar-nav navbar-right">
+    @using(Html.BeginForm("Search", "Home", FormMethod.Post))
+    {
+        <li><input type="text" name="query" class="form-control navbar-search" /></li>
+        <li><input type="submit" value="Search" class="btn btn-default" /></li>
+
+    }
+</ul>
+
+
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
