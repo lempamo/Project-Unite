@@ -40,16 +40,17 @@ namespace Project_Unite.Controllers
         {
             var result = new SearchResult();
             query = query.ToLower();
-            using(var db = new ApplicationDbContext())
-            {
-                result.Downloads = db.Downloads.Where(x => x.Name.ToLower().Contains(query) || x.Changelog.ToLower().Contains(query));
-                result.ForumTopics = db.ForumTopics.Where(x => x.Subject.ToLower().Contains(query));
-                result.Skins = db.Skins.Where(x => x.Name.ToLower().Contains(query) || x.ShortDescription.ToLower().Contains(query) || x.FullDescription.ToLower().Contains(query));
-                result.Users = db.Users.Where(x => x.DisplayName.ToLower().Contains(query)||x.Bio.ToLower().Contains(query)||x.Interests.ToLower().Contains(query)||x.Hobbies.ToLower().Contains(query));
-                result.WikiPages = db.WikiPages.Where(x => x.Name.ToLower().Contains(query) || x.Contents.ToLower().Contains(query));
-                //Holy crap that search was... long.
-                return View(result);
-            }
+            var db = new ApplicationDbContext();
+
+
+            result.Downloads = db.Downloads.Where(x => x.Name.ToLower().Contains(query) || x.Changelog.ToLower().Contains(query));
+            result.ForumTopics = db.ForumTopics.Where(x => x.Subject.ToLower().Contains(query));
+            result.Skins = db.Skins.Where(x => x.Name.ToLower().Contains(query) || x.ShortDescription.ToLower().Contains(query) || x.FullDescription.ToLower().Contains(query));
+            result.Users = db.Users.Where(x => x.DisplayName.ToLower().Contains(query) || x.Bio.ToLower().Contains(query) || x.Interests.ToLower().Contains(query) || x.Hobbies.ToLower().Contains(query));
+            result.WikiPages = db.WikiPages.Where(x => x.Name.ToLower().Contains(query) || x.Contents.ToLower().Contains(query));
+            //Holy crap that search was... long.
+            return View(result);
+
 
         }
     }
