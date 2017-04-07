@@ -99,7 +99,14 @@ namespace Project_Unite.Models
             {
                 var db = new ApplicationDbContext();
 
-                return db.WikiPages.Where(w => w.Id != this.Id && w.Name.ToLower().Contains(this.Name.ToLower())).ToArray();
+                var ambiguous1 = db.WikiPages.Where(w => w.Id != this.Id && w.Name.ToLower().Contains(this.Name.ToLower())).ToArray();
+                var ambiguous2 = db.WikiPages.Where(w => w.Id != this.Id && this.Name.ToLower().Contains(w.Name.ToLower())).ToArray();
+
+                var list = new List<WikiPage>();
+                list.AddRange(ambiguous1);
+                list.AddRange(ambiguous2);
+
+                return list.ToArray();
             }
         }
 

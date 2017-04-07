@@ -56,6 +56,18 @@
             {
                 <h1>@Model.Page.Name</h1>
 
+                if(Model.Page.AmbiguousReferences.Length > 0)
+                {
+                    <p>Ambiguity detected. Here's a list of pages that may relate to this page.</p>
+
+                    <ul>
+                        @foreach(var page in Model.Page.AmbiguousReferences)
+                        {
+                            <li>@Html.ActionLink(page.Name, "Index", new { id = page.Id })</li>
+                        }
+                    </ul>
+                }
+
                 var edit = Model.Page.EditHistory.First();
 
                     <p><strong>Last edited by @Html.UserLink(edit.UserId) on @edit.EditedAt</strong></p>
