@@ -46,6 +46,35 @@
         </table>
     </div>
 
+    <div class="tab-pane fade in active" id="t_users">
+        <h4>Users</h4>
+        <table class="table">
+            <tr>
+                <th style="width:65%">User</th>
+                <th>Stats</th>
+            </tr>
+            @foreach (var user in Model.Users.OrderByDescending(x => x.JoinedAt))
+            {
+                <tr>
+                    <td>
+                        <p><img src="@user.AvatarUrl" width="128" height="128" /> @Html.UserLink(user.Id)</p>
+                    </td>
+                    <td>
+                        <ul>
+                            <li><strong>@user.Codepoints</strong> Codepoints</li>
+                            <li><strong>@user.Followers.Length</strong> followers, <strong>@user.Followed.Length</strong> followed.</li>
+                            <li><strong>@user.TopicCount</strong> topics</li>
+                            <li><strong>@user.Posts.Length</strong> posts</li>
+                            <li><strong>Joined at</strong> @user.JoinedAt</li>
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+
+
     <div class="tab-pane fade in active" id="t_downloads">
         <h4>Downloads</h4>
         <table class="table">
