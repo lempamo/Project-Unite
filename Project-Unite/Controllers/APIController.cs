@@ -3,13 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Newtonsoft.Json;
+using System.Web.Script.Serialization;
 using Project_Unite.Models;
 
 namespace Project_Unite.Controllers
 {
     public class APIController : Controller
     {
+        public JavaScriptSerializer Serializer
+        {
+            get; set;
+        }
+        //I'll put those curly braces on their own line just to piss a certain smiley off.
+
+        public APIController()
+        {
+            Serializer = new JavaScriptSerializer();
+        }
+
         // GET: API
         public ActionResult Index()
         {
@@ -26,13 +37,13 @@ namespace Project_Unite.Controllers
             if (!showObsolete)
                 releases = releases.Where(x => x.Obsolete == false).ToArray();
 
-            return Content(JsonConvert.SerializeObject(releases));
+            return Content(Serializer.Serialize(releases));
         }
 
         public ActionResult Skins()
         {
             var db = new ApplicationDbContext();
-            return Content(JsonConvert.SerializeObject(db.Skins.ToArray()));
+            return Content(Serializer.Serialize(db.Skins.ToArray()));
         }
     }
 }
