@@ -83,7 +83,7 @@
 
                 if (Request.IsAuthenticated)
                 {
-                    <ul>
+                    <ul class="nav nav-pills">
                         <li><a href="@Url.Action("EditPage", new { id = Model.Page.Id })"><span class="glyphicon glyphicon-pencil"></span> Edit this page</a></li>
                     </ul>
                 }

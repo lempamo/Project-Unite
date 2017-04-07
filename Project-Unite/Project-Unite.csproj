@@ -427,6 +427,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\SearchModels.cs" />
     <Compile Include="Models\Skin.cs" />
     <Compile Include="Models\WikiModels.cs" />
     <Compile Include="NotificationDaemon.cs" />
@@ -547,6 +548,7 @@
     <Content Include="Views\Developer\AddWikiCategory.cshtml" />
     <Content Include="Views\Wiki\AddPage.cshtml" />
     <Content Include="Views\Wiki\EditPage.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

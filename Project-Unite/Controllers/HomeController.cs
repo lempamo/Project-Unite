@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Project_Unite.Models;
 
 namespace Project_Unite.Controllers
 {
@@ -32,6 +33,25 @@ namespace Project_Unite.Controllers
         public ActionResult Discord()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Search(string query)
+        {
+            var result = new SearchResult();
+            query = query.ToLower();
+            using(var db = new ApplicationDbContext())
+            {
+                result.Downloads = db.Downloads.Where(x => x.Name.ToLower().Contains(query) || x.Changelog.ToLower().Contains(query));
+                result.ForumPosts = db.ForumPosts.Where(x => x.Body.ToLower().Contains(query));
+                result.ForumTopics = db.ForumTopics.Where(x => x.Subject.ToLower().Contains(query));
+                result.Skins = db.Skins.Where(x => x.Name.ToLower().Contains(query) || x.ShortDescription.ToLower().Contains(query) || x.FullDescription.ToLower().Contains(query));
+                result.Users = db.Users.Where(x => x.DisplayName.ToLower().Contains(query)||x.Bio.ToLower().Contains(query)||x.Interests.ToLower().Contains(query)||x.Hobbies.ToLower().Contains(query));
+                result.WikiPages = db.WikiPages.Where(x => x.Name.ToLower().Contains(query) || x.Contents.ToLower().Contains(query));
+            }
+
+            //Holy crap that search was... long.
+            return View(result);
         }
     }
 }

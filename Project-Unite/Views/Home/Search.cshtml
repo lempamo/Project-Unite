@@ -1,0 +1,75 @@
+﻿@model Project_Unite.Models.SearchResult
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search results</h2>
+
+<p>Here's what we found for that query.</p>
+
+
+<ul id="tabs" data-tabs="tabs" class="nav nav-tabs" role="tablist">
+    <li class="active"><a data-toggle="tab" href="#t_topics"><span class="glyphicon glyphicon-list"></span> Forum Topics (@Model.ForumTopics.Count())</a></li>
+    <li><a data-toggle="tab" href="#t_downloads"><span class="glyphicon glyphicon-arrow-down"></span> Downloads (@Model.Downloads.Count())</a></li>
+    <li><a data-toggle="tab" href="#t_skins"><span class="glyphicon glyphicon-eye-open"></span> Skins (@Model.Skins.Count())</a></li>
+    <li><a data-toggle="tab" href="#t_users"><span class="glyphicon glyphicon-user"></span> Users (@Model.Users.Count())</a></li>
+    <li><a data-toggle="tab" href="#t_wiki"><span class="glyphicon glyphicon-book"></span> Wiki Pages (@Model.WikiPages.Count())</a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="t_topics">
+        <h4>Forum Topics</h4>
+        <table class="table">
+            <tr>
+                <th style="width:45%">Topic</th>
+                <th style="width:20%">Popularity</th>
+                <th>Most Recent Post</th>
+            </tr>
+            @foreach (var topic in Model.ForumTopics.OrderByDescending(x=>x.StartedAt))
+            {
+                <tr>
+                    <td>
+                        @Html.TopicLinkFor(topic.Id) <br/>
+                        <p>by @Html.UserLink(topic.AuthorId) at @topic.StartedAt</p>
+                    </td>
+                    <td>
+                        <span class="glyphicon glyphicon-thumbs-up"></span> @topic.Likes.Length <span class="glyphicon glyphicon-thumbs-down"></span> @topic.Dislikes.Length
+                    </td>
+                    <td>
+                        @{ 
+                            var mostrecent = topic.Posts.OrderByDescending(x => x.PostedAt).First();
+                        }
+                        <p>By @Html.UserLink(mostrecent.AuthorId) at @mostrecent.PostedAt</p>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <div class="tab-pane fade in active" id="t_downloads">
+        <h4>Downloads</h4>
+        <table class="table">
+            <tr>
+                <th style="width:65%">Download</th>
+                <th>Actions</th>
+            </tr>
+            @foreach (var download in Model.Downloads.OrderByDescending(x => x.PostDate))
+            {
+                <tr>
+                    <td>
+                            <p>@download.Name <br/> ...released by @Html.UserLink(download.ReleasedBy), released at @download.PostDate</p>
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(download.DevUpdateId))
+                        {
+                            <a href="http://youtube.com/watch?v=@download.DevUpdateId" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Watch dev update</a>
+                            <a href="@Url.Action("ViewRelease", "Download", new {id=download.Id})" class="btn btn-default"><span class="glyphicon glyphicon-eye-open"></span> View details</a>
+                            <a href="@download.DownloadUrl" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span> Download</a>
+                        }
+                    </td>
+                </tr>
+                            }
+        </table>
+    </div>
+
+</div>
