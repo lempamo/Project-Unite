@@ -9,6 +9,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken() @*SHIT BUGS!*@
     <div class="panel-danger panel">
         <div class="panel-body">
             @Html.ValidationSummary()
