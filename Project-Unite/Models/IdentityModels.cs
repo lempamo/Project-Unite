@@ -219,6 +219,7 @@ namespace Project_Unite.Models
             return new ApplicationDbContext();
         }
 
+        public DbSet<BlogPost> BlogPosts { get; set; }
         public DbSet<ReadPost> ReadPosts { get; set; }
         public DbSet<Download> Downloads { get; set; }
         public DbSet<DatabaseBackup> Backups { get; set; }

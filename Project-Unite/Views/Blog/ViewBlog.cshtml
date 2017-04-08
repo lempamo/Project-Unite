@@ -1,0 +1,71 @@
+﻿@model Project_Unite.Models.BlogPost
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<h2>Developer Blog</h2>
+
+<h3>@Model.Name</h3>
+
+@if (!string.IsNullOrWhiteSpace(ViewBag.Error))
+{
+    <div class="panel panel-danger">
+        <div class="panel-body">
+            <p><span class="glyphicon glyphicon-exclamation-sign"></span> @ViewBag.Error</p>
+        </div>
+    </div>
+}
+
+<p>Posted by @Html.UserLink(Model.AuthorId) at @Model.PostedAt</p>
+
+<div class="panel">
+    <div class="panel-body">
+        @Html.Markdown(Model.Contents)
+    </div>
+</div>
+
+<ul class="nav nav-pills">
+    @{ 
+        string like_uri = "#";
+        string dislike_uri = "#";
+
+        if (Request.IsAuthenticated)
+        {
+            like_uri = Url.Action("LikePost", new { id = Model.Id });
+            dislike_uri = Url.Action("DislikePost", new { id = Model.Id });
+        }
+
+        <li><a href="@like_uri"><span class="glyphicon glyphicon-thumbs-up"></span> @Model.Likes.Length</a></li>
+        <li><a href="@dislike_uri"><span class="glyphicon glyphicon-thumbs-down"></span> @Model.Dislikes.Length</a></li>
+    }
+</ul>
+
+<hr/>
+
+<h4>Comments</h4>
+
+@if (Request.IsAuthenticated)
+{
+    <div class="panel">
+        <div class="panel-body">
+            @using (Html.BeginForm())
+            {
+                <input type="hidden" name="id" value="@Model.Id" />
+                @Html.AntiForgeryToken()
+
+                <textarea class="form-control" rows="5" name="comment" value=""></textarea>
+                <input type="submit" class="btn btn-primary" value="Comment" />
+            }
+        </div>
+    </div>
+}
+
+@foreach(var comment in Model.Comments.OrderBy(x=>x.PostedAt))
+{
+    <div class="panel">
+        <div class="panel-body">
+            <p><strong>@Html.UserLink(comment.AuthorId)</strong> said on @comment.PostedAt:</p>
+            <p>@Html.Markdown(comment.Body)</p>
+        </div>
+    </div>
+}

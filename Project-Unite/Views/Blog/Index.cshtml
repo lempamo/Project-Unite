@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Project_Unite.Models.BlogPost>
+@{
+    ViewBag.Title = "Blog";
+}
+
+<h2>Developer Blog</h2>
+
+<p>We ShiftOS devs have a lot going on. If you want to find out a bit more about what we do behind the scenes, this is the place for you. We'll post lots of things for you to read here.</p>
+
+@if(ACL.Granted(User.Identity.Name, "CanBlog"))
+{
+    <ul class="nav nav-pills">
+        <li><a href="@Url.Action("PostBlog")"><span class="glyphicon glyphicon-file"></span> Post</a></li>
+    </ul>
+}
+
+@foreach(var blog in Model)
+{
+    <div class="panel">
+        <div class="panel-body">
+            <h4>@blog.Name</h4>
+            <p>Posted by @Html.UserLink(blog.AuthorId) at @blog.PostedAt - @blog.Likes.Length likes, @blog.Dislikes.Length dislikes</p>
+            <p>@Html.Markdown(blog.Summary)</p>
+            @Html.ActionLink("Read more", "ViewBlog", "Blog", new { id = blog.Id }, new { @class = "btn btn-default" })
+        </div>
+    </div>
+}

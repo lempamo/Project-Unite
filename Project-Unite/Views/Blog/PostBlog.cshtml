@@ -1,0 +1,32 @@
+﻿@model Project_Unite.Models.PostBlogViewModel
+@{
+    ViewBag.Title = "Post blog";
+}
+
+<h2>Post a blog</h2>
+
+<p>Just fill in the form and we'll get the post up onto the cloud.</p>
+
+@using (Html.BeginForm())
+{
+    <div class="panel-danger panel">
+        <div class="panel-body">
+            @Html.ValidationSummary()
+        </div>
+    </div>
+
+    <table class="table">
+        <tr>
+            <td style="width:25%">Name:</td>
+            <td>@Html.TextBoxFor(Model=>Model.Name, new{@class="form-control"})</td>
+        </tr>
+        <tr>
+            <td style="width:25%">Body:</td>
+            <td>@Html.TextAreaFor(Model => Model.Contents, new { @class = "form-control", rows="10" })</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Post!" class="btn btn-primary" /></td>
+        </tr>
+    </table>
+}

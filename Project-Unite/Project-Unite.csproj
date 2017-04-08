@@ -243,6 +243,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\APIController.cs" />
+    <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\DeveloperController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\ForumController.cs" />
@@ -424,6 +425,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddUserToRoleViewModel.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
+    <Compile Include="Models\BlogModels.cs" />
     <Compile Include="Models\Download.cs" />
     <Compile Include="Models\ForumCategory.cs" />
     <Compile Include="Models\ForumViewModels.cs" />
@@ -554,6 +556,9 @@
     <Content Include="Views\Wiki\AddPage.cshtml" />
     <Content Include="Views\Wiki\EditPage.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Blog\ViewBlog.cshtml" />
+    <Content Include="Views\Blog\Index.cshtml" />
+    <Content Include="Views\Blog\PostBlog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
