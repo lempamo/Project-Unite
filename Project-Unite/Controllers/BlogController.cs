@@ -160,6 +160,7 @@ namespace Project_Unite.Controllers
                 if (!allowed.Contains(c))
                     blog.Id = blog.Id.Replace(c, '_');
             }
+            blog.Id += "_" + db.BlogPosts.Count().ToString();
             blog.PostedAt = DateTime.Now;
             db.BlogPosts.Add(blog);
             db.SaveChanges();
