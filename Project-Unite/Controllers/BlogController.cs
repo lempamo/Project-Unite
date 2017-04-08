@@ -33,7 +33,7 @@ namespace Project_Unite.Controllers
             var uid = User.Identity.GetUserId();
             if (topic == null)
                 return new HttpStatusCodeResult(404);
-            if (topic.EditHistory.OrderBy(x => x.EditedAt).First().UserId == User.Identity.GetUserId())
+            if (topic.AuthorId == User.Identity.GetUserId())
                 return RedirectToAction("Index", new { id = id, triedtolikeowntopic = true });
             var like = db.Likes.Where(x => x.Topic == topic.Id).FirstOrDefault(x => x.User == uid);
             if (like != null)
@@ -69,7 +69,7 @@ namespace Project_Unite.Controllers
             var uid = User.Identity.GetUserId();
             if (topic == null)
                 return new HttpStatusCodeResult(404);
-            if (topic.EditHistory.OrderBy(x => x.EditedAt).First().UserId == User.Identity.GetUserId())
+            if (topic.AuthorId == User.Identity.GetUserId())
                 return RedirectToAction("Index", new { id = id, triedtolikeowntopic = true });
             var like = db.Likes.Where(x => x.Topic == topic.Id).FirstOrDefault(x => x.User == uid);
             if (like != null)
