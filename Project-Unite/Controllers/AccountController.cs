@@ -179,6 +179,16 @@ The addressed used to send this message is not a no-reply address. In fact, my n
         {
             if (ModelState.IsValid)
             {
+                using(var temp = new ApplicationDbContext())
+                {
+                    if(temp.Users.FirstOrDefault(x=>x.UserName==model.Username) != null)
+                    {
+                        ModelState.AddModelError("Your display name is already taken.");
+                        return View(model);
+                    }
+                }
+
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, DisplayName = model.Username, Codepoints = 0, JoinedAt = DateTime.Now, MutedAt = DateTime.Now, BannedAt = DateTime.Now, LastLogin = DateTime.Now };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

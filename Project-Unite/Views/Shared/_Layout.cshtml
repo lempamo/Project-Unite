@@ -11,6 +11,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    @if(ViewBag.PageDescription != null)
+    {
+        <meta name="description" content="@ViewBag.PageDescription" />
+    }
+
     <title>@ViewBag.Title &bull; Project: Unite</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/bootstrap-theme.css")
