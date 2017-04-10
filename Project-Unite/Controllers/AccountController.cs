@@ -152,7 +152,7 @@ The addressed used to send this message is not a no-reply address. In fact, my n
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(model.ReturnUrl);
+                    // NOPE
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.Failure:
@@ -191,7 +191,7 @@ The addressed used to send this message is not a no-reply address. In fact, my n
 
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, DisplayName = model.Username, Codepoints = 0, JoinedAt = DateTime.Now, MutedAt = DateTime.Now, BannedAt = DateTime.Now, LastLogin = DateTime.Now };
                 var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if (false)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
