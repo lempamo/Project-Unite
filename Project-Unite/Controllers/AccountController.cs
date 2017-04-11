@@ -181,7 +181,7 @@ The addressed used to send this message is not a no-reply address. In fact, my n
             {
                 using(var temp = new ApplicationDbContext())
                 {
-                    if(temp.Users.FirstOrDefault(x=>x.UserName==model.Username) != null)
+                    if(temp.Users.FirstOrDefault(x=>x.DisplayName==model.Username) != null)
                     {
                         ModelState.AddModelError("Your display name is already taken.");
                         return View(model);
