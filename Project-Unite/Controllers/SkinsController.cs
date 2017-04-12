@@ -20,7 +20,7 @@ namespace Project_Unite.Controllers
         public ActionResult ViewSkin(string id)
         {
             var db = new ApplicationDbContext();
-            var skn = db.Skins.FirstOrDefault(x => x.Name == id);
+            var skn = db.Skins.FirstOrDefault(x => x.Id == id);
             if (skn == null)
                 return new HttpStatusCodeResult(404);
             return View(skn);
@@ -44,7 +44,17 @@ namespace Project_Unite.Controllers
             }
             var db = new ApplicationDbContext();
             var skin = new Skin();
-            skin.Id = Guid.NewGuid().ToString();
+
+            string allowed = "abcdefghijklmnopqrstuvwxyz1234567890-_";
+
+            string id = model.Title.ToLower();
+            foreach(char c in id.ToCharArray())
+            {
+                if (!allowed.Contains(c))
+                    id = id.Replace(c, '_');
+            }
+
+            skin.Id = id;
             skin.Name = model.Title;
             skin.ShortDescription = model.ShortDescription;
             skin.PostedAt = DateTime.Now;

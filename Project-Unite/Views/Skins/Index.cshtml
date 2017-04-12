@@ -28,7 +28,7 @@
         <tr>
             <td><img src="@skin.ScreenshotUrl" style="max-width:320px;width:auto;height:auto;"/></td>
             <td>
-                @Html.ActionLink(skin.Name, "ViewSkin", "Skins", new { id = skin.Name }, null) <br/>
+                @Html.ActionLink(skin.Name, "ViewSkin", "Skins", new { id = skin.Id }, null) <br/>
                 <p>By @Html.UserLink(skin.UserId) on @skin.PostedAt</p>
             </td>
             <td>
