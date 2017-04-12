@@ -54,7 +54,7 @@ namespace Project_Unite.Controllers
                     id = id.Replace(c, '_');
             }
 
-            skin.Id = id;
+            skin.Id = id + "_" + db.Skins.Count().ToString();
             skin.Name = model.Title;
             skin.ShortDescription = model.ShortDescription;
             skin.PostedAt = DateTime.Now;
