@@ -71,11 +71,10 @@ A user has registered to the ShiftOS website using this email address as a sign-
 
 **If this was not you**:
 
-The addressed used to send this message is not a no-reply address. In fact, my name is Michael, admin of the site. We may have a bit of an identity theft issue, or something, going on here, but there's something I can do to help - all you have to do is reply to this email. I have the IP address, display name and ID of the user who triggered this email - just let me know and I can purge the account for you and ban the user's IP address and you won't have issues anymore. Thanks!
+The address used to send this message is not a no-reply address. In fact, my name is Michael, admin of the site. We may have a bit of an identity theft issue, or something, going on here, but there's something I can do to help - all you have to do is reply to this email. I have the IP address, display name and ID of the user who triggered this email - just let me know and I can purge the account for you and ban the user's IP address and you won't have issues anymore. Thanks!
 
 **User ID:** {uid}
-**Display name:** {usr.DisplayName}
-**Last known IP address:** {usr.LastKnownIPAddress}");
+**Display name:** {usr.DisplayName}");
 
             return View();
         }

@@ -41,7 +41,7 @@ namespace Project_Unite
                 sMsg.IsBodyHtml = true;
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 var db = new ApplicationDbContext();
-                db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, $"Email sending...<br/><br/><strong>To:</strong> {sMsg.To}<br/><strong>Subject:</strong><br/>{sMsg.Subject}"));
+                db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, $"Email sending...<br/><br/><strong>To:</strong> {sMsg.To}<br/><strong>Subject:</strong><br/>{sMsg.Subject}<br/><strong>Invoker IP:</strong>{HttpContext.Current.Request.UserHostAddress}"));
                 db.SaveChanges();
                 smtp.SendCompleted += async (o, a) =>
                 {
