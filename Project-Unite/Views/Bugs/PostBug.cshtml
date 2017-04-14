@@ -1,0 +1,66 @@
+﻿@model Project_Unite.Models.PostBugViewModel
+@{
+    ViewBag.Title = "Post a bug";
+}
+
+<h2>Post a bug</h2>
+
+<p>Found a crash? Something inconsistent? Inconvenient? Whatever it is, we wanna know so we can fix it.</p>
+
+<p>Just fill out this quick form.</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="panel panel-danger">
+        <div class="panel-default">
+            @Html.ValidationSummary()
+        </div>
+    </div>
+
+    <table class="table">
+        <tr>
+            <td style="width:25%;"><strong>Name:</strong></td>
+            <td>@Html.TextBoxFor(Model=>Model.Name, new { @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td><strong>Version:</strong><br/>
+            What version of ShiftOS did you experience this bug in?</td>
+            <td>@Html.DropDownListFor(Model=>Model.VersionId, Model.Versions, new{@class="form-control"})</td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Urgency:</strong><br />
+                How bad of a bug is this?
+            </td>
+            <td>@Html.DropDownListFor(Model => Model.Urgency, Model.Urgencies, new { @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Category:</strong><br />
+                What species of bug is this? (Hah, I'm tying biology into programming terms.)
+            </td>
+            <td>@Html.DropDownListFor(Model => Model.SpeciesId, Model.Species, new { @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td><strong>Details:</strong><br/>
+            Here you can supply as much detail as you want about the bug. Screenshots, links, explanations, crashes, logs, etc. The more info there is, the more we can help.<br/><br/>
+            <strong>Markdown formatting is supported.</strong></td>
+            <td>@Html.TextAreaFor(Model=>Model.Description, new { @class = "form-control", rows = "5" })</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Submit report" class="btn btn-primary"/></td>
+        </tr>
+    </table>
+
+    <h4>Note on Rolling Release Builds</h4>
+
+    <p>It's worth noting that rolling release builds follow the same bug support as the latest version of the standard-release ShiftOS. So, if you are running on the rolling release version, and the latest version is Beta 2, submit the bug for Beta 2.</p>
+
+    <h4>My version of the game is not showing!</h4>
+
+    <p>Note that obsolete versions of ShiftOS are not supported by us anymore, and thus, you may not submit a bug report for these versions.</p>
+
+    <p>Also, any forked versions of ShiftOS are not supported by us. It is up to the developers of the fork to maintain their releases, keep their codebase in sync with ours, and take care of bugs that we don't cover.</p>
+}

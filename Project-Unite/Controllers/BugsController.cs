@@ -56,5 +56,79 @@ namespace Project_Unite.Controllers
             model.Comment = "";
             return View(model);
         }
+
+        [Authorize]
+        public ActionResult OpenBug(string id)
+        {
+            var db = new ApplicationDbContext();
+            var bug = db.Bugs.FirstOrDefault(x => x.Id == id);
+            if (bug == null)
+                return new HttpStatusCodeResult(404);
+            bug.Open = true;
+            db.SaveChanges();
+            return RedirectToAction("ViewCategory", new { id = bug.Species });
+        }
+
+        [Authorize]
+        public ActionResult CloseBug(string id)
+        {
+            var db = new ApplicationDbContext();
+            var bug = db.Bugs.FirstOrDefault(x => x.Id == id);
+            if (bug == null)
+                return new HttpStatusCodeResult(404);
+            bug.Open = false;
+            bug.ClosedAt = DateTime.Now;
+            bug.ClosedBy = User.Identity.GetUserId();
+            db.SaveChanges();
+            return RedirectToAction("ViewCategory", new { id = bug.Species });
+        }
+
+        [Authorize]
+        public ActionResult PostBug()
+        {
+            var model = new PostBugViewModel();
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PostBug(PostBugViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            var db = new ApplicationDbContext();
+            var bug = new Bug();
+            bug.Name = model.Name;
+
+            string allowed = "abcdefghijklmnopqrstuvwxyz1234567890_-";
+
+            string id = bug.Name.ToLower() + "_" + db.Bugs.Count().ToString();
+
+            foreach(var c in id.ToCharArray())
+            {
+                if (!allowed.Contains(c))
+                    id = id.Replace(c, '_');
+            }
+
+            bug.Id = id;
+            bug.Open = true;
+            bug.Reporter = User.Identity.GetUserId();
+            bug.ReportedAt = DateTime.Now;
+            bug.Species = model.SpeciesId;
+            bug.Urgency = int.Parse(model.Urgency);
+            bug.ReleaseId = model.VersionId;
+            var comment = new ForumPost();
+            comment.AuthorId = User.Identity.GetUserId();
+            comment.Body = model.Description;
+            comment.Id = Guid.NewGuid().ToString();
+            comment.Parent = bug.Id;
+            comment.PostedAt = DateTime.Now;
+            db.ForumPosts.Add(comment);
+            db.Bugs.Add(bug);
+            db.SaveChanges();
+
+            return RedirectToAction("ViewBug", new { id = bug.Id });
+        }
     }
 }
