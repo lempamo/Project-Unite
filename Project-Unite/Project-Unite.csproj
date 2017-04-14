@@ -564,6 +564,7 @@
     <Content Include="Views\Bugs\Index.cshtml" />
     <Content Include="Views\Bugs\_BugBar.cshtml" />
     <Content Include="Views\Bugs\_Sidebar.cshtml" />
+    <Content Include="Views\Bugs\ViewCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

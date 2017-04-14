@@ -15,5 +15,14 @@ namespace Project_Unite.Controllers
             var db = new ApplicationDbContext();
             return View(db.BugTags);
         }
+
+        public ActionResult ViewCategory(string id)
+        {
+            var db = new ApplicationDbContext();
+            var cat = db.BugTags.FirstOrDefault(x => x.Id == id);
+            if (cat == null)
+                return new HttpStatusCodeResult(404);
+            return View(cat);
+        }
     }
 }

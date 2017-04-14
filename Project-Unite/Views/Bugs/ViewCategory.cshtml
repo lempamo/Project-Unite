@@ -1,0 +1,110 @@
+﻿@model Project_Unite.Models.BugTag
+@{
+    ViewBag.Title = "Bugtracker";
+    var tags = new Project_Unite.Models.ApplicationDbContext().BugTags;
+}
+
+<h2>Bugtracker</h2>
+
+@{
+    Html.RenderPartial("~/Views/Bugs/_BugBar.cshtml");
+}
+
+<div class="row">
+    <div class="col-xs-3">
+        @{
+            Html.RenderPartial("~/Views/Bugs/_Sidebar.cshtml", tags);
+        }
+    </div>
+
+    <div class="col-xs-9">
+        <h3>@Model.Name</h3>
+
+        <p>@Model.Description</p>
+
+        <p><strong>@Model.Open.Length</strong> open, <strong>@Model.Closed.Length</strong> closed.</p>
+
+        @*Open bugs.*@
+
+        <table class="table">
+            <tr>
+                <th style="width:65%;">Open</th>
+                <th>Actions</th>
+            </tr>
+            @foreach(var open in Model.Open.OrderByDescending(x => x.Urgency))
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(open.Name, "ViewBug", new { id = open.Id })<br/>
+                        <p>Opened by @Html.UserLink(open.Reporter) at @open.ReportedAt &bull; 
+                        
+                            @switch (open.Urgency)
+                            {
+                                case 0:
+                                    <strong>Minor</strong>
+                                    break;
+                                case 1:
+                                    <strong>Moderate</strong>
+                                    break;
+                                case 2:
+                                    <strong>Major</strong>
+                                    break;
+                                case 3:
+                                    <strong>Critical</strong>
+                                    break;
+                                default:
+                                    <strong>A bug occurred in the bug reporter and thus an urgency couldn't be decided.</strong>
+                                    break;
+                            }
+
+                        </p>
+                    </td>
+                    <td><a href="@Url.Action("CloseBug", new { id = open.Id })" class="btn btn-default"><span class="glyphicon glyphicon-check"></span> Close Bug</a></td>
+                </tr>
+            }
+        </table>
+        <hr/>
+        <table class="table">
+            <tr>
+                <th style="width:65%;">Closed</th>
+                <th>Actions</th>
+            </tr>
+            @foreach (var open in Model.Closed.OrderByDescending(x => x.Urgency))
+            {
+                <tr class="disabled">
+                    <td>
+                        @Html.ActionLink(open.Name, "ViewBug", new { id = open.Id })<br />
+                        <p>
+                            Opened by @Html.UserLink(open.Reporter) at @open.ReportedAt &bull;
+
+                            @switch (open.Urgency)
+                            {
+                                case 0:
+                                    <strong>Minor</strong>
+                                    break;
+                                case 1:
+                                    <strong>Moderate</strong>
+                                    break;
+                                case 2:
+                                    <strong>Major</strong>
+                                    break;
+                                case 3:
+                                    <strong>Critical</strong>
+                                    break;
+                                default:
+                                    <strong>A bug occurred in the bug reporter and thus an urgency couldn't be decided.</strong>
+                                    break;
+                            }
+                            &bull;
+
+                            Closed by @Html.UserLink(open.ClosedBy) at @open.ClosedAt
+                        </p>
+                    </td>
+                    <td><a href="@Url.Action("OpenBug", new { id = open.Id })" class="btn btn-default"><span class="glyphicon glyphicon-unchecked"></span> Reopen Bug</a></td>
+                </tr>
+            }
+        </table>
+
+
+    </div>
+</div>

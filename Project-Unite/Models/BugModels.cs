@@ -47,6 +47,14 @@ namespace Project_Unite.Models
                 return new ApplicationDbContext().Bugs.Where(x => x.Species == this.Id && x.Open == true).ToArray();
             }
         }
+
+        public Bug[] Closed
+        {
+            get
+            {
+                return new ApplicationDbContext().Bugs.Where(x => x.Species == this.Id && x.Open == false).ToArray();
+            }
+        }
     }
 
     public class PostBugViewModel
