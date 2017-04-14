@@ -219,6 +219,8 @@ namespace Project_Unite.Models
             return new ApplicationDbContext();
         }
 
+        public DbSet<Bug> Bugs { get; set; }
+        public DbSet<BugTag> BugTags { get; set; }
         public DbSet<BlogPost> BlogPosts { get; set; }
         public DbSet<ReadPost> ReadPosts { get; set; }
         public DbSet<Download> Downloads { get; set; }

@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Project_Unite.Models.BugTag>
+@{
+    ViewBag.Title = "Bugtracker";
+}
+
+<h2>Bugtracker</h2>
+
+@{ 
+    Html.RenderPartial("~/Views/Bugs/_BugBar.cshtml");
+}
+
+<div class="row">
+    <div class="col-xs-3">
+@{
+    Html.RenderPartial("~/Views/Bugs/_Sidebar.cshtml", Model);
+}
+    </div>
+
+    <div class="col-xs-9">
+        <h3>Welcome to the ShiftOS bug tracker.</h3>
+
+        <p>ShiftOS is a game about an evolving operating system, and an evolving world. However, ShiftOS itself is evolving with new features everyday.</p>
+
+        <p>We at ShiftOS strive to create a stable experience and most bugs are taken care of before they ever leave the development environment. However, sometimes we make mistakes. I mean, we're all human, right? Anyways, if you find a mistake we've made in ShiftOS, this is the best spot to place it.</p>
+        
+    </div>
+</div>

@@ -1,0 +1,10 @@
+﻿@model IEnumerable<Project_Unite.Models.BugTag>
+
+<h3>Categories</h3>
+
+<ul>
+    @foreach (var cat in Model)
+    {
+        <li><a href="@Url.Action("ViewCategory", new { id = cat.Id })">@cat.Name (@cat.Open.Count())</a></li>
+    }
+</ul>

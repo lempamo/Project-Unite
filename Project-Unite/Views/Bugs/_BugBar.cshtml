@@ -1,0 +1,6 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <ul class="nav nav-pills">
+        <li><a href="@Url.Action("PostBug")"><span class="glyphicon glyphicon-plus"></span> Post a bug</a></li>
+    </ul>
+}
