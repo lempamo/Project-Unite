@@ -30,6 +30,54 @@
         }
 
         @Html.Markdown(Model.Changelog)
+
+        <h4>Reported bugs</h4>
+
+        @if (Model.OpenBugs.Length == 0)
+        {
+            <p>There are no reported bugs to display.</p>
+        }
+        else
+        {
+            <table class="table">
+                <tr>
+                    <th style="width:55%">Bug</th>
+                    <th>Urgency</th>
+                    <th>Actions</th>
+                </tr>
+            
+                @foreach (var bug in Model.OpenBugs.OrderByDescending(x=>x.Urgency))
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(bug.Name, "ViewBug", "Bugs", null, new { id=bug.Id})<br/>
+                            Opened by @Html.UserLink(bug.Reporter) at @bug.ReportedAt
+                        </td>
+                        <th>
+                            @switch (bug.Urgency)
+                            {
+                                case 0:
+                                    <strong>Minor</strong>
+                                    break;
+                                case 1:
+                                    <strong>Moderate</strong>
+
+                                    break;
+                                case 2:
+                                    <strong>Major</strong>
+                                    break;
+                                case 3:
+                                    <strong>Critical</strong>
+                                    break;
+                            }
+                        </th>
+                        <th>
+                            <a href="@Url.Action("ViewBug", "Bugs", new {id=bug.Id})" class="btn btn-default"><span class="glyphicon glyphicon-eye-open"></span> View bug</a>
+                        </th>
+                    </tr>
+                }
+            </table>
+        }
     </div>
     <div class="col-xs-4">
         <h3>Download</h3>
@@ -40,7 +88,7 @@
         <p>If you have any issues with this build, please let us know. Also, to find out a bit more about the build, if you haven't already, check out the details to the left!</p>
 
         @if (Model.Obsolete)
-        {
+                            {
         <h4>This build is obsolete!</h4>
 
         <p>We no longer support this build, and thus, any issues with this build that arise as we develop the game further will not be fixed. Consider picking up a more up-to-date build?</p>

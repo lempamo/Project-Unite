@@ -127,7 +127,7 @@ namespace Project_Unite.Models
             {
                 var db = new ApplicationDbContext();
                 var items = new List<SelectListItem>();
-                foreach(var itm in db.Downloads.OrderByDescending(x => x.PostDate))
+                foreach(var itm in db.Downloads.Where(x=>x.Obsolete == false).OrderByDescending(x => x.PostDate))
                 {
                     items.Add(new SelectListItem
                     {

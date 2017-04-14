@@ -12,6 +12,15 @@ namespace Project_Unite.Models
         [Required]
         public string Id { get; set; }
 
+        public Bug[] OpenBugs
+        {
+            get
+            {
+                return new ApplicationDbContext().Bugs.Where(x => x.ReleaseId == this.Id && x.Open == true).ToArray();
+            }
+        }
+
+
         [Required]
         public string Name { get; set; }
 
