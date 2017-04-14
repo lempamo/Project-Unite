@@ -113,6 +113,7 @@ namespace Project_Unite.Controllers
 
             bug.Id = id;
             bug.Open = true;
+            bug.ClosedAt = DateTime.Now;
             bug.Reporter = User.Identity.GetUserId();
             bug.ReportedAt = DateTime.Now;
             bug.Species = model.SpeciesId;
