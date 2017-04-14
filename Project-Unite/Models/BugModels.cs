@@ -33,6 +33,16 @@ namespace Project_Unite.Models
         public string ClosedBy { get; set; }
     }
 
+    public class ViewBugViewModel
+    {
+        public Bug BugData { get; set; }
+
+        [AllowHtml]
+        [Required(AllowEmptyStrings =false, ErrorMessage ="Please enter a valid comment.")]
+        [MinLength(20, ErrorMessage = "Your comment must have at least 20 characters.")]
+        public string Comment { get; set; }
+    }
+
     public class BugTag
     {
         public string Id { get; set; }

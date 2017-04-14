@@ -1,0 +1,88 @@
+﻿@model Project_Unite.Models.ViewBugViewModel
+@{
+    ViewBag.Title = Model.BugData.Name + " - Bugs";
+    var tags = new Project_Unite.Models.ApplicationDbContext().BugTags;
+}
+
+
+
+<h2>Bugtracker</h2>
+
+@{
+    Html.RenderPartial("~/Views/Bugs/_BugBar.cshtml");
+}
+
+<div class="row">
+    <div class="col-xs-3">
+        @{
+            Html.RenderPartial("~/Views/Bugs/_Sidebar.cshtml", tags);
+        }
+    </div>
+
+    <div class="col-xs-9">
+        <h3>@Model.BugData.Name</h3>
+
+        <p>
+            Opened by <strong>@Html.UserLink(Model.BugData.Reporter)</strong> at <strong>@Model.BugData.ReportedAt</strong> &bull;
+            @if (Model.BugData.Open)
+            {
+                <strong>Open</strong>
+            }
+            else
+            {
+                <strong>Closed by @Html.UserLink(Model.BugData.ClosedBy) at @Model.BugData.ClosedAt </strong>
+            }
+            &bull;
+            @switch (Model.BugData.Urgency)
+                    {
+                        case 0:
+                        <strong>Minor</strong>
+                            break;
+                        case 1:
+                    <strong>Moderate</strong>
+                            break;
+                        case 2:
+                    <strong>Major</strong>
+                            break;
+                        case 3:
+                    <strong>Critical</strong>
+                            break;
+                        default:
+                    <strong>A bug occurred in the bugtracker. Urgency unknown.</strong>
+                    break;
+                    }
+            
+        </p>
+
+        @foreach(var post in Model.BugData.Comments.OrderBy(x=>x.PostedAt))
+        {
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p>@Html.UserLink(post.AuthorId) at @post.PostedAt</p>
+                    <hr/>
+                    <p>@Html.Markdown(post.Body)</p>
+                </div>
+            </div>
+        }
+        <hr/>
+        @using (Html.BeginForm())
+        {
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4>Post a comment</h4>
+
+                    @Html.AntiForgeryToken()
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            @Html.ValidationSummary()
+                        </div>
+                    </div>
+
+                    @Html.TextAreaFor(Model=>Model.Comment, new { @class="form-control", rows="5"})
+                    <p><input type="submit" class="btn btn-primary" value="Post" /> Markdown is supported.</p>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
