@@ -19,8 +19,7 @@
 <table class="table">
     <tr>
         <th style="max-width:128px;"></th>
-        <th style="width:65%;">Skin</th>
-        <th style="width:10%;">Popularity</th>
+        <th style="width:75%;">Skin</th>
         <th>Download</th>
     </tr>
     @foreach(var skin in Model)
@@ -30,14 +29,16 @@
             <td>
                 @Html.ActionLink(skin.Name, "ViewSkin", "Skins", new { id = skin.Id }, null) <br/>
                 <p>By @Html.UserLink(skin.UserId) on @skin.PostedAt</p>
-            </td>
-            <td>
-                @* First we'll do the likes... *@
+                <p>@* First we'll do the likes... *@
                 <span class="glyphicon glyphicon-thumbs-up"></span> @skin.Likes.Length
                 @* Now the dislikes. *@
                 <span class="glyphicon glyphicon-thumbs-down"></span> @skin.Dislikes.Length
                 @*Now the views.*@
                 <span class="glyphicon glyphicon-eye-open"></span> @skin.Views.Length
+                </p>
+
+                <p>@skin.ShortDescription</p>
+
             </td>
             <td>
                 <a href="@skin.DownloadUrl" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span> Download this skin</a>
