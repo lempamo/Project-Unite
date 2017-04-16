@@ -27,7 +27,6 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    @Scripts.Render("~/Scripts/highlight.js")
     <div class="navbar navbar-default">
         <div> <!--Let's just add some padding there so the page doesn't look fucked.-->
             <div class="navbar-header">
@@ -58,7 +57,7 @@
             </div>
         </div>
     </div>
-
+    @Scripts.Render("~/Scripts/highlight.js")
     @if (ViewBag.Modals != null)
     {
 
