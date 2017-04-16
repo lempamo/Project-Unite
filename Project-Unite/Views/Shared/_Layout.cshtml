@@ -25,11 +25,6 @@
 
     @Scripts.Render("~/Scripts/simplemde.js")
     @Scripts.Render("~/bundles/modernizr")
-    <script>
-        var mde = new SimpleMDE({
-            forceSync: true
-        });
-    </script>
 </head>
 <body>
     @Scripts.Render("~/Scripts/highlight.js")
@@ -241,5 +236,10 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        var mde = new SimpleMDE({forceSync: true});
+        mde.options.forceSync();
+    </script>
+
 </body>
 </html>
