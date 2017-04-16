@@ -237,7 +237,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     <script type="text/javascript">
-        var mde = new SimpleMDE({forceSync: true});
+        var mde = new SimpleMDE({forceSync: true, toolbar:false});
         mde.options.forceSync();
     </script>
 
