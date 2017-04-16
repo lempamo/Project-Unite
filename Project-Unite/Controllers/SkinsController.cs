@@ -79,7 +79,7 @@ namespace Project_Unite.Controllers
             }
             db.Skins.Add(skin);
             db.SaveChanges();
-            return RedirectToAction("ViewSkin", new { id = skin.Name });
+            return RedirectToAction("ViewSkin", new { id = skin.Id });
         }
     }
 }
