@@ -103,7 +103,7 @@ namespace Project_Unite
                     var user = db.Users.FirstOrDefault(x => x.DisplayName == uname);
                     if(user != null)
                     {
-                        mkdn = mkdn.Replace(word, $"[{word}(/Profiles/ViewProfile/{uname})");
+                        mkdn = mkdn.Replace(word, $"[{word}](/Profiles/ViewProfile/{uname})");
                     }
                 }
             }
