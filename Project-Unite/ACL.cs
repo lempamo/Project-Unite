@@ -62,6 +62,15 @@ namespace Project_Unite
             return hpr.Raw(builder.ToString());
         }
 
+        internal static object NotificationCountRaw(string uid)
+        {
+            var db = new ApplicationDbContext();
+            var usr = db.Users.FirstOrDefault(x => x.Id == uid || x.UserName == uid);
+            if (usr == null)
+                return 0;
+            return usr.UnreadNotifications;
+        }
+
         public static bool IsUnlisted(string topicId)
         {
             return new ApplicationDbContext().ForumTopics.FirstOrDefault(x => x.Id == topicId).IsUnlisted;

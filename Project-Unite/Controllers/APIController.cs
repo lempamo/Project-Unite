@@ -45,5 +45,11 @@ namespace Project_Unite.Controllers
             var db = new ApplicationDbContext();
             return Content(Serializer.Serialize(db.Skins.ToArray()));
         }
+
+        [Authorize]
+        public ActionResult GetNotificationCount()
+        {
+            return Content(ACL.NotificationCountRaw(User.Identity.Name).ToString());
+        }
     }
 }

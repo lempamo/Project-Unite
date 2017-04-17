@@ -22,7 +22,7 @@
     @Styles.Render("~/Content/bootstrap-theme.css")
     @Styles.Render("~/Content/Site.css")
     <link rel="stylesheet" href="https://cdn.rawgit.com/xcatliu/simplemde-theme-dark/master/dist/simplemde-theme-dark.min.css" />
-
+    @Scripts.Render("~/signalr/hubs")
     @Scripts.Render("~/Scripts/simplemde.js")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -238,6 +238,22 @@
     <script type="text/javascript">
         var mde = new SimpleMDE({forceSync: true});
         mde.options.forceSync();
+
+        var notificationHub = $.connection.notificationHub;
+
+        $.connection.hub.start(function () {
+            notificationHub.activate(function (response) {
+                $("#notifications_body")
+                 .find('ul')
+                 .append($("<li></li>").html(response));
+                $.ajax({
+                    url: "/API/GetNotificationCount",
+                    success: function (result) {
+                        $("#notification_count").html(result);
+                    }
+                });
+            });
+        });
     </script>
 
 </body>
