@@ -77,7 +77,7 @@
                             @Html.ValidationSummary()
                         </div>
                     </div>
-
+                    @Html.HiddenFor(Model=>Model.BugData.Id)
                     @Html.TextAreaFor(Model=>Model.Comment, new { @class="form-control", rows="5"})
                     <p><input type="submit" class="btn btn-primary" value="Post" /> Markdown is supported.</p>
                 </div>
