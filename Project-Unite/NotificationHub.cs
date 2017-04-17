@@ -8,9 +8,9 @@ namespace Project_Unite
 {
     public class NotificationHub : Hub
     {
-        public string Activate()
+        public string SendMessage(string message)
         {
-            return "Monitor Activated";
+            return message;
             
         }
     }
