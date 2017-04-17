@@ -47,7 +47,6 @@ namespace Project_Unite.Controllers
             return Content(Serializer.Serialize(db.Skins.ToArray()));
         }
 
-        [Authorize]
         public ActionResult TestNotification()
         {
             NotificationDaemon.NotifyEveryone(User.Identity.GetUserId(), "Test notification", "This is a test of the real-time notification system.", "#");
