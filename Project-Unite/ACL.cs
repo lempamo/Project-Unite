@@ -91,8 +91,28 @@ namespace Project_Unite
             return hpr.ActionLink(topic.Subject, "ViewTopic", "Forum", new { id = topic.Discriminator }, null);
         }
 
+        public static string ResolveUserLinksInMarkdown(string mkdn)
+        {
+            string[] words = mkdn.Split(' ');
+            foreach(var word in words)
+            {
+                if (word.StartsWith("@"))
+                {
+                    string uname = word.Remove(0, 1);
+                    var db = new ApplicationDbContext();
+                    var user = db.Users.FirstOrDefault(x => x.DisplayName == uname);
+                    if(user != null)
+                    {
+                        mkdn = mkdn.Replace(word, $"[{word}(/Profiles/ViewProfile/{uname})");
+                    }
+                }
+            }
+            return mkdn;
+        }
+
         public static IHtmlString Markdown(this HtmlHelper hpr, string md)
         {
+            md = ResolveUserLinksInMarkdown(md);
             return hpr.Raw(CommonMark.CommonMarkConverter.Convert(hpr.Encode(md)));
         }
 
