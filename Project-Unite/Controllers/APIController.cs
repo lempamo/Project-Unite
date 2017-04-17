@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using Microsoft.AspNet.Identity;
 using Project_Unite.Models;
 
 namespace Project_Unite.Controllers
@@ -44,6 +45,13 @@ namespace Project_Unite.Controllers
         {
             var db = new ApplicationDbContext();
             return Content(Serializer.Serialize(db.Skins.ToArray()));
+        }
+
+        [Authorize]
+        public ActionResult TestNotification()
+        {
+            NotificationDaemon.NotifyEveryone(User.Identity.GetUserId(), "Test notification", "This is a test of the real-time notification system.", "#");
+            return Content("Sent.");
         }
 
         [Authorize]
