@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
@@ -14,6 +16,10 @@ namespace Project_Unite
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            var idProvider = new UniteUserIdProvider();
+
+            GlobalHost.DependencyResolver.Register(typeof(IUserIdProvider), () => idProvider);
+
             app.MapSignalR();
 
 
@@ -68,6 +74,15 @@ namespace Project_Unite
             });
 
             
+        }
+    }
+
+    public class UniteUserIdProvider : IUserIdProvider
+    {
+        public string GetUserId(IRequest request)
+        {
+            var db = new ApplicationDbContext();
+            return db.Users.FirstOrDefault(x => x.UserName == request.User.Identity.Name).Id;
         }
     }
 }
