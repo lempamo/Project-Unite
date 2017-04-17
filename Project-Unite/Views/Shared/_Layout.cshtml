@@ -244,7 +244,7 @@
     <script type="text/javascript">
         var notificationHubProxy = $.connection.notificationHub;
         notificationHubProxy.client.sendMessage = function (message) {
-            $("#notifications_body").find("ul").append("<li></li>").html(message);
+            $("#notification_body").find("ul").append("<li></li>").html(message);
             $.ajax({
                 url : "/API/GetNotificationCount",
                 success : function(result){
