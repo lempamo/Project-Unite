@@ -240,6 +240,8 @@
     <script type="text/javascript">
         var mde = new SimpleMDE({forceSync: true});
         mde.options.forceSync();
+        </script>
+    <script type="text/javascript">
         var notificationHubProxy = $.connection.notificationHub;
         notificationHubProxy.client.sendMessage = function (message) {
             $("#notifications_body").find("ul").append("<li></li>").html(message);
