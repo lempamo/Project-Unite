@@ -29,13 +29,19 @@
 <body>
     <div class="navbar navbar-default">
         <div> <!--Let's just add some padding there so the page doesn't look fucked.-->
-            <div class="navbar-header">
+            <div class="navbar-header hidden-xs hidden-sm">
                 <a href="@Url.Action("Index", "Home")" class="navbar-brand"><img src="https://cdn.discordapp.com/emojis/276479128574623745.png" style="width:auto;height:auto; max-width:24px;" /></a>
             </div>
         <div class="navbar-collapse collapse hidden-md hidden-lg">
             <ul class="nav nav-pills">
-                <li><a href="@Url.Action("Index", "Home")"><span class="glyphicon glyphicon-home"></span></a></li>
+                <li><a href="@Url.Action("Index", "Home")"><img src="https://cdn.discordapp.com/emojis/276479128574623745.png" style="width:auto;height:auto; max-width:24px;" /></a></li>
+                <li><a href="@Url.Action("Index", "Download")"><span class="glyphicon glyphicon-arrow-down"></span></a></li>
+                <li><a href="@Url.Action("Index", "Skins")"><span class="glyphicon glyphicon-picture"></span></a></li>
+                <li><a href="@Url.Action("Index", "Forum")"><span class="glyphicon glyphicon-comment"></span></a></li>
+                <li><a href="@Url.Action("Index", "Bugs")"><span class="glyphicon glyphicon-warning-sign"></span></a></li>
+                <li><a href="@Url.Action("Index", "Wiki")"><span class="glyphicon glyphicon-book"></span></a></li>
             </ul>
+
         </div>
             <div class="navbar-collapse collapse hidden-xs hidden-sm">
                 <ul class="nav navbar-nav">
