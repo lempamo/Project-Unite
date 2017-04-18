@@ -10,26 +10,66 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-xs-3 col-lg-6">
         <h2>Shift it your way.</h2>
         <p>ShiftOS is one of the most customizable operating systems ever created by mankind, and with that said, it is the most easy to use.</p>
         <p>It has never been easier to create stylish, amazing user experiences using ShiftOS, and if you're still not inspired, have a look at what other Shifters have made!</p>
         <a href="@Url.Action("Index", "Skins")" class="btn btn-default">Take me to the Skin Repo!</a>
     </div>
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-xs-3 col-lg-6">
         <h2>We don't make updates. You do.</h2>
         <p>Have you ever been in the middle of work, or gaming, and all of the sudden your computer screamed at you saying it's about to update?</p>
         <p>That won't happen with ShiftOS. You upgrade exactly what features you want. But.... there's a price to pay...</p>
     </div>
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-xs-3 col-lg-6">
         <h2>Take it even further.</h2>
         <p>Know Lua or C#? We've got ya covered. ShiftOS is an amazing development environment. Not only can you customize it to look however you want, but you can code your own features and applications. Then, sell them to other Shifters, and pocket the cash.</p>
         <p>Or, if you want to go even further, we're <a href="http://github.com/shiftos-game/ShiftOS">open-source</a>! We accept contributions.</p>
     </div>
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-xs-3 col-lg-6">
         <h2>We're a digital society, and we're also a community.</h2>
         <p>ShiftOS is more than just an operating system. You'll meet many interesting characters. ...We can't tell you much about who you'll meet, but if you want to get a headstart, join the community! It's one click away. Or maybe two.</p>
         <a href="@Url.Action("Register", "Account")" class="btn btn-default">Register a ShiftOS Account</a>
         <a href="@Url.Action("Discord")" class="btn btn-default">Join the Discord</a>
+    </div>
+</div>
+
+<hr/>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h2><span class="glyphicon glyphicon-star">Latest Stable Release</span></h2>
+        @{ 
+            var release = db.Downloads.Where(x => x.IsStable && x.Obsolete == false).OrderByDescending(x => x.PostDate).FirstOrDefault();
+            if (release == null)
+            {
+                <p>Sadly, no stable releases have been released that are not marked as obsolete. Please stay with us!</p>
+            }
+            else
+            {
+                <h4>@release.Name</h4>
+                <p>Released by @Html.UserLink(release.ReleasedBy) on @release.PostDate</p>
+                <p>@Html.Markdown(release.Changelog)</p>
+                <a href="@Url.Action("ViewRelease", "Download", new { id = release.Id })" class="btn btn-default">View more info.</a>
+                }
+            }
+    </div>
+
+    <div class="col-lg-6">
+        <h2><span class="glyphicon glyphicon-star-empty">Latest Untable Release</span></h2>
+        @{
+            var urelease = db.Downloads.Where(x => x.IsStable == false && x.Obsolete == false).OrderByDescending(x => x.PostDate).FirstOrDefault();
+            if (urelease == null)
+            {
+                <p>Sadly, no unstable releases have been released that are not marked as obsolete. Please stay with us!</p>
+            }
+            else
+            {
+                <h4>@urelease.Name</h4>
+                <p>Released by @Html.UserLink(urelease.ReleasedBy) on @urelease.PostDate</p>
+                <p>@Html.Markdown(urelease.Changelog)</p>
+                <a href="@Url.Action("ViewRelease", "Download", new { id = urelease.Id })" class="btn btn-default">View more info.</a>
+            }
+        }
     </div>
 </div>
