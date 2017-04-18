@@ -122,6 +122,7 @@ The address used to send this message is not a no-reply address. In fact, my nam
             catch
             {
                 ModelState.AddModelError("Password", new Exception("An error occurred while verifying your password. Possible cause: If you are a user from before the website was revamped, you don't have a usable password. Please reset it, otherwise you won't be able to log in."));
+                return View(model);
             }
         }
 
