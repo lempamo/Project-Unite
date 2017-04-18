@@ -60,7 +60,7 @@
                     </p>
                 }
             </div>
-            <div class="col-xs-8"><!--Post body, subject, author, time-->
+            <div class="col-xs-8" id="forum_post_body"><!--Post body, subject, author, time-->
                 <h4>@Model.Subject</h4>
                 <p>@Html.UserLink(post.AuthorId) at @post.PostedAt</p>
                 <p>@Html.Markdown(post.Body)</p>

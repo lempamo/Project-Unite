@@ -16,6 +16,12 @@
     white-space: normal;
 }
 
+#forum_post_body img{
+    max-width:100%;
+    width:auto;
+    height:auto;
+}
+
 /*.modal {
     padding-top:10%;
     padding-right:50%;
