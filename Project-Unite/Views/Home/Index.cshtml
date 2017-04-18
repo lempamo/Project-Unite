@@ -38,7 +38,7 @@
 
 <div class="row">
     <div class="col-lg-6">
-        <h2><span class="glyphicon glyphicon-star">Latest Stable Release</span></h2>
+        <h2><span class="glyphicon glyphicon-star"></span> Latest Stable Release</h2>
         @{ 
             var release = db.Downloads.Where(x => x.IsStable && x.Obsolete == false).OrderByDescending(x => x.PostDate).FirstOrDefault();
             if (release == null)
@@ -56,7 +56,7 @@
     </div>
 
     <div class="col-lg-6">
-        <h2><span class="glyphicon glyphicon-star-empty">Latest Untable Release</span></h2>
+        <h2><span class="glyphicon glyphicon-star-empty"></span> Latest Untable Release</h2>
         @{
             var urelease = db.Downloads.Where(x => x.IsStable == false && x.Obsolete == false).OrderByDescending(x => x.PostDate).FirstOrDefault();
             if (urelease == null)
