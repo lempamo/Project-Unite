@@ -318,9 +318,13 @@ namespace Project_Unite.Controllers
             return RedirectToAction("ViewUnread");
         }
 
+
+
         [Authorize]
-        public ActionResult ViewTopic(string id, bool triedtolikeowntopic = false)
+        public ActionResult ViewTopic(string id, bool triedtolikeowntopic = false, int page = 1)
         {
+            int realpage = page - 1;
+            int pageSize = 10;
             if (triedtolikeowntopic)
                 ViewBag.Error = "You cannot like or dislike your own topic!";
             var db = new ApplicationDbContext();
@@ -329,8 +333,31 @@ namespace Project_Unite.Controllers
                 return new HttpStatusCodeResult(404);
             if (!ACL.CanSee(User.Identity.Name, topic.Parent))
                 return new HttpStatusCodeResult(403);
+            int pages = topic.Posts.GetPageCount(pageSize);
 
+            ViewBag.Page = realpage;
+            ViewBag.PageCount = pages;
+            ViewBag.PageSize = pageSize;
             return View(topic);
+        }
+    }
+
+    public static class PaginationExtensions
+    {
+        public static int GetPageCount<T>(this IEnumerable<T> collection, int pageSize)
+        {
+            return (collection.Count() + pageSize - 1) / pageSize;
+        }
+
+        public static IEnumerable<T> GetItemsOnPage<T>(this IEnumerable<T> collection, int page, int pageSize)
+        {
+            var lst = collection.ToList();
+
+            for(int i = pageSize * page; i < pageSize + (pageSize * page) && i < lst.Count(); i++)
+            {
+                yield return lst[i];
+            }
+
         }
     }
 }

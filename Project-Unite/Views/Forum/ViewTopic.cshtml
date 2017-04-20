@@ -1,4 +1,5 @@
-﻿@model Project_Unite.Models.ForumTopic
+﻿@using Project_Unite.Controllers;
+@model Project_Unite.Models.ForumTopic
 @using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = Model.Subject;
@@ -30,7 +31,7 @@
     Html.RenderPartial("~/Views/Shared/_ModeratorBar.cshtml", Model);
 }
 
-@foreach (var post in Model.Posts.OrderBy(x => x.PostedAt))
+@foreach (var post in Model.Posts.OrderBy(x => x.PostedAt).GetItemsOnPage(ViewBag.Page, ViewBag.PageSize))
 {
     if (Request.IsAuthenticated)
     {
@@ -75,3 +76,17 @@
 @{
     Html.RenderPartial("~/Views/Shared/_ModeratorBar.cshtml", Model);
 }
+
+<ul class="pagination">
+    @for(int i = 1; i <= ViewBag.PageCount; i++)
+    {
+        if (i == ViewBag.Page - 1)
+        {
+            <li class="active">@Html.ActionLink(i.ToString(), "ViewTopic", "Forum", null, new { id = Model.Discriminator, page = i })</li>
+        }
+        else
+        {
+            <li>@Html.ActionLink(i.ToString(), "ViewTopic", "Forum", null, new { id = Model.Discriminator, page = i })</li>
+        }
+    }
+</ul>
