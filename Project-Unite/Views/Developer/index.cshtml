@@ -1,8 +1,50 @@
 ﻿
 @{
     ViewBag.Title = "Dev Control Panel";
+    var db = new Project_Unite.Models.ApplicationDbContext();
+    int fixedbugs = db.Bugs.Where(x => x.Open == false).Count();
+    int notfixedbugs = db.Bugs.Where(x => x.Open == true).Count();
+
 }
 
 <h2>Welcome!</h2>
 
-<p>Hey devs! In the future, this page will give you fancy details on how ShiftOS and the website are progressing. But, that data is not yet available to me - so for now, here's some placeholder text telling you that the dev CP is work-in-progress.</p>
+<p>Here, have a bunch of charts that tell you what you already know!</p>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h3>Bugs</h3>
+        <p>Here's a pie chart that tells you how many bugs have been fixed.</p>
+        <div id="c_bugs"></div>
+    </div>
+</div>
+
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/pie.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+
+<!-- Chart code -->
+<script>
+var chart = AmCharts.makeChart( "c_bugs", {
+  "type": "pie",
+  "theme": "dark",
+  "dataProvider": [{
+    "status": "Fixed",
+    "amount": @fixedbugs
+  }, {
+    "status": "Needs attention",
+    "amount": @notfixedbugs
+  }],
+  "valueField": "status",
+  "titleField": "amount",
+   "balloon":{
+   "fixedPosition":true
+  },
+  "export": {
+    "enabled": true
+  }
+} );
+</script>
