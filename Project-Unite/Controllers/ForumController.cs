@@ -349,15 +349,15 @@ namespace Project_Unite.Controllers
             return (collection.Count() + pageSize - 1) / pageSize;
         }
 
-        public static IEnumerable<T> GetItemsOnPage<T>(this IEnumerable<T> collection, int page, int pageSize)
+        public static T[] GetItemsOnPage<T>(this T[] collection, int page, int pageSize)
         {
-            var lst = collection.ToList();
-
-            for(int i = pageSize * page; i < pageSize + (pageSize * page) && i < lst.Count(); i++)
+            List<T> obj = new List<T>();
+            
+            for(int i = pageSize * page; i < pageSize + (pageSize * page) && i < collection.Count(); i++)
             {
-                yield return lst[i];
+                obj.Add(collection[i]);
             }
-
+            return obj.ToArray();
         }
     }
 }

@@ -31,7 +31,7 @@
     Html.RenderPartial("~/Views/Shared/_ModeratorBar.cshtml", Model);
 }
 
-@foreach (var post in Model.Posts.OrderBy(x => x.PostedAt).GetItemsOnPage(ViewBag.Page, ViewBag.PageSize))
+@foreach (Project_Unite.Models.ForumPost post in PaginationExtensions.GetItemsOnPage<Project_Unite.Models.ForumPost>(Model.Posts.OrderBy(x => x.PostedAt).ToArray(), ViewBag.Page, ViewBag.PageSize)) 
 {
     if (Request.IsAuthenticated)
     {
