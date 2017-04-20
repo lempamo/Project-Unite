@@ -321,7 +321,7 @@ namespace Project_Unite.Controllers
 
 
         [Authorize]
-        public ActionResult ViewTopic(string id, bool triedtolikeowntopic = false, int page = 1)
+        public ActionResult ViewTopic(string id, int page = 1, bool triedtolikeownpost = false)
         {
             int realpage = page - 1;
             int pageSize = 10;
