@@ -325,8 +325,6 @@ namespace Project_Unite.Controllers
         {
             int realpage = page - 1;
             int pageSize = 10;
-            if (triedtolikeowntopic)
-                ViewBag.Error = "You cannot like or dislike your own topic!";
             var db = new ApplicationDbContext();
             var topic = db.ForumTopics.FirstOrDefault(x => x.Discriminator == id);
             if (topic == null)
