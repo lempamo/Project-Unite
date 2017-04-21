@@ -84,6 +84,8 @@ The address used to send this message is not a no-reply address. In fact, my nam
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if (Request.IsAuthenticated)
+                return Redirect(returnUrl);
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -174,6 +176,8 @@ The address used to send this message is not a no-reply address. In fact, my nam
         [AllowAnonymous]
         public ActionResult Register()
         {
+            if (Request.IsAuthenticated)
+                return RedirectToAction("Index", "Ho,e");
             return View();
         }
 
