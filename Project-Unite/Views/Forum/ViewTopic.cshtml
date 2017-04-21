@@ -79,19 +79,19 @@
 
 <p>Pages:
 <ul class="pagination">
-    <li>@Html.ActionLink("First", "ViewTopic", "Forum", null, new { id = Model.Discriminator, page = 1 })</li>
+    <li>@Html.ActionLink("First", "ViewTopic", "Forum", new { id = Model.Discriminator, page = 1 }, null)</li>
 
     @for(int i = 1; i <= ViewBag.PageCount; i++)
     {
         if (i == ViewBag.Page + 1)
         {
-            <li class="active">@Html.ActionLink(i.ToString(), "ViewTopic", "Forum", null, new { id = Model.Discriminator, page = i })</li>
+            <li class="active">@Html.ActionLink(i.ToString(), "ViewTopic", "Forum", new { id = Model.Discriminator, page = i }, null)</li>
         }
         else
         {
-            <li>@Html.ActionLink(i.ToString(), "ViewTopic", "Forum", null, new { id = Model.Discriminator, page = i })</li>
+            <li>@Html.ActionLink(i.ToString(), "ViewTopic", "Forum", new { id = Model.Discriminator, page = i }, null)</li>
         }
     }
-    <li>@Html.ActionLink("Last", "ViewTopic", "Forum", null, new { id = Model.Discriminator, page = ViewBag.PageCount })</li>
+    <li>@Html.ActionLink("Last", "ViewTopic", "Forum", new { id = Model.Discriminator, page = ViewBag.PageCount }, null)</li>
 </ul>
 </p>
