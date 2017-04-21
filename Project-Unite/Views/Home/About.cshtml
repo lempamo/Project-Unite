@@ -1,7 +1,29 @@
 ﻿@{
     ViewBag.Title = "About";
+    var db = new Project_Unite.Models.ApplicationDbContext();
+    var devs = db.Roles.FirstOrDefault(x=>x.Id=="developer").Users;
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<h2>About ShiftOS</h2>
 
-<p>Use this area to provide additional information.</p>
+<h3>A quick summary...</h3>
+
+<p>In the quickest summary possible, ShiftOS is a game about an evolving operating system set in a digital world of users, software, viruses, criminals, companies and more.</p>
+
+<p>It's the most customizable operating system in the world, and it can easily look like whatever you want it to.</p>
+
+<p>But it's not just an operating system. There's more to it than upgrading and evolving an OS. Along the way, you'll find lots of secrets and stories behind the development of ShiftOS and the digital society.</p>
+
+<p>But be on the lookout, one wrong move, and you could be the most wanted. Stay safe, stay secure, and shift it your way.</p>
+
+<h3>The development team</h3>
+
+<p>There are currently these members on the development team:</p>
+
+<ul>
+    @foreach(var user in devs)
+    {
+        <li>@Html.UserLink(user.UserId)</li>
+    }
+</ul>
+
+<p>These people are the ones who keep ShiftOS in development. The users marked in red are administrators and therefore lead the development of the project.</p>
