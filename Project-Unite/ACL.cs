@@ -121,6 +121,8 @@ namespace Project_Unite
 
         public static IHtmlString Markdown(this HtmlHelper hpr, string md)
         {
+            if (md == null)
+                return hpr.Raw("");
             md = ResolveUserLinksInMarkdown(md);
             return hpr.Raw(CommonMark.CommonMarkConverter.Convert(hpr.Encode(md)));
         }
