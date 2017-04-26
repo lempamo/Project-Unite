@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -69,10 +70,36 @@ namespace Project_Unite.Controllers
                 Directory.CreateDirectory(Server.MapPath(screenshotFolder));
 
 
-            skin.DownloadUrl = repoFolder.Remove(0,1) + "/" + model.SkinFile.FileName;
-            model.SkinFile.SaveAs(Path.Combine(Server.MapPath(repoFolder), model.SkinFile.FileName));
+            int len = model.SkinFile.FileName.Length;
 
-            if (model.ScreenshotFile != null && model.ScreenshotFile.ContentLength > 0)
+            int index = model.SkinFile.FileName.LastIndexOf(".");
+            int end = len - index;
+            skin.DownloadUrl = repoFolder.Remove(0,1) + "/" + model.SkinFile.FileName.Remove(index,end) + ".zip";
+
+
+
+            string work_dir = Server.MapPath("~/unite_work_" + Guid.NewGuid().ToString());
+
+            if (model.SkinFile.FileName.ToLower().EndsWith(".zip"))
+            {
+                work_dir = Server.MapPath(repoFolder);
+            }
+            else
+            {
+
+                if (Directory.Exists(work_dir))
+                    Directory.Delete(work_dir, true);
+
+                Directory.CreateDirectory(work_dir);
+            }
+            model.SkinFile.SaveAs(Path.Combine(work_dir, model.SkinFile.FileName));
+            if (!model.SkinFile.FileName.ToLower().EndsWith(".zip"))
+            {
+                ZipFile.CreateFromDirectory(work_dir, Server.MapPath("~" + skin.DownloadUrl));
+                Directory.Delete(work_dir, true);
+            }
+            
+                if (model.ScreenshotFile != null && model.ScreenshotFile.ContentLength > 0)
             {
                 skin.ScreenshotUrl = screenshotFolder.Remove(0, 1) + "/" + model.ScreenshotFile.FileName;
                 model.ScreenshotFile.SaveAs(Path.Combine(Server.MapPath(screenshotFolder), model.ScreenshotFile.FileName));
