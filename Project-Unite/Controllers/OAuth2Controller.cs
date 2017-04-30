@@ -11,11 +11,25 @@ using Microsoft.Owin.Security;
 using Project_Unite.Models;
 using System.Text;
 using System.Net;
+using System.Web.Script.Serialization;
 
 namespace Project_Unite.Controllers
 {
     public class AuthController : Controller
     {
+        public JavaScriptSerializer Serializer
+        {
+            get; set;
+        }
+        //I'll put those curly braces on their own line just to piss a certain smiley off.
+
+        public AuthController()
+        {
+            Serializer = new JavaScriptSerializer();
+        }
+
+
+
         private ApplicationSignInManager _signInManager = null;
         private ApplicationUserManager _userManager = null;
 
@@ -43,6 +57,71 @@ namespace Project_Unite.Controllers
             }
         }
 
+        [AllowAnonymous]
+        public async Task<ActionResult> Register(string appname, string appdesc, string version, string displayname, string sysname)
+        {
+            try
+            {
+                string authHeader = Request.Headers["Authentication"];
+                string b64_auth = authHeader.Remove(0, 6); //get rid of the "Basic " text.
+                byte[] data = Convert.FromBase64String(b64_auth);
+                string plaintext = Encoding.UTF8.GetString(data);
+                string[] split = plaintext.Split(':');
+                string username = split[0];
+                string password = split[1];
+                using (var temp = new ApplicationDbContext())
+                {
+                    if (temp.Users.FirstOrDefault(x => x.DisplayName == displayname) != null)
+                    {
+                        return Content(Serializer.Serialize(new Exception("That display name has already been taken.")));
+                    }
+                }
+
+
+                var user = new ApplicationUser { UserName = username, Email = username, DisplayName = displayname, Codepoints = 0, JoinedAt = DateTime.Now, MutedAt = DateTime.Now, BannedAt = DateTime.Now, LastLogin = DateTime.Now, SystemName = sysname };
+                var result = await UserManager.CreateAsync(user, password);
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    UserManager.AddToRole(user.Id, ACL.LowestPriorityRole().Name);
+
+                    var db = new ApplicationDbContext();
+
+
+                    var auth_token = db.OAuthTokens.Where(x => x.UserId == user.Id).FirstOrDefault(x => x.AppName == appname && x.AppDescription == appdesc && x.Version == version);
+                    if (auth_token == null)
+                    {
+                        auth_token = new Models.OAuthToken
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            UserId = user.Id,
+                            AppName = appname,
+                            AppDescription = appdesc,
+                            Version = version
+                        };
+                        db.OAuthTokens.Add(auth_token);
+                        db.SaveChanges();
+                        return Content(auth_token.Id);
+                    }
+                    else
+                    {
+                        return Content(auth_token.Id);
+                    }
+
+                }
+                return Content(Serializer.Serialize(new Exception("Registration failed because a similar account already exists.")));
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
 
         [AllowAnonymous]
         public async Task<ActionResult> Login(string appname, string appdesc, string version)
