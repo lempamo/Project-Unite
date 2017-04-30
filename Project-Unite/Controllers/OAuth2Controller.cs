@@ -1,12 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Net;
-using System.Text;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using Project_Unite.Models;
+using System.Text;
+using System.Net;
 
 namespace Project_Unite.Controllers
 {
