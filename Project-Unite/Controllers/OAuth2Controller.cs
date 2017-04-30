@@ -14,7 +14,7 @@ using System.Net;
 
 namespace Project_Unite.Controllers
 {
-    public class OAuth2Controller : Controller
+    public class OAuthController : Controller
     {
         private ApplicationSignInManager _signInManager = null;
         private ApplicationUserManager _userManager = null;
