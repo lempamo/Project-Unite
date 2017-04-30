@@ -200,7 +200,7 @@ The address used to send this message is not a no-reply address. In fact, my nam
                 }
 
 
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, DisplayName = model.Username, Codepoints = 0, JoinedAt = DateTime.Now, MutedAt = DateTime.Now, BannedAt = DateTime.Now, LastLogin = DateTime.Now };
+                var user = new ApplicationUser { SystemName = model.SystemName, UserName = model.Email, Email = model.Email, DisplayName = model.Username, Codepoints = 0, JoinedAt = DateTime.Now, MutedAt = DateTime.Now, BannedAt = DateTime.Now, LastLogin = DateTime.Now };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

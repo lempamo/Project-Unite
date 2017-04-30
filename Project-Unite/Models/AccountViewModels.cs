@@ -69,6 +69,11 @@ namespace Project_Unite.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "You require a system name. This is the hostname you will use when inside ShiftOS.")]
+        [MinLength(5, ErrorMessage ="Your System Name must have at least 5 characters in it.")]
+        [Display(Name ="System Name")]
+        public string SystemName { get; set; }
+
         [Required]
         [MaxLength(25, ErrorMessage ="Your username must be less than 25 characters long.")]
         [MinLength(3, ErrorMessage ="Your username must have a minimum of 3 characters.")]
