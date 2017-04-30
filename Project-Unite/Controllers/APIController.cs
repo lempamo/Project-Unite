@@ -48,6 +48,60 @@ namespace Project_Unite.Controllers
         }
 
 
+        public ActionResult GetEmail()
+        {
+            try
+            {
+                string token = Request.Headers["Authentication"].Remove(0, 6);
+                var user = ACL.GetUserFromToken(token);
+                if (user == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                return Content(user.Email);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
+
+        public ActionResult GetSysName()
+        {
+            try
+            {
+                string token = Request.Headers["Authentication"].Remove(0, 6);
+                var user = ACL.GetUserFromToken(token);
+                if (user == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                return Content(user.SystemName);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
+
+        public ActionResult SetSysName(string id)
+        {
+            try
+            {
+                string token = Request.Headers["Authentication"].Remove(0, 6);
+
+                var db = new ApplicationDbContext();
+                var t = db.OAuthTokens.FirstOrDefault(x => x.Id == token);
+                var user = db.Users.FirstOrDefault(x => x.Id == t.UserId);
+                user.SystemName = id;
+                db.SaveChanges();
+                return new HttpStatusCodeResult(200);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
+
+
+
+
         public ActionResult GetDisplayName()
         {
             try
