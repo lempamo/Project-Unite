@@ -260,6 +260,7 @@
     <Compile Include="Controllers\LegalController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ModeratorController.cs" />
+    <Compile Include="Controllers\OAuth2Controller.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
     <Compile Include="Controllers\SkinsController.cs" />
     <Compile Include="Controllers\WikiControllerController.cs" />
@@ -587,6 +588,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Views\API\" />
+    <Folder Include="Views\OAuth2\" />
     <Folder Include="Views\WikiController\" />
   </ItemGroup>
   <ItemGroup>
