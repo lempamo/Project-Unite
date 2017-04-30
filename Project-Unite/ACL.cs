@@ -23,6 +23,15 @@ namespace Project_Unite
             return hpr.Raw(usr.UnreadNotifications.ToString());
         }
 
+        internal static ApplicationUser GetUserFromToken(string token)
+        {
+            var db = new ApplicationDbContext();
+            var t = db.OAuthTokens.FirstOrDefault(x => x.Id == token);
+            if (t == null)
+                return null;
+            return db.Users.FirstOrDefault(x => x.Id == t.UserId);
+        }
+
         public static IHtmlString NewestUser(this HtmlHelper hpr)
         {
             var db = new ApplicationDbContext();
