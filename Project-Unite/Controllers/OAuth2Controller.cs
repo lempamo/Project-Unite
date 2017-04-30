@@ -14,7 +14,7 @@ using System.Net;
 
 namespace Project_Unite.Controllers
 {
-    public class APIAuthController : Controller
+    public class AuthController : Controller
     {
         private ApplicationSignInManager _signInManager = null;
         private ApplicationUserManager _userManager = null;
