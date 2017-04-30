@@ -86,8 +86,11 @@ namespace Project_Unite.Controllers
                     return new HttpStatusCodeResult(403);
                 }
             }
-            catch
+            catch(Exception ex)
             {
+                var db = new ApplicationDbContext();
+                db.AuditLogs.Add(new Models.AuditLog("system", AuditLogLevel.Admin, "<b>The following error occurred during an OAuth2 authentication.</b><br/>" + ex.ToString()));
+                db.SaveChanges();
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
