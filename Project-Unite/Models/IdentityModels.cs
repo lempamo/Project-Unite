@@ -247,8 +247,18 @@ namespace Project_Unite.Models
         public DbSet<ForumPost> ForumPosts { get; set; }
         public DbSet<Story> Stories { get; set; }
         public DbSet<View> Views { get; set; }
+        public DbSet<OAuthToken> OAuthTokens { get; set; }
     }
 
+    public class OAuthToken
+    {
+        public string Id { get; set; }
+        public string UserId { get; set; }
+        public string AppName { get; set; }
+        public string AppDescription { get; set; }
+        public string Version { get; set; }
+    }
+    
     public class ReadPost
     {
         public string Id { get; set; }
