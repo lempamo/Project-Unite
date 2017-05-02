@@ -25,6 +25,8 @@ namespace Project_Unite.Controllers
                 });
             }
 
+            id = id - 1;
+
             int pagecount = highscores.GetPageCount(10);
             if (id > pagecount || id < 1)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

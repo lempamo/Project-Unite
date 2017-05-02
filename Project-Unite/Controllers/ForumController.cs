@@ -351,7 +351,7 @@ namespace Project_Unite.Controllers
         {
             List<T> obj = new List<T>();
             
-            for(int i = pageSize * page; i < pageSize + (pageSize * page) + 1 && i < collection.Count(); i++)
+            for(int i = pageSize * page; i < pageSize + (pageSize * page) && i < collection.Count(); i++)
             {
                 obj.Add(collection[i]);
             }
