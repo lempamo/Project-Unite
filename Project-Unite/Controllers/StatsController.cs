@@ -33,7 +33,7 @@ namespace Project_Unite.Controllers
 
             var model = new PongStatsViewModel
             {
-                Highscores = pages,
+                Highscores = pages.ToList(),
                 CurrentPage = id,
                 PageCount = 10
             };
