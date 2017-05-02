@@ -32,11 +32,11 @@
     {
         if (i == Model.CurrentPage)
         {
-            <li class="active">@Html.ActionLink(i.ToString(), "Pong", "Stats", null, new { id = i })</li>
+            <li class="active">@Html.ActionLink(i.ToString(), "Pong", "Stats", new { id = i }, null)</li>
         }
         else
         {
-            <li>@Html.ActionLink(i.ToString(), "Pong", "Stats", null, new { id = i })</li>
+            <li>@Html.ActionLink(i.ToString(), "Pong", "Stats", new { id = i }, null)</li>
         }
     }
 </ul>
