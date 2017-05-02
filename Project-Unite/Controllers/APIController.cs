@@ -12,6 +12,81 @@ namespace Project_Unite.Controllers
 {
     public class APIController : Controller
     {
+        public ActionResult GetPongCP()
+        {
+            try
+            {
+                string token = Request.Headers["Authentication"].Remove(0, 6);
+                var user = ACL.GetUserFromToken(token);
+                if (user == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                return Content(user.Pong_HighestCodepointsCashout.ToString());
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
+
+        public ActionResult SetPongCP(int id)
+        {
+            try
+            {
+                string token = Request.Headers["Authentication"].Remove(0, 6);
+
+                var db = new ApplicationDbContext();
+                var t = db.OAuthTokens.FirstOrDefault(x => x.Id == token);
+                var user = db.Users.FirstOrDefault(x => x.Id == t.UserId);
+                user.Pong_HighestCodepointsCashout = id;
+                db.SaveChanges();
+                return new HttpStatusCodeResult(200);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
+
+
+        public ActionResult GetPongLevel()
+        {
+            try
+            {
+                string token = Request.Headers["Authentication"].Remove(0, 6);
+                var user = ACL.GetUserFromToken(token);
+                if (user == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                return Content(user.Pong_HighestLevel.ToString());
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
+
+        public ActionResult SetPongLevel(int id)
+        {
+            try
+            {
+                string token = Request.Headers["Authentication"].Remove(0, 6);
+
+                var db = new ApplicationDbContext();
+                var t = db.OAuthTokens.FirstOrDefault(x => x.Id == token);
+                var user = db.Users.FirstOrDefault(x => x.Id == t.UserId);
+
+                user.Pong_HighestLevel = id;
+                db.SaveChanges();
+                return new HttpStatusCodeResult(200);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
+
+
+
+
         public ActionResult GetCodepoints()
         {
             try
