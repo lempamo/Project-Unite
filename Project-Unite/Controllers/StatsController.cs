@@ -28,7 +28,7 @@ namespace Project_Unite.Controllers
             id = id - 1;
 
             int pagecount = highscores.GetPageCount(10);
-            if (id > pagecount || id < 1)
+            if (id > pagecount || id < 0)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             var pages = highscores.OrderByDescending(x=>x.Level).ToArray().GetItemsOnPage(id, 10);
