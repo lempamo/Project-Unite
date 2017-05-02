@@ -263,6 +263,7 @@
     <Compile Include="Controllers\OAuth2Controller.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
     <Compile Include="Controllers\SkinsController.cs" />
+    <Compile Include="Controllers\StatsController.cs" />
     <Compile Include="Controllers\WikiControllerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -444,6 +445,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\PongHighscore.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\SearchModels.cs" />
     <Compile Include="Models\Skin.cs" />
@@ -583,6 +585,7 @@
     <Content Include="Views\Bugs\ViewCategory.cshtml" />
     <Content Include="Views\Bugs\ViewBug.cshtml" />
     <Content Include="Views\Bugs\PostBug.cshtml" />
+    <Content Include="Views\Stats\Pong.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

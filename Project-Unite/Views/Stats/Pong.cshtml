@@ -1,0 +1,42 @@
+﻿@model Project_Unite.Models.PongStatsViewModel
+@{
+    ViewBag.Title = "Pong - Highscores";
+}
+
+<h2>Pong highscores</h2>
+
+<p>One of the apps in ShiftOS is a recreation of Pong where the game is split into levels that are 60 minutes in length.</p>
+
+<p>You can earn Codepoints in Pong by either beating the AI, or surviving a level. You can cash out at the end of the level. Just be ware, if the ball gets past you, you lose all those Codepoints.</p>
+
+<p>Below is a list of everyone's Pong scores - the top players at the top of the list.</p>
+
+<table class="table-condensed">
+    <tr>
+        <th>User</th>
+        <th>Level</th>
+        <th>Codepoints</th>
+    </tr>
+@foreach(var entry in Model.Highscores)
+{
+    <tr>
+        <td>@Html.UserLink(entry.UserId)</td>
+        <td>@entry.Level</td>
+        <td>@entry.CodepointsCashout CP</td>
+    </tr>
+}
+ </table>
+
+<ul class="pagination">
+    @for(int i = 1; i <= Model.PageCount; i++)
+    {
+        @if (i == Model.CurrentPage)
+        {
+            <li class="active">@Html.ActionLink(i.ToString(), "Pong", "Stats", null, new { id = i })</li>
+        }
+        else
+        {
+            <li>@Html.ActionLink(i.ToString(), "Pong", "Stats", null, new { id = i })</li>
+        }
+    }
+</ul>

@@ -39,6 +39,10 @@ namespace Project_Unite.Models
             
         }
 
+        public int Pong_HighestLevel { get; set; }
+        public int Pong_HighestCodepointsCashout { get; set; }
+
+
         public ForumPost[] UnreadPosts
         {
             get
