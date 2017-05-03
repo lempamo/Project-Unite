@@ -43,7 +43,7 @@ namespace Project_Unite.Controllers
             return View(model);
         }
 
-        public ActionResult Codepoints(int id)
+        public ActionResult Codepoints(int id = 1)
         {
             var db = new ApplicationDbContext();
             var highscores = new List<PongHighscore>();
