@@ -213,7 +213,7 @@ namespace Project_Unite.Controllers
         }
 
 
-        public ActionResult GetDisplayName()
+        public ActionResult GetDisplayName(string id = "")
         {
             try
             {
@@ -221,7 +221,14 @@ namespace Project_Unite.Controllers
                 var user = ACL.GetUserFromToken(token);
                 if (user == null)
                     return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-                return Content(user.DisplayName);
+                if(string.IsNullOrWhiteSpace(id))
+                    return Content(user.DisplayName);
+
+                var db = new ApplicationDbContext();
+                var uwithid = db.Users.FirstOrDefault(x => x.Id == id);
+                if (uwithid == null)
+                    return new HttpStatusCodeResult(404);
+                return Content(uwithid.DisplayName);
             }
             catch
             {
