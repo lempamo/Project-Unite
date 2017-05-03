@@ -586,6 +586,7 @@
     <Content Include="Views\Bugs\ViewBug.cshtml" />
     <Content Include="Views\Bugs\PostBug.cshtml" />
     <Content Include="Views\Stats\Pong.cshtml" />
+    <Content Include="Views\Stats\Codepoints.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

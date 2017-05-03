@@ -42,5 +42,36 @@ namespace Project_Unite.Controllers
 
             return View(model);
         }
+
+        public ActionResult Codepoints(int id)
+        {
+            var db = new ApplicationDbContext();
+            var highscores = new List<PongHighscore>();
+            foreach (var user in db.Users)
+            {
+                highscores.Add(new PongHighscore
+                {
+                    UserId = user.Id,
+                    Level = user.Pong_HighestLevel,
+                    CodepointsCashout = user.Codepoints
+                });
+            }
+
+            id = id - 1;
+
+            int pagecount = highscores.GetPageCount(10);
+            if (id > pagecount || id < 0)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var pages = highscores.OrderByDescending(x => x.CodepointsCashout).ToArray().GetItemsOnPage(id, 10);
+
+            var model = new PongStatsViewModel
+            {
+                Highscores = pages.ToList(),
+                CurrentPage = id,
+                PageCount = 10
+            };
+            return View(model);
+        }
     }
 }

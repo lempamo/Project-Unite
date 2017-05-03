@@ -1,0 +1,41 @@
+﻿@model Project_Unite.Models.PongStatsViewModel
+@{
+    ViewBag.Title = "Codepoints Highscores";
+}
+
+<h2>Codepoints Stats</h2>
+
+<p>In ShiftOS, Codepoints are your primary form of currency. You earn them by doing many actions such as playing Pong, drawing pictures in Artpad, skinning and shifting in Shifter, and more.</p>
+
+<p>You can use them to upgrade your OS, download more apps, etc.</p>
+
+<p>Below is a list of all users with Codepoints, starting with the top Shifters.</p>
+
+
+<table class="table-condensed">
+    <tr>
+        <th>User</th>
+        <th>Codepoints</th>
+    </tr>
+@foreach(var entry in Model.Highscores)
+{
+    <tr>
+        <td>@Html.UserLink(entry.UserId)</td>
+        <td>@entry.CodepointsCashout CP</td>
+    </tr>
+}
+ </table>
+
+<ul class="pagination">
+    @for(int i = 1; i <= Model.PageCount; i++)
+    {
+        if (i == Model.CurrentPage - 1)
+        {
+            <li class="active">@Html.ActionLink(i.ToString(), "Codepoints", "Stats", new { id = i }, null)</li>
+        }
+        else
+        {
+            <li>@Html.ActionLink(i.ToString(), "Codepoints", "Stats", new { id = i }, null)</li>
+        }
+    }
+</ul>
