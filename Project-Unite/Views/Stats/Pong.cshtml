@@ -30,7 +30,7 @@
 <ul class="pagination">
     @for(int i = 1; i <= Model.PageCount; i++)
     {
-        if (i == Model.CurrentPage - 1)
+        if (i == Model.CurrentPage + 1)
         {
             <li class="active">@Html.ActionLink(i.ToString(), "Pong", "Stats", new { id = i }, null)</li>
         }
