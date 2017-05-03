@@ -174,7 +174,43 @@ namespace Project_Unite.Controllers
             }
         }
 
+        public ActionResult GetPongHighscores()
+        {
+            try
+            {
+                string token = Request.Headers["Authentication"].Remove(0, 6);
+                var user = ACL.GetUserFromToken(token);
+                if (user == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                var db = new ApplicationDbContext();
+                var highscores = new List<PongHighscore>();
+                foreach (var u in db.Users)
+                {
+                    highscores.Add(new PongHighscore
+                    {
+                        UserId = u.Id,
+                        Level = u.Pong_HighestLevel,
+                        CodepointsCashout = u.Pong_HighestCodepointsCashout
+                    });
+                }
 
+                int pagecount = highscores.GetPageCount(10);
+                var pages = highscores.OrderByDescending(x => x.Level).ToArray();
+
+                var model = new PongStatsViewModel
+                {
+                    Highscores = pages.ToList(),
+                    CurrentPage = 0,
+                    PageCount = 10
+                };
+
+                return Content(Serializer.Serialize(model));
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(403);
+            }
+        }
 
 
         public ActionResult GetDisplayName()
