@@ -1,14 +1,85 @@
-﻿
+﻿@using Project_Unite.Models;
+@using Microsoft.AspNet.Identity;
 @{
     ViewBag.Title = "Administration Control Panel";
+    var db = new ApplicationDbContext();
 }
 
-<p>Wow, an actual index page.</p>
+<div class="panel row">
+    <div class="panel-body">
+        <div class="col-xs-4">
+            <h4>Navigation</h4>
 
-<button class="btn btn-default" onclick="sendMessageToApi();">Send test notification.</button>
+            <ul class="nav nav-stacked" id="tabs" data-tabs="tabs" role="tablist">
+                <li class="active"><a data-toggle="tab" href="#a_index">Home</a></li>
+                <li><a data-toggle="tab" href="#a_site_config">Site Config</a></li>
+                <li><a data-toggle="tab" href="#a_users">Users</a></li>
+                <li><a data-toggle="tab" href="#a_roles">Roles</a></li>
+                <li><a data-toggle="tab" href="#a_forums">Forums</a></li>
+                <li><a data-toggle="tab" href="#a_skins">Skins</a></li>
+                <li><a data-toggle="tab" href="#a_groups">Groups</a></li>
+                <li><a data-toggle="tab" href="#a_backups">Backups</a></li>
+                <li><a data-toggle="tab" href="#a_logs">Audit Logs</a></li>
 
-<script>
-    function sendMessageToApi() {
-        $.ajax({ url: "/API/TestNotification" });
-    }
-</script>
+
+
+            </ul>
+        </div>
+        <div class="col-xs-8">
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="a_index">
+                    <h2>Administration Control Panel</h2>
+                
+                    <p>Welcome to the ShiftOS Administration Control Panel. To begin administrating, select an option from the left.</p>
+
+                    <h4>System status</h4>
+
+                    <table class="table-condensed">
+                        <tr>
+                            <td><strong>Current user: </strong></td>
+                            <td>@Html.UserLink(User.Identity.GetUserId())</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Users:</strong></td>
+                            <td>@db.Users.Count()</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Forum Categories:</strong></td>
+                            <td>@db.ForumCategories.Count()</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Posts:</strong></td>
+                            <td>@db.ForumPosts.Count()</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Topics:</strong></td>
+                            <td><strong>@db.ForumTopics.Count()</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Skins:</strong></td>
+                            <td>@db.Skins.Count()</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Releases:</strong></td>
+                            <td>@db.Downloads.Count()</td>
+                        </tr>
+                    </table>
+
+                    <hr/>
+
+                    <h4>Shifting the website</h4>
+
+                    <p>You can add new features to the website by modifying our GitHub repository. If you are a ShiftOS developer, chances are you have write access to the repository. If not, please contact Michael.</p>
+
+                    <p>To clone the repository, use this command:</p>
+
+                    @Html.Markdown(@"```bash
+git clone https://github.com/MichaelTheShifter/Project-Unite
+```")
+
+                    <p>Your changes will be applied after you push your commits to this repository, or your pull request gets merged.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
