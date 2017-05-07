@@ -121,8 +121,8 @@ git clone https://github.com/MichaelTheShifter/Project-Unite
                                         <th>Actions</th>
                                     </tr>
                                     @{ 
-                                        Role[] roles = db.Roles.ToArray() as Role[];
-                                        roles = roles.OrderByDescending(x => x.Priority).ToArray();
+                                        var roles = db.Roles.ToArray();
+                                        roles = roles.OrderByDescending(x => (x as Role).Priority).ToArray();
                                     }
                                     @foreach (Role role in roles.GetItemsOnPage(i, 10))
                                     {
