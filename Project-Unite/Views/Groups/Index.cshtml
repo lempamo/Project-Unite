@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Project_Unite.Models.Group>
+
+@{
+    ViewBag.Title = "Groups";
+}
+
+<h2>Groups</h2>
+
+<p>Groups, formerly called <strong>Legions</strong>, are a way of grouping the community into different, well, groups, with their own tasks and goals.</p>
+
+<p>You can join one of the in-game groups from your Digital Society Control Centre, or you can join one of the many user-created groups here.</p>
+
+
+
+<table class="table">
+    <tr>
+        <th style="width:65%">Group</th>
+        <th>Users</th>
+        <th>Actions</th>
+    </tr>
+    @if(Model.Count() > 0)
+    {
+        foreach(var group in Model)
+        {
+            if (group.Publicity < 2)
+            {
+            <tr>
+                <td>
+                    @Html.ActionLink(group.Name, "ViewGroup", "Groups", new { id = group.Id }, null) <br/>
+                    <p><strong>[@group.ShortName]</strong> &bull; @group.Publicity.ToString()</p>
+                </td>
+                <td>
+                    @group.Users.Count()
+                </td>
+                <td>
+                    @Html.ActionLink("Join", "JoinGroup", "Groups", new { id=@group.Id}, new { @class="btn btn-default"})
+                </td>
+            </tr>
+            }
+        }
+    }
+    else
+    {
+        <tr>
+            <td>No groups found! Be the first to create one!</td>
+            <td></td>
+            <td></td>
+        </tr>
+    }
+</table>

@@ -256,6 +256,7 @@
     <Compile Include="Controllers\DeveloperController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\ForumController.cs" />
+    <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LegalController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -441,6 +442,7 @@
     <Compile Include="Models\Download.cs" />
     <Compile Include="Models\ForumCategory.cs" />
     <Compile Include="Models\ForumViewModels.cs" />
+    <Compile Include="Models\Group.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -587,6 +589,7 @@
     <Content Include="Views\Bugs\PostBug.cshtml" />
     <Content Include="Views\Stats\Pong.cshtml" />
     <Content Include="Views\Stats\Codepoints.cshtml" />
+    <Content Include="Views\Groups\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -30,6 +30,8 @@ namespace Project_Unite.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        public string GroupId { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -252,6 +254,7 @@ namespace Project_Unite.Models
         public DbSet<Story> Stories { get; set; }
         public DbSet<View> Views { get; set; }
         public DbSet<OAuthToken> OAuthTokens { get; set; }
+        public DbSet<Group> Groups { get; set; }
     }
 
     public class OAuthToken
