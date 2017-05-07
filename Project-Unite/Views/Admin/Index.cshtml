@@ -136,7 +136,7 @@ git clone https://github.com/MichaelTheShifter/Project-Unite
                                                 {
                                                     <a href="@Url.Action("DecreaseRolePriority", "Admin", new {id=role.Id})" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span></a>
                                                 }
-                                                @if (role.Priority < roles.Length)
+                                                @if (role.Priority < roles.Length - 1)
                                                 {
                                                     <a href="@Url.Action("IncreaseRolePriority", "Admin", new {id=role.Id})" class="btn btn-default"><span class="glyphicon glyphicon-arrow-up"></span></a>
                                                 }
@@ -151,6 +151,59 @@ git clone https://github.com/MichaelTheShifter/Project-Unite
                         }
                     </div>
                 </div>
+
+
+                @*SKINS*@
+                <div class="tab-pane fade in" id="a_skins">
+                    <h2>Skins</h2>
+
+                    <p>Below is a list of all skins in the system.</p>
+
+                    <ul class="pagination" data-tabs="skintabs" id="skintabs">
+                        @for (int i = 0; i < db.Skins.GetPageCount(10); i++)
+                        {
+                            string htmlClass = "";
+                            if (i == 0)
+                            {
+                                htmlClass = "active";
+                            }
+                            int page = i + 1;
+                            <li class="@htmlClass"><a data-toggle="tab" href="#skn_page_@i">@page</a></li>
+                        }
+                    </ul>
+                    <div class="tab-content">
+                        @for (int i = 0; i < db.Skins.GetPageCount(10); i++)
+                        {
+                            string htmlClass = "tab-pane fade in";
+                            if (i == 0)
+                            {
+                                htmlClass += " active";
+                            }
+                            <div class="@htmlClass" id="skn_page_@i">
+                                <table class="table">
+                                    <tr>
+                                        <th style="width:65%">Skin</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    @foreach (var skin in db.Skins.OrderByDescending(x => x.PostedAt).ToArray().GetItemsOnPage(i, 10))
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.ActionLink(skin.Name, "ViewSkin", "Skins", new { id = skin.Id }, null) <br />
+                                                <p>Created at: @skin.PostedAt &bull; Likes: @skin.Likes.Count() &bull; Dislikes: @skin.Dislikes.Count() &bull; Views: @skin.Views.Count()</p>
+                                                <p>@Html.Markdown(skin.ShortDescription)</p>
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("ModerateSkin", "Moderator", new {id=skin.Id})" class="btn btn-warning"><span class="glyphicon glyphicon-wrench">Moderate</span></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+
 
 
 
