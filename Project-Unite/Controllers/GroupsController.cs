@@ -86,7 +86,8 @@ namespace Project_Unite.Controllers
         public ActionResult JoinGroup(string id)
         {
             var db = new ApplicationDbContext();
-            var user = db.Users.FirstOrDefault(x => x.Id == User.Identity.GetUserId());
+            string UserId = User.Identity.GetUserId();
+            var user = db.Users.FirstOrDefault(x => x.Id == UserId);
             var group = db.Groups.FirstOrDefault(x => x.Id == id);
             if (group == null)
                 return new HttpStatusCodeResult(404);
@@ -99,7 +100,8 @@ namespace Project_Unite.Controllers
         public ActionResult LeaveGroup()
         {
             var db = new ApplicationDbContext();
-            var user = db.Users.FirstOrDefault(x => x.Id == User.Identity.GetUserId());
+            string UserId = User.Identity.GetUserId();
+            var user = db.Users.FirstOrDefault(x => x.Id == UserId);
             var group = db.Groups.FirstOrDefault(x => x.Id == user.GroupId);
             if (group == null)
                 return new HttpStatusCodeResult(404);
