@@ -17,6 +17,7 @@ namespace Project_Unite
         protected void Application_Start()
         {
             var configuration = new Migrations.Configuration();
+            configuration.AutomaticMigrationDataLossAllowed = true;
             var migrator = new DbMigrator(configuration);
             
             migrator.Update();
