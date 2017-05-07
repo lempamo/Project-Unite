@@ -15,5 +15,16 @@ namespace Project_Unite.Controllers
             var db = new ApplicationDbContext();
             return View(db.Groups);
         }
+
+        [Authorize]
+        public ActionResult ViewGroup(string id)
+        {
+            var db = new ApplicationDbContext();
+            var group = db.Groups.FirstOrDefault(x => x.Id == id);
+            if (group == null)
+                return new HttpStatusCodeResult(404);
+
+            return View(group);
+        }
     }
 }

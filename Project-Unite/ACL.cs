@@ -109,6 +109,12 @@ namespace Project_Unite
             return hpr.ActionLink(topic.Subject, "ViewTopic", "Forum", new { id = topic.Discriminator }, null);
         }
 
+        public static string GetUserGroup(string uid)
+        {
+            var db = new ApplicationDbContext();
+            return db.Users.FirstOrDefault(x => x.Id == uid).GroupId;
+        }
+
         public static string ResolveUserLinksInMarkdown(string mkdn)
         {
             string[] words = mkdn.Split(' ');

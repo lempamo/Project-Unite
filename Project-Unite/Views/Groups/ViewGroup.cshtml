@@ -1,0 +1,37 @@
+﻿@model Project_Unite.Models.Group
+@{
+    ViewBag.Title = Model.Name + " - Groups ";
+}
+@using Microsoft.AspNet.Identity;
+
+<div class="row group_banner" style="background-color: #@Model.BannerColorHex;">
+    <h2><strong>[@Model.ShortName] @Model.Name</strong></h2>
+</div>
+
+
+<div class="row">
+    <div class="panel col-xs-8">
+        @Html.Markdown(Model.Description)
+    </div>
+    <div class="col-xs-4">
+        @if (ACL.GetUserGroup(User.Identity.GetUserId()) == Model.Id)
+        {
+            @Html.ActionLink("Leave", "LeaveGroup", "Groups", null, new { @class = "btn btn-default" })
+        }
+        else
+        {
+            @if (Model.Publicity == 0 || Model.Publicity == 2)
+            {
+                @Html.ActionLink("Join", "JoinGroup", "Groups", new { id = Model.Id }, new { @class = "btn btn-default" })
+            }
+        }
+        <hr/>
+        @if(Model.Publicity > 1)
+        {
+            <h4>This group is private.</h4>
+
+            <p>Please respect that. Do not share this group link with anyone not authorized by the group administrators.</p>
+        }
+    </div>
+</div>
+
