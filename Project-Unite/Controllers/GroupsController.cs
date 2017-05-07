@@ -30,6 +30,19 @@ namespace Project_Unite.Controllers
             return RedirectToAction("ViewGroup", "Groups", new { id = id });
         }
 
+        [Authorize]
+        public ActionResult LeaveGroup()
+        {
+            var db = new ApplicationDbContext();
+            var user = db.Users.FirstOrDefault(x => x.Id == User.Identity.GetUserId());
+            var group = db.Groups.FirstOrDefault(x => x.Id == user.GroupId);
+            if (group == null)
+                return new HttpStatusCodeResult(404);
+            user.GroupId = "";
+            db.SaveChanges();
+            return RedirectToAction("ViewGroup", "Groups", new { id = group.Id });
+
+        }
 
         [Authorize]
         public ActionResult ViewGroup(string id)
