@@ -16,6 +16,15 @@ namespace Project_Unite.Models
 
         public double RawReputation { get; set; }
 
+        public ApplicationUser[] Users
+        {
+            get
+            {
+                var db = new ApplicationDbContext();
+                return db.Users.Where(x => x.GroupId == this.Id).ToArray();
+            }
+        }
+
         public int Reputation
         {
             get
