@@ -1,0 +1,50 @@
+﻿@model Project_Unite.Models.GroupViewModel
+@{
+    ViewBag.Title = "Create a group";
+}
+
+<h2>Create a group</h2>
+
+<p>This page allows you to create a group. Note that when you create the group, you will leave your current group if you are in one.</p>
+
+@using (Html.BeginForm())
+{
+    <div class="panel panel-danger">
+        <div class="panel-body">
+            @Html.ValidationSummary()
+        </div>
+    </div>
+
+
+    @Html.AntiForgeryToken()
+    <table class="table">
+        <tr>
+            <td style="width:25%">
+                <strong>Group name:</strong>
+            </td>
+            <td>@Html.TextBoxFor(Model=>Model.Name, new{@class="form-control"})</td>
+        </tr>
+        <tr><td><strong>Short name:</strong>
+            <p>Your "Short Name" is simply a tag for your group. Think of a neat acronym to go with your group. Something clever that can fit in 4 characters or less.</p>
+            </td>
+            <td>@Html.TextBoxFor(Model=>Model.ShortName, new { @class = "form-control" })</td>
+        </tr>
+        <tr>
+            <td><strong>Group description:</strong></td>
+            <td>@Html.TextAreaFor(Model=>Model.Description)</td>
+        </tr>
+        <tr>
+            <td><strong>Banner color (hexadecimal):</strong></td>
+            <td>@Html.TextBoxFor(Model=>Model.BannerColorHex, new {@class="form-control"})</td>
+        </tr>
+        <tr>
+            <td><strong>Publicity:</strong></td>
+            <td>@Html.DropDownListFor(Model=>Model.Publicity, Model.Publicities, new { @class = "form-control" })
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Create!" class="btn btn-primary" /></td>
+        </tr>
+
+    </table>
+}
