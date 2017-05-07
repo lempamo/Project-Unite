@@ -86,6 +86,78 @@ git clone https://github.com/MichaelTheShifter/Project-Unite
 
                     <p>This feature is not yet implemented.</p>
                </div>
+
+                @*ROLES*@
+                <div class="tab-pane fade in" id="a_roles">
+                    <h2>Roles</h2>
+
+                    <p>Here, you can see a list of all the roles in the system.</p>
+
+                    <ul class="pagination" data-tabs="roletabs" id="roletabs">
+                        @for (int i = 0; i < db.Roles.GetPageCount(10); i++)
+                        {
+                            string htmlClass = "";
+                            if (i == 0)
+                            {
+                                htmlClass = "active";
+                            }
+                            int page = i + 1;
+                            <li class="@htmlClass"><a data-toggle="tab" href="#r_page_@i">@page</a></li>
+                        }
+                    </ul>
+                    <div class="tab-content">
+                        @for (int i = 0; i < db.Roles.GetPageCount(10); i++)
+                        {
+                            string htmlClass = "tab-pane fade in";
+                            if (i == 0)
+                            {
+                                htmlClass += " active";
+                            }
+                            <div class="@htmlClass" id="r_page_@i">
+                                <table class="table">
+                                    <tr>
+                                        <th style="width:45%">Role</th>
+                                        <th>Priority</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    @{ 
+                                        Role[] roles = db.Roles.ToArray() as Role[];
+                                        roles = roles.OrderByDescending(x => x.Priority).ToArray();
+                                    }
+                                    @foreach (Role role in roles.GetItemsOnPage(i, 10))
+                                    {
+                                        <tr>
+                                            <td>
+                                                <p class="color: @role.ColorHex">@role.Name</p>
+                                                <p>ID: @role.Id &bull;Users: @role.Users.Count() &bull; Priority: @role.Priority</p>
+                                            </td>
+                                            <td>
+                                                @if(role.Priority > 0)
+                                                {
+                                                    <a href="@Url.Action("DecreaseRolePriority", "Admin", new {id=role.Id})" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span></a>
+                                                }
+                                                @if (role.Priority < roles.Length)
+                                                {
+                                                    <a href="@Url.Action("IncreaseRolePriority", "Admin", new {id=role.Id})" class="btn btn-default"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                                                }
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("RoleDetails", "Admin", new {id=role.Id})" class="btn btn-default"><span class="glyphicon glyphicon-dashboard"></span> Details</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+
+
+
+
+
+                @*USERS*@
                 <div class="tab-pane fade in" id="a_users">
                     <h2>Users</h2>
 
