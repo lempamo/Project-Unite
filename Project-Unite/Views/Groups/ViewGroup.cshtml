@@ -20,7 +20,7 @@
         }
         else
         {
-            @if (Model.Publicity == 0 || Model.Publicity == 2)
+            if (Model.Publicity == 0 || Model.Publicity == 2)
             {
                 @Html.ActionLink("Join", "JoinGroup", "Groups", new { id = Model.Id }, new { @class = "btn btn-default" })
             }
