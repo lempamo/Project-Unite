@@ -207,7 +207,27 @@ git clone https://github.com/MichaelTheShifter/Project-Unite
 
 
 
-
+                @foreach (var user in db.Users.ToArray())
+                {
+                    <div class="modal fade" id="u_details_@user.DisplayName">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Users</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    @Html.Partial("~/Views/Moderator/UserDetails.cshtml", user)
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-target="#u_details_@user.DisplayName">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
 
 
                 @*USERS*@
@@ -251,7 +271,7 @@ git clone https://github.com/MichaelTheShifter/Project-Unite
                                             </td>
                                             <td>
                                                 <a href="@Url.Action("ViewProfile", "Profiles", new { id = user.DisplayName })" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> View Profile</a>
-                                                <a href="@Url.Action("UserDetails", "Moderator", new {id=user.DisplayName})" class="btn btn-warning"><span class="glyphicon glyphicon-wrench"></span> Moderate</a>
+                                                <a data-toggle="modal" href="#u_details_@user.DisplayName" class="btn btn-warning"><span class="glyphicon glyphicon-wrench"></span> Moderate</a>
                                             </td>
                                         </tr>
                                     }
