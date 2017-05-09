@@ -16,7 +16,7 @@
         <h4>Bug types</h4>
 
         <ul id="tabs" data-tabs="tabs" class="nav nav-stacked nav-pills">
-            @foreach(var cat in Model)
+            @foreach(var cat in Model.ToArray())
             {
                 string c = "";
                 if(cat == Model.First())
