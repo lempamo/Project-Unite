@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -36,6 +37,44 @@ namespace Project_Unite
 
             migrator.Update();
 
+            string actionname = this.Request.RequestContext.RouteData.Values["action"].ToString();
+            string controllername = this.Request.RequestContext.RouteData.Values["controller"].ToString();
+
+            var asm = Assembly.GetExecutingAssembly();
+            var ctl = asm.GetTypes().FirstOrDefault(x => x.Name == controllername + "Controller");
+            var adm = ctl.GetCustomAttributes(false).Where(x => x is RequiresAdmin);
+            var mod = ctl.GetCustomAttributes(false).Where(x => x is RequiresModerator);
+            var dev = ctl.GetCustomAttributes(false).Where(x => x is RequiresDeveloper);
+
+            bool fail = false;
+
+            if (adm != null)
+                fail = !User.Identity.IsAdmin();
+            if (mod != null)
+                fail = !User.Identity.IsModerator();
+            if (dev != null)
+                fail = !User.Identity.IsDeveloper();
+
+            var act = ctl.GetMethods(BindingFlags.Public | BindingFlags.Instance).FirstOrDefault(x => x.Name == actionname);
+
+            adm = act.GetCustomAttributes(false).Where(x => x is RequiresAdmin);
+            mod = act.GetCustomAttributes(false).Where(x => x is RequiresModerator);
+            dev = act.GetCustomAttributes(false).Where(x => x is RequiresDeveloper);
+
+            if (adm != null)
+                fail = fail || !User.Identity.IsAdmin();
+            if (mod != null)
+                fail = fail || !User.Identity.IsModerator();
+            if (dev != null)
+                fail = fail || !User.Identity.IsDeveloper();
+
+
+            if (fail == true)
+            {
+                string url = "http://" + this.Request.Url.Host.Replace("http://", "").Replace("https://", "") + "/Home/AccessDenied";
+                Response.Redirect(url, true);
+                return;
+            }
 
             var addr = HttpContext.Current.Request.UserHostAddress;
             var db = new ApplicationDbContext();
@@ -47,6 +86,8 @@ namespace Project_Unite
                 this.CompleteRequest();
                 return;
             }
+
+            
         }
 
         protected void Application_EndRequest(object s, EventArgs e)

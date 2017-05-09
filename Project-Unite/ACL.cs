@@ -9,6 +9,8 @@ using System.Diagnostics;
 using System.Web.Mvc.Html;
 using System.Data.Entity;
 using System.Text;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Security.Principal;
 
 namespace Project_Unite
 {
@@ -226,9 +228,7 @@ namespace Project_Unite
 
             if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(fId))
                 return false;
-            if (!Granted(userName, "CanPostTopics"))
-                return false; //obviously if this role has a global restraint for this ACL def we shouldn't let them post in ANY forum.
-
+            
             var db = new ApplicationDbContext();
 
             var usr = db.Users.Include(x => x.Roles).FirstOrDefault(u => u.UserName == userName);
@@ -282,7 +282,7 @@ namespace Project_Unite
 
             if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(fId))
                 return false;
-            if (!Granted(userName, "CanPostTopics"))
+            if (HttpContext.Current.User.Identity.IsGuest())
                 return false; //obviously if this role has a global restraint for this ACL def we shouldn't let them post in ANY forum.
 
             var db = new ApplicationDbContext();
@@ -324,7 +324,7 @@ namespace Project_Unite
 
             if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(fId))
                 return false;
-            if (!Granted(userName, "CanPostTopics"))
+            if (HttpContext.Current.User.Identity.IsGuest())
                 return false; //obviously if this role has a global restraint for this ACL def we shouldn't let them post in ANY forum.
 
             var db = new ApplicationDbContext();
@@ -389,7 +389,7 @@ namespace Project_Unite
         {
             try
             {
-                if (!Granted(userId, "CanEditRoles"))
+                if (!HttpContext.Current.User.Identity.IsAdmin())
                     return false;
 
                 var db = new ApplicationDbContext();
@@ -425,40 +425,37 @@ namespace Project_Unite
             
         }
 
-        public static bool Granted(string userName, string prop)
+        public static bool IsGuest(this IIdentity id)
         {
-            if (string.IsNullOrWhiteSpace(prop))
-                return true;
-
-            try
-            {
-                var db = new ApplicationDbContext();
-
-                var usr = db.Users.FirstOrDefault(u => u.UserName == userName);
-
-                var userRoles = new List<Role>();
-                foreach (var usrRole in usr.Roles)
-                {
-                    userRoles.Add(db.Roles.FirstOrDefault(r => r.Id == usrRole.RoleId) as Role);
-                }
-                db.Dispose();
-                var userRole = userRoles.OrderByDescending(m => m.Priority).First();
-
-                var t = userRole.GetType();
-                foreach (var propInf in t.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
-                {
-                    if (propInf.Name == prop && propInf.PropertyType == typeof(bool))
-                        return (bool)propInf.GetValue(userRole);
-                }
-
+            if (HttpContext.Current.Request.IsAuthenticated)
                 return false;
-            }
-            catch (Exception ex)
-            {
-                Debug.Print(ex.ToString());
-                return false;
-            }
+            return true;
+        }
 
+
+        public static bool IsModerator(this IIdentity id)
+        {
+            var db = new ApplicationDbContext();
+            return db.Users.FirstOrDefault(x => x.UserName == id.Name).HighestRole.IsModerator;
+        }
+
+        public static bool IsDeveloper(this IIdentity id)
+        {
+            var db = new ApplicationDbContext();
+            return db.Users.FirstOrDefault(x => x.UserName == id.Name).HighestRole.IsDeveloper;
+        }
+
+        public static bool IsMember(this IIdentity id)
+        {
+            var db = new ApplicationDbContext();
+            return db.Users.FirstOrDefault(x => x.UserName == id.Name).HighestRole.IsMember;
+        }
+
+
+        public static bool IsAdmin(this IIdentity id)
+        {
+            var db = new ApplicationDbContext();
+            return db.Users.FirstOrDefault(x => x.UserName == id.Name).HighestRole.IsAdmin;
         }
     }
 }

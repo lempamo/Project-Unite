@@ -97,9 +97,9 @@
     }
 
     <div class="container clearfix body-content">
-        <div class="panel panel-success">
+        <div class="panel panel-warning">
             <div class="panel-body">
-                <p><span class="glyphicon glyphicon-exclamation-sign"></span> <strong>Welcome to Project: Unite!</strong> Things are a bit barren right now and not a lot of stuff is implemented - but feel free to explore!</p>
+                <p><span class="glyphicon glyphicon-warning-sign"></span> <strong>Do things seem broken?</strong> We are currently working on streamlining the permission system and its backend. Please be patient!</p>
             </div>
         </div>
         
@@ -112,84 +112,8 @@
             </div>
         }
 
-        @if (ViewBag.Moderator == true)
-        {
-            <ul class="nav nav-tabs">
-                <li>@Html.ActionLink("Home", "Index", "Moderator")</li>
-                @if (ACL.Granted(User.Identity.Name, "CanIssueBan"))
-                {
-                    <li>@Html.ActionLink("Bans", "Bans", "Moderator")</li>
-                }
-                @if (ACL.Granted(User.Identity.Name, "CanEditProfiles"))
-                {
-                    <li>@Html.ActionLink("Users", "Users", "Moderator")</li>
-                }
-                <li>@Html.ActionLink("Audit logs", "Logs", "Moderator")</li>
-            </ul>
-                @RenderBody();
-        }
-        else if (ViewBag.Developer == true)
-        {
-            <ul class="nav nav-pills">
-                <li>@Html.ActionLink("Home", "Index", "Developer")</li>
-                <li>@Html.ActionLink("Releases", "Releases", "Developer")</li>
-                <li>@Html.ActionLink("Wiki", "Wiki", "Developer")</li>
-                <li>@Html.ActionLink("Bugs", "Bugs", "Developer")</li>
-
-            </ul>
-
-
-            @RenderBody();
-        }
-        else if (ACL.Granted(User.Identity.Name, ViewBag.ACLRule))
-        {
-            if (ViewBag.Admin == true)
-            {
-                if (ACL.Granted(User.Identity.Name, "CanAccessAdminCP"))
-                {
-
-                <ul class="nav nav-tabs">
-					<li>@Html.ActionLink("Home", "Index", "Admin")</li>
-
-                    @if (ACL.Granted(User.Identity.Name, "CanEditRoles"))
-                    {
-						<li>@Html.ActionLink("Roles", "Roles", "Admin")</li>
-                        <li>@Html.ActionLink("Access Control", "AccessControl", "Admin")</li>
-
-                    }
-
-                    @if (ACL.Granted(User.Identity.Name, "CanEditProfiles"))
-                    {
-						<li>@Html.ActionLink("Users", "Users", "Admin")</li>
-                    }
-                    @if (ACL.Granted(User.Identity.Name, "CanEditForumCategories"))
-                    {
-                        <li>@Html.ActionLink("Forum Categories", "Forums", "Admin")</li>
-                    }
-                    <li>@Html.ActionLink("Audit logs", "Logs", "Admin")</li>
-				</ul>
-
-                @RenderBody();
-            }
-            else
-            {
-				<h2>Access denied.</h2>
-				<p>You do not have permission to access this page. Contact an admin if this is in error.</p>
-            }
-        }
-        else
-        {
-
-            @RenderBody()
-
-        }
-        }
-        else
-        {
-            <h2>Access denied.</h2>
-                <p>You do not have permission to access this page. Contact an admin if this is in error.</p>
-
-        }<hr />
+        @RenderBody()
+        <hr />
 
     </div>
 
@@ -232,7 +156,7 @@
         <p><strong>We'd like to formally thank Philip Adams.</strong> Without him, we would not exist. Phil has contributed years of work and help to ShiftOS and is the original developer of the game. He has written code that is still used to this day in modern ShiftOS, and much of the ideas and mechanics in the game are from his mind.</p>
         <p>Check Phil out on YouTube: <a href="http://youtube.com/OSFirstTimer">OSFirstTimer</a> | <a href="https://www.youtube.com/user/AstralPhaser">AstralPhaser</a> | <a href="https://www.youtube.com/channel/UC2wLfbZrHQOxP2e5zkxYRjA">YouTube Millionaire</a></p>
 
-        @if (ACL.Granted(User.Identity.Name, "CanAccessAdminCP"))
+        @if (User.Identity.IsAdmin())
             {
             <p>@Html.ActionLink("Administrator Control Panel", "Index", "Admin")</p>}
     </footer>

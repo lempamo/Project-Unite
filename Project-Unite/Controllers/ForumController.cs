@@ -131,16 +131,16 @@ namespace Project_Unite.Controllers
             string acl_perm = "CanEditPosts";
             if (topic == null)
                 return new HttpStatusCodeResult(404);
-            if (topic.AuthorId == User.Identity.GetUserId())
-                acl_perm = "CanEditOwnPosts";
-            if (!ACL.Granted(User.Identity.Name, acl_perm))
-                return new HttpStatusCodeResult(403);
+            if (topic.AuthorId != User.Identity.GetUserId())
+                if (!User.Identity.IsModerator())
+                    return new HttpStatusCodeResult(403);
             var model = new EditPostViewModel();
             model.Id = topic.Id;
             model.Contents = topic.Body;
             return View(model);
         }
 
+        [RequiresModerator]
         [Authorize]
         public ActionResult DeletePost(string id)
         {
@@ -150,10 +150,6 @@ namespace Project_Unite.Controllers
             string acl_perm = "CanDeletePosts";
             if (topic == null)
                 return new HttpStatusCodeResult(404);
-            if (topic.AuthorId == User.Identity.GetUserId())
-                acl_perm = "CanDeleteOwnPosts";
-            if (!ACL.Granted(User.Identity.Name, acl_perm))
-                return new HttpStatusCodeResult(403);
             var parent = db.ForumTopics.FirstOrDefault(x => x.Id == topic.Parent);
             bool redirectToParent = false;
             string cat = "";
@@ -184,9 +180,8 @@ namespace Project_Unite.Controllers
             string acl_perm = "CanEditPosts";
             if (topic == null)
                 return new HttpStatusCodeResult(404);
-            if (topic.AuthorId == User.Identity.GetUserId())
-                acl_perm = "CanEditOwnPosts";
-            if (!ACL.Granted(User.Identity.Name, acl_perm))
+            if (topic.AuthorId != User.Identity.GetUserId())
+                if (!User.Identity.IsModerator())
                 return new HttpStatusCodeResult(403);
             var edit = new ForumPostEdit();
             edit.EditedAt = DateTime.Now;

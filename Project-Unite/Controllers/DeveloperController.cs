@@ -9,23 +9,19 @@ using Project_Unite.Models;
 
 namespace Project_Unite.Controllers
 {
+    [RequiresDeveloper]
     [Authorize]
     public class DeveloperController : Controller
     {
         // GET: Developer
         public ActionResult Index()
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
-                return new HttpStatusCodeResult(403);
             ViewBag.Developer = true;
             return View();
         }
 
         public ActionResult ToggleObsolete(string id)
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
-                return new HttpStatusCodeResult(403);
-
             var db = new ApplicationDbContext();
             var release = db.Downloads.FirstOrDefault(x => x.Id == id);
             release.Obsolete = !release.Obsolete;
@@ -35,9 +31,6 @@ namespace Project_Unite.Controllers
 
         public ActionResult MakeUnstable(string id)
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
-                return new HttpStatusCodeResult(403);
-
             var db = new ApplicationDbContext();
             var release = db.Downloads.FirstOrDefault(x => x.Id == id);
             release.IsStable = false;
@@ -48,9 +41,6 @@ namespace Project_Unite.Controllers
 
         public ActionResult MakeStable(string id)
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
-                return new HttpStatusCodeResult(403);
-
             var db = new ApplicationDbContext();
             var release = db.Downloads.FirstOrDefault(x => x.Id == id);
             release.IsStable = true;
@@ -61,18 +51,12 @@ namespace Project_Unite.Controllers
 
         public ActionResult Releases()
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
-                return new HttpStatusCodeResult(403);
             var db = new ApplicationDbContext();
             return View(db.Downloads);
         }
 
         public ActionResult AddRelease()
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
-                return new HttpStatusCodeResult(403);
-            if (!ACL.Granted(User.Identity.Name, "CanReleaseBuild"))
-                return new HttpStatusCodeResult(403);
             ViewBag.Developer = true;
 
             var build = new PostDownloadViewModel();
@@ -85,10 +69,6 @@ namespace Project_Unite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddRelease(PostDownloadViewModel model)
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
-                return new HttpStatusCodeResult(403);
-            if (!ACL.Granted(User.Identity.Name, "CanReleaseBuild"))
-                return new HttpStatusCodeResult(403);
             if (!ModelState.IsValid)
                 return View(model);
 
@@ -174,8 +154,6 @@ namespace Project_Unite.Controllers
         [Authorize]
         public ActionResult Wiki()
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
-                return new HttpStatusCodeResult(403);
             ViewBag.Developer = true;
             var db = new ApplicationDbContext();
             var cats = db.WikiCategories;
@@ -184,9 +162,6 @@ namespace Project_Unite.Controllers
 
         public ActionResult AddWikiCategory()
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
-                return new HttpStatusCodeResult(403);
-
             ViewBag.Developer = true;
 
             var mdl = new AddWikiCategoryViewModel();
@@ -198,8 +173,6 @@ namespace Project_Unite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddWikiCategory(AddWikiCategoryViewModel model)
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessDevCP"))
-                return new HttpStatusCodeResult(403);
             ViewBag.Developer = true;
             if (!ModelState.IsValid)
                 return View(model);

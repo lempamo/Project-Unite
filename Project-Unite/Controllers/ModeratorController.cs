@@ -9,47 +9,33 @@ using Project_Unite.Models;
 
 namespace Project_Unite.Controllers
 {
+    [RequiresModerator]
     [Authorize]
     public class ModeratorController : Controller
     {
         // GET: Moderator
         public ActionResult Index()
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessModCP"))
-                return new HttpStatusCodeResult(403);
-
             ViewBag.Moderator = true;
             return View();
         }
 
         public ActionResult UserDetails(string id)
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessModCP"))
-                return new HttpStatusCodeResult(403);
-
             var db = new ApplicationDbContext();
             var usr = db.Users.FirstOrDefault(x => x.DisplayName == id);
-            if (usr == null || !ACL.Granted(User.Identity.Name, "CanViewUserInfo"))
-                return new HttpStatusCodeResult(403);
+            if (usr == null)
+                return new HttpStatusCodeResult(404);
             return View(usr);
         }
 
         public ActionResult Users()
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessModCP"))
-                return new HttpStatusCodeResult(403);
-            if (!ACL.Granted(User.Identity.Name, "CanViewUserInfo"))
-                return new HttpStatusCodeResult(403);
-
             return View(new ApplicationDbContext().Users);
         }
 
         public ActionResult Unban(string id, string returnUrl = "")
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessModCP"))
-                return new HttpStatusCodeResult(403);
-            if (!ACL.Granted(User.Identity.Name, "CanIssueBan"))
-                return new HttpStatusCodeResult(403);
             var db = new ApplicationDbContext();
 
             var usr = db.Users.FirstOrDefault(x => x.Id == id);
@@ -73,10 +59,6 @@ namespace Project_Unite.Controllers
 
         public ActionResult Ban(string id, string returnUrl = "")
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessModCP"))
-                return new HttpStatusCodeResult(403);
-            if (!ACL.Granted(User.Identity.Name, "CanIssueBan"))
-                return new HttpStatusCodeResult(403);
             var db = new ApplicationDbContext();
 
             var usr = db.Users.FirstOrDefault(x => x.Id == id);
@@ -102,10 +84,6 @@ namespace Project_Unite.Controllers
 
         public ActionResult Unmute(string id, string returnUrl = "")
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessModCP"))
-                return new HttpStatusCodeResult(403);
-            if (!ACL.Granted(User.Identity.Name, "CanIssueMute"))
-                return new HttpStatusCodeResult(403);
             var db = new ApplicationDbContext();
 
             var usr = db.Users.FirstOrDefault(x => x.Id == id);
@@ -130,13 +108,6 @@ namespace Project_Unite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangeUserName(string id, ApplicationUser model, string returnUrl = "")
         {
-            string acl_r = "CanEditUsernames";
-            if (id == User.Identity.GetUserId())
-                acl_r = "CanEditUsername";
-
-            if (!ACL.Granted(User.Identity.Name, acl_r))
-                return new HttpStatusCodeResult(403);
-
             var db = new ApplicationDbContext();
             var usr = db.Users.FirstOrDefault(x => x.Id == id);
             if (usr == null)
@@ -155,20 +126,12 @@ namespace Project_Unite.Controllers
 
         public ActionResult Lock(string id)
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessModCP"))
-                return new HttpStatusCodeResult(403);
-
             var db = new ApplicationDbContext();
             var forum = db.ForumTopics.FirstOrDefault(x => x.Discriminator == id);
             if (forum == null)
                 return new HttpStatusCodeResult(404);
             string perm = "CanLockTopics";
             var uid = User.Identity.GetUserId();
-            if (forum.AuthorId == uid)
-                perm = "CanLockOwnTopics";
-
-            if (!ACL.Granted(User.Identity.Name, perm))
-                return new HttpStatusCodeResult(403);
 
             if (forum.IsLocked == true) //Save the DB queries...
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -183,20 +146,12 @@ namespace Project_Unite.Controllers
 
         public ActionResult Unlock(string id)
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessModCP"))
-                return new HttpStatusCodeResult(403);
-
             var db = new ApplicationDbContext();
             var forum = db.ForumTopics.FirstOrDefault(x => x.Discriminator == id);
             if (forum == null)
                 return new HttpStatusCodeResult(404);
             string perm = "CanUnlockTopics";
             var uid = User.Identity.GetUserId();
-            if (forum.AuthorId == uid)
-                perm = "CanUnlockOwnTopics";
-
-            if (!ACL.Granted(User.Identity.Name, perm))
-                return new HttpStatusCodeResult(403);
 
             if (forum.IsLocked == false) //Save the DB queries...
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -212,20 +167,12 @@ namespace Project_Unite.Controllers
 
         public ActionResult List(string id)
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessModCP"))
-                return new HttpStatusCodeResult(403);
-
             var db = new ApplicationDbContext();
             var forum = db.ForumTopics.FirstOrDefault(x => x.Discriminator == id);
             if (forum == null)
                 return new HttpStatusCodeResult(404);
             string perm = "CanUnlistTopics";
             var uid = User.Identity.GetUserId();
-            if (forum.AuthorId == uid)
-                perm = "CanUnlistOwnTopics";
-
-            if (!ACL.Granted(User.Identity.Name, perm))
-                return new HttpStatusCodeResult(403);
 
             if (forum.IsUnlisted == false) //Save the DB queries...
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -240,20 +187,12 @@ namespace Project_Unite.Controllers
 
         public ActionResult Unlist(string id)
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessModCP"))
-                return new HttpStatusCodeResult(403);
-
             var db = new ApplicationDbContext();
             var forum = db.ForumTopics.FirstOrDefault(x => x.Discriminator == id);
             if (forum == null)
                 return new HttpStatusCodeResult(404);
             string perm = "CanUnlistTopics";
             var uid = User.Identity.GetUserId();
-            if (forum.AuthorId == uid)
-                perm = "CanUnlistOwnTopics";
-
-            if (!ACL.Granted(User.Identity.Name, perm))
-                return new HttpStatusCodeResult(403);
 
             if (forum.IsUnlisted == true) //Save the DB queries...
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -280,9 +219,6 @@ namespace Project_Unite.Controllers
 
         public ActionResult Logs()
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessModCP"))
-                return new HttpStatusCodeResult(403);
-
             var db = new ApplicationDbContext();
 
             return View(db.AuditLogs.Where(x => x.Level != AuditLogLevel.Admin));
@@ -290,10 +226,6 @@ namespace Project_Unite.Controllers
 
         public ActionResult Mute(string id, string returnUrl = "")
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessModCP"))
-                return new HttpStatusCodeResult(403);
-            if (!ACL.Granted(User.Identity.Name, "CanIssueMute"))
-                return new HttpStatusCodeResult(403);
             var db = new ApplicationDbContext();
 
             var usr = db.Users.FirstOrDefault(x => x.Id == id);

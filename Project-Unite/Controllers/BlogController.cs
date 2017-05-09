@@ -130,12 +130,10 @@ namespace Project_Unite.Controllers
             return View(blog);
         }
 
+        [RequiresDeveloper]
         [Authorize]
         public ActionResult PostBlog()
         {
-            if (!ACL.Granted(User.Identity.Name, "CanBlog"))
-                return new HttpStatusCodeResult(403);
-
             var model = new PostBlogViewModel();
             return View(model);
         }

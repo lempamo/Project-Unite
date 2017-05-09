@@ -21,10 +21,9 @@ namespace Project_Unite.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         [Authorize]
+        [RequiresAdmin]
         public ActionResult Index()
         {
-            if (!ACL.Granted(User.Identity.Name, "CanAccessAdminCP"))
-                return new HttpStatusCodeResult(403);
             return View();
         }
     }
