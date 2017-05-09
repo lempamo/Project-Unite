@@ -50,7 +50,21 @@
                 {
                     <tr>
                         <td>
-                            <strong><a href="#md_@bug.Id" data-toggle="modal"></a></strong><br/>
+                            <div class="modal fade in" id="md_@bug.Id">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2>View bug</h2>
+                                    </div>
+                                    <div class="modal-body">
+                                        @Html.Partial("~/Views/Bugs/ViewBug.cshtml", new ViewBugViewModel
+                                   {
+                                       BugData = bug,
+                                        Comment = ""
+                                   })
+                                    </div>
+                                </div>
+                            </div>
+                            <strong><a href="#md_@bug.Id" data-toggle="modal">@bug.Name</a></strong><br/>
                             <p>Reported at: @bug.ReportedAt &bull; Reported by: @Html.UserLink(bug.Reporter)</p>
                         </td>
                         @switch (bug.Urgency)
