@@ -10,6 +10,11 @@ namespace Project_Unite.Controllers
 {
     public class HomeController : Controller
     {
+        public ActionResult AccessDenied()
+        {
+            return View();
+        }
+
         public ActionResult Index()
         {
             
