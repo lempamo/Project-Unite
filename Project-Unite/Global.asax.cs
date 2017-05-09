@@ -73,13 +73,17 @@ namespace Project_Unite
             mod = act.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresModerator);
             dev = act.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresDeveloper);
 
-            if (adm != null)
-                fail = fail || (bool)!User.Identity?.IsAdmin();
-            if (mod != null)
-                fail = fail || (bool)!User.Identity?.IsModerator();
-            if (dev != null)
-                fail = fail || (bool)!User.Identity?.IsDeveloper();
+            bool? fail2 = false;
 
+            if (adm != null)
+                fail2 = User.Identity?.IsAdmin();
+                if (mod != null)
+                fail2 = User.Identity?.IsModerator();
+            if (dev != null)
+                fail2 = User.Identity?.IsDeveloper();
+
+            if (fail2 != null)
+                fail = fail || !(bool)fail2;
 
             if (fail == true)
             {
@@ -105,18 +109,20 @@ namespace Project_Unite
         protected void Application_EndRequest(object s, EventArgs e)
         {
             var db = new ApplicationDbContext();
-            if (!string.IsNullOrEmpty(User.Identity.Name))
+            if (Request.IsAuthenticated)
             {
-                //Check for a username ban.
-                var usr = db.Users.First(x => x.UserName == User.Identity.Name);
-                var banned = usr.IsBanned;
-                if (banned == true)
+                if (!string.IsNullOrEmpty(User.Identity.Name))
                 {
-                    //The user is banned. Anally rape their ability to get on here.
-                    this.Response.StatusCode = 200;
-                    this.Response.ContentType = "plaintext";
-                    this.Response.ClearContent();
-                    this.Response.Output.Write($@"Greetings from the ShiftOS administration team, {ACL.UserNameRaw(User.Identity.GetUserId())}.
+                    //Check for a username ban.
+                    var usr = db.Users.First(x => x.UserName == User.Identity.Name);
+                    var banned = usr.IsBanned;
+                    if (banned == true)
+                    {
+                        //The user is banned. Anally rape their ability to get on here.
+                        this.Response.StatusCode = 200;
+                        this.Response.ContentType = "plaintext";
+                        this.Response.ClearContent();
+                        this.Response.Output.Write($@"Greetings from the ShiftOS administration team, {ACL.UserNameRaw(User.Identity.GetUserId())}.
 
 If you are seeing this page, it means two things:
 
@@ -148,17 +154,21 @@ We also reserve the right to purge your data after 2 months of a permanent ban. 
 so do not cry to us when you find out you can't log in because your account got anhilated by the automatic purge system.
 
  - Michael VanOverbeek, on behalf of the ShiftOS staff. Play fair.");
-                    this.CompleteRequest();
-                    return;
+                        this.CompleteRequest();
+                        return;
 
+                    }
+                    if (usr.LastKnownIPAddress != Request.UserHostAddress)
+                    {
+                        usr.LastKnownIPAddress = Request.UserHostAddress;
+                        db.SaveChanges();
+                    }
                 }
-                if (usr.LastKnownIPAddress != Request.UserHostAddress)
-                {
-                    usr.LastKnownIPAddress = Request.UserHostAddress;
-                    db.SaveChanges();
-                }
+                CompleteRequest();
+                return;
             }
-
+            CompleteRequest();
+            
         }
     }
 }
