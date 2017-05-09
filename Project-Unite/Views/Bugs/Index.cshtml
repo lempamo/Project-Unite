@@ -40,44 +40,40 @@
                 <h2>@category.Name</h2>
                 <p>@category.Description</p>
 
-                <div class="row">
-                    <div class="col-xs-6">
-                        <strong>Open</strong>
-                </div>
-                    <div class="col-xs-3">
-                        <strong>Urgency</strong>
-                    </div>
-                    <div class="col-xs-3">
-                        <strong>Actions</strong>
-                    </div>
-                </div>
+                <table class="table">
+                    <tr>
+                        <th class="width:50%">Open</th>
+                        <th>Urgency</th>
+                        <th>Actions</th>
+                    </tr>
                 @foreach(var bug in category.Open.OrderByDescending(x=>x.Urgency))
                 {
-                    <div class="row">
-                        <div class="col-xs-6">
+                    <tr>
+                        <td>
                             <strong><a href="#md_@bug.Id" data-toggle="modal"></a></strong><br/>
                             <p>Reported at: @bug.ReportedAt &bull; Reported by: @Html.UserLink(bug.Reporter)</p>
-                        </div>
+                        </td>
                         @switch (bug.Urgency)
                                 {
                                     case 0:
-                                        <div class="col-xs-3"><strong>Minor</strong></div>
+                                        <td><strong>Minor</strong></td>
                                 break;
                             case 1:
-                                <div class="col-xs-3 panel-primary"><strong>Moderate</strong></div>
+                                <td><strong>Moderate</strong></td>
                                 break;
                             case 2:
-                                <div class="col-xs-3 panel-warning"><strong>Major</strong></div>
+                                <td class="warning"><sttrong>Major</sttrong></td>
                                 break;
                             case 3:
-                                <div class="col-xs-3 panel-danger"><strong>Critical</strong></div>
+                                <td class="danger"><strong>Critical</strong></td>
                                 break;
                         }
-                        <div class="col-xs-3">
+                        <td>
                             <a class="btn btn-primary" href="@Url.Action("CloseBug", new {id=bug.Id})"><span class="glyphicon glyphicon-ok"></span> Close bug report</a>
-                        </div>
-                    </div>
+                        </td>
+                    </tr>
                 }
+                </table>
             </div>
         }
     </div>
