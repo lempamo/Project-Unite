@@ -6,20 +6,6 @@
 
 
 
-<h2>Bugtracker</h2>
-
-@{
-    Html.RenderPartial("~/Views/Bugs/_BugBar.cshtml");
-}
-
-<div class="row">
-    <div class="col-xs-3">
-        @{
-            Html.RenderPartial("~/Views/Bugs/_Sidebar.cshtml", tags);
-        }
-    </div>
-
-    <div class="col-xs-9">
         <h3>@Model.BugData.Name</h3>
 
         <p>
@@ -83,6 +69,3 @@
                 </div>
             </div>
         }
-
-    </div>
-</div>
