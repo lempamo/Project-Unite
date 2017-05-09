@@ -73,7 +73,7 @@ namespace Project_Unite
             mod = act.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresModerator);
             dev = act.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresDeveloper);
 
-            bool? fail2 = false;
+            bool? fail2 = true;
 
             if (adm != null)
                 fail2 = User.Identity?.IsAdmin();
