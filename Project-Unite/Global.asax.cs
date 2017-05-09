@@ -37,36 +37,48 @@ namespace Project_Unite
 
             migrator.Update();
 
-            string actionname = this.Request.RequestContext.RouteData.Values["action"].ToString();
-            string controllername = this.Request.RequestContext.RouteData.Values["controller"].ToString();
+            string raw_url = Request.Url.ToString().Replace("//", "\\\\");
+
+            string[] split = raw_url.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+
+            string actionname = "Index";
+            string controllername = "Home";
+
+            if(split.Length > 1)
+            {
+                if (split.Length == 2)
+                    controllername = split[1];
+                if (split.Length == 3)
+                    actionname = split[2];
+            }
 
             var asm = Assembly.GetExecutingAssembly();
             var ctl = asm.GetTypes().FirstOrDefault(x => x.Name == controllername + "Controller");
-            var adm = ctl.GetCustomAttributes(false).Where(x => x is RequiresAdmin);
-            var mod = ctl.GetCustomAttributes(false).Where(x => x is RequiresModerator);
-            var dev = ctl.GetCustomAttributes(false).Where(x => x is RequiresDeveloper);
+            var adm = ctl.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresAdmin);
+            var mod = ctl.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresModerator);
+            var dev = ctl.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresDeveloper);
 
             bool fail = false;
 
             if (adm != null)
-                fail = !User.Identity.IsAdmin();
+                fail = (bool)!User.Identity?.IsAdmin();
             if (mod != null)
-                fail = !User.Identity.IsModerator();
+                fail = (bool)!User.Identity?.IsModerator();
             if (dev != null)
-                fail = !User.Identity.IsDeveloper();
+                fail = (bool)!User.Identity?.IsDeveloper();
 
             var act = ctl.GetMethods(BindingFlags.Public | BindingFlags.Instance).FirstOrDefault(x => x.Name == actionname);
 
-            adm = act.GetCustomAttributes(false).Where(x => x is RequiresAdmin);
-            mod = act.GetCustomAttributes(false).Where(x => x is RequiresModerator);
-            dev = act.GetCustomAttributes(false).Where(x => x is RequiresDeveloper);
+            adm = act.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresAdmin);
+            mod = act.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresModerator);
+            dev = act.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresDeveloper);
 
             if (adm != null)
-                fail = fail || !User.Identity.IsAdmin();
+                fail = fail || (bool)!User.Identity?.IsAdmin();
             if (mod != null)
-                fail = fail || !User.Identity.IsModerator();
+                fail = fail || (bool)!User.Identity?.IsModerator();
             if (dev != null)
-                fail = fail || !User.Identity.IsDeveloper();
+                fail = fail || (bool)!User.Identity?.IsDeveloper();
 
 
             if (fail == true)
