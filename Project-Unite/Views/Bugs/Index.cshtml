@@ -51,6 +51,7 @@
                     <tr>
                         <td>
                             <div class="modal fade in"   id="md_@bug.Id">
+                                <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h2>View bug</h2>
@@ -66,6 +67,7 @@
                                         <button data-dissmiss="modal" data-target="#md_@bug.Id" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Done</button>
                                     </div>
                                 </div>
+                                    </div> @*I'm gonna regret this...*@
                             </div>
                             <strong><a href="#md_@bug.Id" data-toggle="modal">@bug.Name</a></strong><br/>
                             <p>Reported at: @bug.ReportedAt &bull; Reported by: @Html.UserLink(bug.Reporter)</p>
