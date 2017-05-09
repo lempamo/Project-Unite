@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<Project_Unite.Models.BugTag>
+@using Project_Unite.Models;
 @{
+    var db = new ApplicationDbContext();
     ViewBag.Title = "Bugtracker";
 }
 
@@ -10,18 +12,73 @@
 }
 
 <div class="row">
-    <div class="col-xs-3">
-@{
-    Html.RenderPartial("~/Views/Bugs/_Sidebar.cshtml", Model);
-}
+    <div class="col-xs-4">
+        <h4>Bug types</h4>
+
+        <ul id="tabs" data-tabs="tabs" class="nav nav-stacked nav-pills">
+            @foreach(var cat in Model)
+            {
+                string c = "";
+                if(cat == Model.First())
+                {
+                    c = "active";
+                }
+                <li class="@c"><a href="#tb_@cat.Id" data-toggle="tab">@cat.Name (@cat.Open.Length)</a></li>
+            }
+        </ul>
     </div>
 
-    <div class="col-xs-9">
-        <h3>Welcome to the ShiftOS bug tracker.</h3>
+    <div class="tab-content">
+        @foreach(var category in Model.ToArray())
+        {
+            string c = "tab-pane fade in";
+            if(category == Model.First())
+            {
+                c += " active";
+            }
+            <div class="@c" id="tp_@category.Id">
+                <h2>@category.Name</h2>
+                <p>@category.Description</p>
 
-        <p>ShiftOS is a game about an evolving operating system, and an evolving world. However, ShiftOS itself is evolving with new features everyday.</p>
-
-        <p>We at ShiftOS strive to create a stable experience and most bugs are taken care of before they ever leave the development environment. However, sometimes we make mistakes. I mean, we're all human, right? Anyways, if you find a mistake we've made in ShiftOS, this is the best spot to place it.</p>
-        
+                <div class="row">
+                    <div class="col-xs-6">
+                        <strong>Open</strong>
+                </div>
+                    <div class="col-xs-3">
+                        <strong>Urgency</strong>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Actions</strong>
+                    </div>
+                </div>
+                @foreach(var bug in category.Open.OrderByDescending(x=>x.Urgency))
+                {
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <strong><a href="#md_@bug.Id" data-toggle="modal"></a></strong><br/>
+                            <p>Reported at: @bug.ReportedAt &bull; Reported by: @Html.UserLink(bug.Reporter)</p>
+                        </div>
+                        @switch (bug.Urgency)
+                                {
+                                    case 0:
+                                        <div class="col-xs-3"><strong>Minor</strong></div>
+                                break;
+                            case 1:
+                                <div class="col-xs-3 panel-primary"><strong>Moderate</strong></div>
+                                break;
+                            case 2:
+                                <div class="col-xs-3 panel-warning"><strong>Major</strong></div>
+                                break;
+                            case 3:
+                                <div class="col-xs-3 panel-danger"><strong>Critical</strong></div>
+                                break;
+                        }
+                        <div class="col-xs-3">
+                            <a class="btn btn-primary" href="@Url.Action("CloseBug", new {id=bug.Id})"><span class="glyphicon glyphicon-ok"></span> Close bug report</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
     </div>
 </div>
