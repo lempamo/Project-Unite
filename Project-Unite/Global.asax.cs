@@ -46,8 +46,7 @@ namespace Project_Unite
 
             if(split.Length > 1)
             {
-                if (split.Length == 2)
-                    controllername = split[1];
+                controllername = split[1];
                 if (split.Length == 3)
                     actionname = split[2];
             }
