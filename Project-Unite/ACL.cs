@@ -435,18 +435,24 @@ namespace Project_Unite
 
         public static bool IsModerator(this IIdentity id)
         {
+            if (!HttpContext.Current.Request.IsAuthenticated)
+                return false;
             var db = new ApplicationDbContext();
             return db.Users.FirstOrDefault(x => x.UserName == id.Name).HighestRole.IsModerator;
         }
 
         public static bool IsDeveloper(this IIdentity id)
         {
+            if (!HttpContext.Current.Request.IsAuthenticated)
+                return false;
             var db = new ApplicationDbContext();
             return db.Users.FirstOrDefault(x => x.UserName == id.Name).HighestRole.IsDeveloper;
         }
 
         public static bool IsMember(this IIdentity id)
         {
+            if (!HttpContext.Current.Request.IsAuthenticated)
+                return false;
             var db = new ApplicationDbContext();
             return db.Users.FirstOrDefault(x => x.UserName == id.Name).HighestRole.IsMember;
         }
@@ -454,6 +460,8 @@ namespace Project_Unite
 
         public static bool IsAdmin(this IIdentity id)
         {
+            if (!HttpContext.Current.Request.IsAuthenticated)
+                return false;
             var db = new ApplicationDbContext();
             return db.Users.FirstOrDefault(x => x.UserName == id.Name).HighestRole.IsAdmin;
         }
