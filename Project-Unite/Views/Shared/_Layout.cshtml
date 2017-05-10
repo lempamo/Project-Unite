@@ -156,7 +156,7 @@
         <p><strong>We'd like to formally thank Philip Adams.</strong> Without him, we would not exist. Phil has contributed years of work and help to ShiftOS and is the original developer of the game. He has written code that is still used to this day in modern ShiftOS, and much of the ideas and mechanics in the game are from his mind.</p>
         <p>Check Phil out on YouTube: <a href="http://youtube.com/OSFirstTimer">OSFirstTimer</a> | <a href="https://www.youtube.com/user/AstralPhaser">AstralPhaser</a> | <a href="https://www.youtube.com/channel/UC2wLfbZrHQOxP2e5zkxYRjA">YouTube Millionaire</a></p>
 
-        @if (User.Identity.IsAdmin())
+        @if ((bool)User.Identity?.IsAdmin())
             {
             <p>@Html.ActionLink("Administrator Control Panel", "Index", "Admin")</p>}
     </footer>
