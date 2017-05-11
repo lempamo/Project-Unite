@@ -68,6 +68,13 @@ namespace Project_Unite
                     actionname = split[2];
             }
 
+            try
+            {
+                string paramsequence = actionname.Substring(actionname.IndexOf("?"));
+                actionname = actionname.Replace(paramsequence, "");
+            }
+            catch { }
+
             var asm = Assembly.GetExecutingAssembly();
             var ctl = asm.GetTypes().FirstOrDefault(x => x.Name == controllername + "Controller");
             var adm = ctl.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresAdmin);

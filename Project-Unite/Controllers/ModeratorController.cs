@@ -104,6 +104,15 @@ namespace Project_Unite.Controllers
                 return Redirect(returnUrl);
         }
 
+        public ActionResult GetUsername(string id)
+        {
+            var db = new ApplicationDbContext();
+            var usr = db.Users.FirstOrDefault(x => x.Id == id);
+            if (usr == null)
+                return new HttpStatusCodeResult(404);
+            return Content(usr.DisplayName);
+        }
+
         public ActionResult ChangeUserName(string id, string newName)
         {
             var db = new ApplicationDbContext();
