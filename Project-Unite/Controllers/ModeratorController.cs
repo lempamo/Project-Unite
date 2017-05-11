@@ -104,24 +104,18 @@ namespace Project_Unite.Controllers
                 return Redirect(returnUrl);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ChangeUserName(string id, ApplicationUser model, string returnUrl = "")
+        public ActionResult ChangeUserName(string id, string newName)
         {
             var db = new ApplicationDbContext();
             var usr = db.Users.FirstOrDefault(x => x.Id == id);
             if (usr == null)
                 return new HttpStatusCodeResult(404);
 
-            usr.DisplayName = model.DisplayName;
+            usr.DisplayName = newName;
 
             db.SaveChanges();
 
-            if (string.IsNullOrWhiteSpace(returnUrl))
-                return RedirectToAction("Users");
-            else
-                return Redirect(returnUrl);
-
+            return new HttpStatusCodeResult(200);
         }
 
         public ActionResult Lock(string id)

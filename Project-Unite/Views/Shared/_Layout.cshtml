@@ -11,11 +11,41 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Scripts.Render("~/Scripts/simplemde.js")
+    @Scripts.Render("~/bundles/modernizr")
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     @if(ViewBag.PageDescription != null)
     {
         <meta name="description" content="@ViewBag.PageDescription" />
     }
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="Scripts/jquery.signalR-2.2.2-preview1.min.js"></script>
+    <script src="signalr/hubs"></script>
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        var mde = new SimpleMDE({forceSync: true});
+        mde.options.forceSync();
+    </script>
+    <script type="text/javascript">
+        var notificationHubProxy = $.connection.notificationHub;
+        notificationHubProxy.client.sendMessage = function (message) {
+            $("#notification_body").find("ul").append("<li></li>").html(message);
+            $.ajax({
+                url : "/API/GetNotificationCount",
+                success : function(result){
+                    $("#notification_count").html(result);
+                }
+            });
+            var audio = new Audio("/Content/infobox.wav");
+            audio.play();
+        };
+        $.connection.hub.start()
+            .done(function(){ console.log('Now connected, connection ID=' + $.connection.hub.id); })
+            .fail(function(){ console.log('Could not Connect!'); });
+        });
+    </script>
 
     <title>@ViewBag.Title &bull; ShiftOS</title>
     @Styles.Render("~/Content/css")
@@ -23,9 +53,6 @@
     @Styles.Render("~/Content/Site.css")
     <link rel="stylesheet" href="https://cdn.rawgit.com/xcatliu/simplemde-theme-dark/master/dist/simplemde-theme-dark.min.css" />
    
-    @Scripts.Render("~/Scripts/simplemde.js")
-    @Scripts.Render("~/bundles/modernizr")
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
     <div class="navbar navbar-default">
@@ -164,33 +191,6 @@
 
 
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    <script src="Scripts/jquery.signalR-2.2.2-preview1.min.js"></script>
-    <script src="signalr/hubs"></script>
-    @RenderSection("scripts", required: false)
-    <script type="text/javascript">
-        var mde = new SimpleMDE({forceSync: true});
-        mde.options.forceSync();
-        </script>
-    <script type="text/javascript">
-        var notificationHubProxy = $.connection.notificationHub;
-        notificationHubProxy.client.sendMessage = function (message) {
-            $("#notification_body").find("ul").append("<li></li>").html(message);
-            $.ajax({
-                url : "/API/GetNotificationCount",
-                success : function(result){
-                    $("#notification_count").html(result);
-                }
-            });
-            var audio = new Audio("/Content/infobox.wav");
-            audio.play();
-        };
-        $.connection.hub.start()
-            .done(function(){ console.log('Now connected, connection ID=' + $.connection.hub.id); })
-            .fail(function(){ console.log('Could not Connect!'); });
-        });
-    </script>
 
 </body>
 </html>

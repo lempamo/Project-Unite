@@ -37,59 +37,6 @@ namespace Project_Unite
 
             migrator.Update();
 
-            string raw_url = Request.Url.ToString().Replace("//", "\\\\");
-
-            string[] split = raw_url.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
-
-            string actionname = "Index";
-            string controllername = "Home";
-
-            if(split.Length > 1)
-            {
-                controllername = split[1];
-                if (split.Length == 3)
-                    actionname = split[2];
-            }
-
-            var asm = Assembly.GetExecutingAssembly();
-            var ctl = asm.GetTypes().FirstOrDefault(x => x.Name == controllername + "Controller");
-            var adm = ctl.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresAdmin);
-            var mod = ctl.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresModerator);
-            var dev = ctl.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresDeveloper);
-
-            bool fail = false;
-
-            if (adm != null)
-                fail = (bool)!User.Identity?.IsAdmin();
-            if (mod != null)
-                fail = (bool)!User.Identity?.IsModerator();
-            if (dev != null)
-                fail = (bool)!User.Identity?.IsDeveloper();
-
-            var act = ctl.GetMethods(BindingFlags.Public | BindingFlags.Instance).FirstOrDefault(x => x.Name == actionname);
-
-            adm = act.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresAdmin);
-            mod = act.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresModerator);
-            dev = act.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresDeveloper);
-
-            bool? fail2 = true;
-
-            if (adm != null)
-                fail2 = User.Identity?.IsAdmin();
-                if (mod != null)
-                fail2 = User.Identity?.IsModerator();
-            if (dev != null)
-                fail2 = User.Identity?.IsDeveloper();
-
-            if (fail2 != null)
-                fail = fail || !(bool)fail2;
-
-            if (fail == true)
-            {
-                string url = "http://" + this.Request.Url.Host.Replace("http://", "").Replace("https://", "") + "/Home/AccessDenied";
-                Response.Redirect(url, true);
-                return;
-            }
 
             var addr = HttpContext.Current.Request.UserHostAddress;
             var db = new ApplicationDbContext();
@@ -107,6 +54,61 @@ namespace Project_Unite
 
         protected void Application_EndRequest(object s, EventArgs e)
         {
+            string raw_url = Request.Url.ToString().Replace("//", "\\\\");
+
+            string[] split = raw_url.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+
+            string actionname = "Index";
+            string controllername = "Home";
+
+            if (split.Length > 1)
+            {
+                controllername = split[1];
+                if (split.Length == 3)
+                    actionname = split[2];
+            }
+
+            var asm = Assembly.GetExecutingAssembly();
+            var ctl = asm.GetTypes().FirstOrDefault(x => x.Name == controllername + "Controller");
+            var adm = ctl.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresAdmin);
+            var mod = ctl.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresModerator);
+            var dev = ctl.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresDeveloper);
+
+            bool? fail = false;
+
+            if (adm != null)
+                fail = !User?.Identity?.IsAdmin();
+            if (mod != null)
+                fail = !User?.Identity?.IsModerator();
+            if (dev != null)
+                fail = !User?.Identity?.IsDeveloper();
+
+            var act = ctl.GetMethods(BindingFlags.Public | BindingFlags.Instance).FirstOrDefault(x => x.Name == actionname);
+
+            adm = act.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresAdmin);
+            mod = act.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresModerator);
+            dev = act.GetCustomAttributes(false).FirstOrDefault(x => x is RequiresDeveloper);
+
+            bool? fail2 = true;
+
+            if (adm != null)
+                fail2 = User?.Identity?.IsAdmin();
+            if (mod != null)
+                fail2 = User?.Identity?.IsModerator();
+            if (dev != null)
+                fail2 = User?.Identity?.IsDeveloper();
+
+            bool realfail = (fail == null) ? true : (bool)fail;
+            bool realfail2 = (fail2 == null) ? true : (bool)fail2;
+
+            realfail = realfail || !realfail2;
+
+            if (realfail == true)
+            {
+                string url = "http://" + this.Request.Url.Host.Replace("http://", "").Replace("https://", "") + "/Home/AccessDenied";
+                Response.Redirect(url, true);
+                return;
+            }
             var db = new ApplicationDbContext();
             if (Request.IsAuthenticated)
             {

@@ -209,7 +209,7 @@ git clone https://github.com/MichaelTheShifter/Project-Unite
 
                 @foreach (var user in db.Users.ToArray())
                 {
-                    <div class="modal fade" id="u_details_@user.DisplayName">
+                    <div class="modal fade" id="u_details_@user.Id">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -222,7 +222,7 @@ git clone https://github.com/MichaelTheShifter/Project-Unite
                                     @Html.Partial("~/Views/Moderator/UserDetails.cshtml", user)
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-target="#u_details_@user.DisplayName">Close</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-target="#u_details_@user.Id">Close</button>
                                 </div>
                             </div>
                         </div>
@@ -271,7 +271,7 @@ git clone https://github.com/MichaelTheShifter/Project-Unite
                                             </td>
                                             <td>
                                                 <a href="@Url.Action("ViewProfile", "Profiles", new { id = user.DisplayName })" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> View Profile</a>
-                                                <a data-toggle="modal" href="#u_details_@user.DisplayName" class="btn btn-warning"><span class="glyphicon glyphicon-wrench"></span> Moderate</a>
+                                                <a data-toggle="modal" href="#u_details_@user.Id" class="btn btn-warning"><span class="glyphicon glyphicon-wrench"></span> Moderate</a>
                                             </td>
                                         </tr>
                                     }

@@ -10,22 +10,22 @@
 
 <ul>
     <li><strong>Email address: </strong><a href="mailto:@Model.Email">Email @Model.Email</a></li>
-    <li><strong>Display name: </strong>@Model.DisplayName
+    <li><strong>Display name: </strong> <div id="uname_@Model.Id">@Model.DisplayName</div>
     
-    @if (ACL.Granted(User.Identity.Name, "CanEditUsernames"))
+    @if (User.Identity.IsAdmin())
     {
         if (ACL.CanManageRole(User.Identity.Name, Model.HighestRole.Id))
         {
             <!-- Trigger the modal with a button -->
-            <a data-toggle="modal" data-target="#edit-user" href="#"><span class="glyphicon glyphicon-pencil"></span> Change</a>
+            <a data-toggle="modal" data-target="#edit-user-@Model.Id" href="#"><span class="glyphicon glyphicon-pencil"></span> Change</a>
 
             <!-- Modal -->
-            <div id="edit-user" class="modal fade" role="dialog">
+            <div id="edit-user-@Model.Id" class="modal fade" role="dialog">
                 <div class="modal-dialog">
 
                     <!-- Modal content-->
                     <div class="modal-content">
-                        @using (Html.BeginForm("ChangeUsername", "Moderator", new { id = Model.Id }))
+                        @using (Html.BeginForm("ChangeUsername", "Moderator", new { id = Model.Id }, FormMethod.Post, new { name = "changeusername_" + Model.Id }))
                         {
                             @Html.AntiForgeryToken()
                             <div class="modal-header">
@@ -34,11 +34,10 @@
                         </div>
                         <div class="modal-body">
                                 <p>Please enter a username for this user.</p>
-                                <p><strong>@Html.DisplayNameFor(Model => Model.DisplayName)</strong>: @Html.TextBoxFor(Model => Model.DisplayName)</p>
-                            
+                                <p><strong>@Html.DisplayNameFor(Model => Model.DisplayName)</strong>: @Html.TextBoxFor(Model => Model.DisplayName, new { id="new_username_" + Model.Id, @class = "form-control" })</p>                            
                         </div>
                         <div class="modal-footer">
-                            <input type="submit" value="Change" class="btn btn-primary" /> 
+                            <a class="btn btn-primary" data-dismiss="modal" href="#" id="submit_username_@Model.Id"><span class="glyphicon glyphicon-ok"></span> Change</a> 
                             <a href="#" data-dismiss="modal" class="btn btn-default">Cancel</a> 
                         </div>
                         }
@@ -49,10 +48,7 @@
         }
     }
     </li>
-    @if(ACL.Granted(User.Identity.Name, "CanIssueIPBan"))
-    {
-        <li><strong>Last known IP address: </strong>@Model.LastKnownIPAddress</li>
-    }
+    <li><strong>Last known IP address: </strong>@Model.LastKnownIPAddress</li>
     <li><strong>Banned: </strong>
         @if (Model.IsBanned)
         {
@@ -111,6 +107,28 @@
         <strong>Hobbies:</strong>
         <p>@Model.Hobbies</p>
     </li>
-
-
 </ul>
+
+<a data-toggle="modal" href="#" data-target="#m_succeeded_@Model.Id" id="succeeded_@Model.Id" class="hidden">I'm a callback.</a>
+
+<script type="text/javascript">
+    $('#submit_username_@Model.Id').click(function (e) { //Never gets called.
+        e.preventDefault();
+        $.ajax({
+            type: 'GET',
+            cache: true,
+            url: './Moderator/ChangeUsername/@Model.Id?newName=' + encodeURIComponent($('#new_username_!@Model.Id').val()),
+            success: function (msg) {
+                $.ajax({
+                    type: "GET",
+                    cache: true,
+                    url: "./Moderator/GetUsername/@Model.Id",
+                    success: function (result) {
+                        $('#uname_@Model.Id').val(result);
+                        $('#new_username_@Model.Id').val(result);
+                    }
+                });
+            }
+        });
+    });
+</script>

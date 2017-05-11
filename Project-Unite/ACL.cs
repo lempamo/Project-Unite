@@ -169,7 +169,7 @@ namespace Project_Unite
                     userRoles.Add(db.Roles.FirstOrDefault(r => r.Id == usrRole.RoleId) as Role);
                 }
                 var userRole = userRoles.OrderByDescending(m => m.Priority).FirstOrDefault();
-                return hpr.ActionLink(usr.DisplayName, "ViewProfile", "Profiles", new { id = usr.DisplayName }, new { style = userRole == null ? "color:white;" : @"color: " + userRole.ColorHex });
+                return hpr.ActionLink(usr.DisplayName, "ViewProfile", "Profiles", new { id = usr.DisplayName }, new { id="uname_" + usr.Id, style = userRole == null ? "color:white;" : @"color: " + userRole.ColorHex });
 
             }
         }
