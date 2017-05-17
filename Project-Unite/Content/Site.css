@@ -2,6 +2,10 @@
     /* padding-top: 50px; */
     padding-bottom: 20px;
 }
+/*make avatars rounded*/
+.avatar {
+    border-radius: 100%;
+}
 
 /* Set padding to keep content from hitting the edges */
 .body-content {

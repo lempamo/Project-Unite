@@ -5,15 +5,6 @@
     ViewBag.Title = Model.Subject;
 }
 
-@if(ViewBag.Error != null)
-{
-    <div class="panel panel-error">
-        <div class="panel-body">
-            <p><span class="glyphicon glyphicon-exclamation-sign"></span> @ViewBag.Error</p>
-        </div>
-    </div>
-}
-
 @if(Model.IsUnlisted == true)
 {
     <div class="panel panel-warning">
@@ -26,10 +17,6 @@
 <h2>@Model.Subject</h2>
 
 <p>Started by <strong>@Html.UserLink(Model.AuthorId)</strong> at <strong>@Model.StartedAt</strong></p>
-
-@{
-    Html.RenderPartial("~/Views/Shared/_ModeratorBar.cshtml", Model);
-}
 
 @foreach (Project_Unite.Models.ForumPost post in PaginationExtensions.GetItemsOnPage<Project_Unite.Models.ForumPost>(Model.Posts.OrderBy(x => x.PostedAt).ToArray(), ViewBag.Page, ViewBag.PageSize)) 
 {
@@ -44,20 +31,17 @@
     <div class="row panel panel-default">
         <div class="panel-body">
             <div class="col-xs-4"> <!--Mini profile data-->
-                <img src="@ACL.GetUserInfo(post.AuthorId).AvatarUrl" width="128" height="128" /><br/>
+                <img class="avatar" src="@ACL.GetUserInfo(post.AuthorId).AvatarUrl" width="128" height="128" /><br/>
                 <strong>@Html.UserLink(post.AuthorId)</strong><br/>
                 @{ 
                     var user = ACL.GetUserInfo(post.AuthorId);
                     <p><strong>@user.Codepoints</strong> Codepoints</p>
                     <p><strong><u>@user.HighestRole.Name</u></strong></p>
                     <p>
-                        @if (ACL.Granted(User.Identity.Name, "CanAccessModCP"))
-                        {
-                            if (ACL.Granted(User.Identity.Name, "CanViewUserInfo"))
+                            @if (User?.Identity?.IsModerator()==true)
                             {
                                 @Html.ActionLink("User info", "UserDetails", "Moderator", new { id = ACL.UserNameRaw(post.AuthorId) }, new { @class = "btn btn-default" })
                             }
-                        }
                     </p>
                 }
             </div>
@@ -65,16 +49,23 @@
                 <h4>@Model.Subject</h4>
                 <p>@Html.UserLink(post.AuthorId) at @post.PostedAt</p>
                 <p>@Html.Markdown(post.Body)</p>
-                @{ 
-                    Html.RenderPartial("~/Views/Shared/_PostModerationBar.cshtml", post);
+
+                @if (post.EditHistory.Length > 0)
+                {
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <h4>Latest edit</h4>
+                            @{ 
+                                var edit = post.EditHistory.OrderByDescending(x => x.EditedAt).First();
+                            }
+                            <p>By @Html.UserLink(edit.UserId) at @edit.EditedAt</p>
+                            <p><strong>Reason: </strong>@Html.Markdown(edit.EditReason)</p>
+                        </div>
+                    </div>
                 }
             </div>
         </div>
     </div>
-}
-
-@{
-    Html.RenderPartial("~/Views/Shared/_ModeratorBar.cshtml", Model);
 }
 
 <p>Pages:
