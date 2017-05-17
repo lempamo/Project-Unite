@@ -31,7 +31,7 @@
 
      
         bool showGeneral = false;
-        if (ACL.Granted(User.Identity.Name, "CanStickyOwnTopics") || ACL.Granted(User.Identity.Name, "CanGlobalOwnTopics") || ACL.Granted(User.Identity.Name, "CanAnnounceOwnTopics"))
+        if (User.Identity.IsModerator())
         {
             showGeneral = true;
         }
@@ -65,18 +65,9 @@
 
             <p>Below you can set the status of your topic.</p>
 
-            @if (ACL.Granted(User.Identity.Name, "CanStickyOwnTopics"))
-            {
                 <p><strong>Sticky: </strong>@Html.CheckBoxFor(Model => Model.IsSticky, new { @class = "form-control" })</p>
-            }
-            @if (ACL.Granted(User.Identity.Name, "CanAnnounceOwnTopics"))
-            {
                 <p><strong>Announcement: </strong>@Html.CheckBoxFor(Model => Model.IsAnnounce, new { @class = "form-control" })</p>
-            }
-            @if (ACL.Granted(User.Identity.Name, "CanGlobalOwnTopics"))
-            {
                 <p><strong>Global announcement: </strong>@Html.CheckBoxFor(Model => Model.IsGlobal, new { @class = "form-control" })</p>
-            }
         </div>
         <div class="@pollStyle" id="t_polls">
             <h4>Polls</h4>
