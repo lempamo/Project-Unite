@@ -7,27 +7,6 @@ using System.Web.Mvc;
 
 namespace Project_Unite.Models
 {
-    public class AdminAccessControlViewModel
-    {
-        public AdminAccessControlViewModel()
-        {
-
-        }
-
-        public AdminAccessControlViewModel(Dictionary<string, ForumPermission[]> modelList)
-        {
-            ACLList = new List<ForumPermission>();
-            foreach(var v in modelList.Values)
-            {
-                ACLList.AddRange(v);
-            }
-            IDs = modelList.Keys.ToList();
-        }
-
-        public List<string> IDs { get; set; }
-        public List<ForumPermission> ACLList { get; set; }
-    }
-
     public class CreateUserModel
     {
         

@@ -39,28 +39,12 @@ namespace Project_Unite.Models
 
         public virtual string Parent { get; set; }
 
-        public ForumPermission[] Permissions { get
-            {
-                var db = new ApplicationDbContext();
-                return db.ForumPermissions.Where(x => x.CategoryId == this.Id).ToArray();
-            }
-        }
-    }
+        public int AdminPermission { get; set; }
+        public int DeveloperPermission { get; set; }
+        public int ModeratorPermission { get; set; }
+        public int MemberPermission { get; set; }
 
-    public class ForumPermission
-    {
-        [Key]
-        public string Id { get; set; }
-
-        [Required]
-        public string CategoryId { get; set; }
-
-        [Required]
-        public string RoleId { get; set; }
-
-        [Required]
-        [EnumDataType(typeof(PermissionPreset))]
-        public PermissionPreset Permissions { get; set; }
+        public bool VisibleToGuests { get; set; }
     }
 
     public class ForumPost
@@ -124,8 +108,32 @@ namespace Project_Unite.Models
 
         public bool IsLocked { get; set; }
 
+        public int Priority
+        {
+            get
+            {
+                int priority = 0;
+                if (IsSticky)
+                    priority = 1;
+                if (IsAnnounce)
+                    priority = 2;
+                if (IsSticky && IsAnnounce)
+                    priority = 3;
+                return priority;
+            }
+        }
+
         public DateTime StartedAt { get; set; }
         public string Subject { get; set; }
+        public bool ShouldShow
+        {
+            get
+            {
+                if (IsUnlisted == true)
+                    return HttpContext.Current.User?.Identity?.IsModerator() == true;
+                return true;
+            }
+        }
         public string AuthorId { get; set; }
         public bool IsSticky { get; set; }
         public bool IsAnnounce { get; set; }

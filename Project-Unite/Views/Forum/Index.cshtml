@@ -2,12 +2,16 @@
 
 @{
     ViewBag.Title = "Forums";
+    bool noForums = true;
 }
 
 <h2>Welcome to the forums.</h2>
 
 @foreach (var cat in Model)
 {
+    if (ACL.CanSee(User?.Identity?.Name, cat.Id))
+    {
+        noForums = false;
 	<table class="table">
 		<tr>
 			<th>@cat.Name</th>
@@ -16,16 +20,21 @@
 			<th>Most Recent Post</th>
 		</tr>
 		@foreach (var subcat in cat.Children)
-		{
+        {
+            if (ACL.CanSee(User?.Identity?.Name, subcat.Id))
+            {
 			<tr>
 				<td>@Html.ActionLink(subcat.Name, "ViewForum", "Forum", new { id = subcat.Id }, null) <br/>
 				<p>@subcat.Description</p>
-                @if(subcat.Children.Length > 0)
+                @if (subcat.Children.Length > 0)
                 {
                     <p><strong>Subforums: </strong>
-                    @foreach(var subfrm in subcat.Children)
+                    @foreach (var subfrm in subcat.Children)
                     {
+                        if (ACL.CanSee(User?.Identity?.Name, subfrm.Id))
+                        {
                         <em> @Html.ActionLink(subfrm.Name, "ViewForum", "Forum", new { id = subfrm.Id }, null)&nbsp;</em> 
+                        }
                     }
                     </p>
                 }
@@ -34,6 +43,17 @@
 				<td></td>
 				<td></td>
 			</tr>
-		}
+            }
+        }
 	</table>
+    }
+}
+
+@if(noForums == true)
+{
+    <div class="panel panel-danger">
+        <div class="panel-body">
+            <p><span class="glyphicon glyphicon-ban-circle"></span> <strong>No forums to show!</strong> There are no forums that you have read access to. If you are a guest, please @Html.ActionLink("log in", "Login", "Account"). If not, please contact an admin.</p>
+        </div>
+    </div>
 }

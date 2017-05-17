@@ -241,7 +241,6 @@ namespace Project_Unite.Models
         public DbSet<UserPost> UserPosts { get; set; }
         public DbSet<ForumPostEdit> ForumPostEdits { get; set; }
         public DbSet<Like> Likes { get; set; }
-        public DbSet<ForumPermission> ForumPermissions { get; set; }
         public DbSet<BannedIP> BannedIPs { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
         public System.Data.Entity.DbSet<Project_Unite.Models.Role> IdentityRoles { get; set; }

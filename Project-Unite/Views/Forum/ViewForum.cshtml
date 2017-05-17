@@ -5,160 +5,61 @@
 
 <h2>@Model.Name</h2>
 
-@if (Model.Parent == "root")
-{
-    @Html.ActionLink("Back", "Index", "Forum", null, new { @class = "btn btn-default" })
-
-}
-else
-{
-    @Html.ActionLink("Back", "ViewForum", "Forum", new { id=Model.Parent}, new { @class = "btn btn-default" })
-}
-
+<ul class="nav nav-tabs">
+    <li><a href="#" onclick="window.history.back()"><span class="glyphicon glyphicon-arrow-left"></span> Back</a></li>
 @if(ACL.CanPost(User.Identity.Name, Model.Id))
 {
-    @Html.ActionLink("New topic", "CreateTopic", "Forum", new { id=Model.Id}, new { @class = "btn btn-default" })
+    <li>@Html.ActionLink("New topic", "CreateTopic", "Forum", new { id=Model.Id}, null)</li>
 }
-
+</ul>
 <p>@Model.Description</p>
 
 @if (Model.Children.Length > 0)
 {
-    <table class="table">
-        <tr>
-            <th>Subforums</th>
-            <th>Topics</th>
-            <th>Posts</th>
-            <th>Most Recent Post</th>
-        </tr>
-    @foreach (var cat in Model.Children)
+        <div class="row">
+            <div class="col-xs-6">Subforums</div>
+            <div class="col-xs-2">Topics</div>
+            <div class="col-xs-2">Posts</div>
+            <div class="col-xs-2">Most Recent Post</div>
+        </div>
+    foreach (var cat in Model.Children)
     {
-        <tr>
-            <td>@Html.ActionLink(cat.Name, "ViewForum", "Forum", new { id = cat.Id }, null)
+        <div class="row">
+            <div class="col-xs-6">@Html.ActionLink(cat.Name, "ViewForum", "Forum", new { id = cat.Id }, null)
                 <p>@cat.Description</p>
-            </td>
-            <td>
+            </div>
+            <div class="col-xs-2">
                 @cat.Topics.Length
-            </td>
-            <td></td>
-            <td></td>
-        </tr>
+            </div>
+            <div class="col-xs-2"></div>
+            <div class="col-xs-2"></div>
+        </div>
     }
-    </table>
 }
 
 <hr/>
 
 @if (Model.Topics.Length > 0)
 {
-    <table class="table">
-        <tr>
-            <th>Topics</th>
-            <th>Posts</th>
-            <th>Most recent post</th>
-        </tr>
-        @{ 
-            var stickies = Model.Topics.Where(x => x.IsSticky == true);
-            var stickiesSorted = stickies.OrderByDescending(x => x.StartedAt);
-            var topicsSorted = Model.Topics.Where(x => x.IsSticky != true).OrderByDescending(x => x.StartedAt);
-        }
-
-            @foreach (var topic in stickiesSorted)
-            {
-                bool showTopic = true;
-                if (topic.IsUnlisted == true)
+        <div class="row">
+            <div class="col-xs-6">Topics</div>
+            <div class="col-xs-2">Posts</div>
+            <div class="col-xs-4">Most recent post</div>
+        </div>
+            var topics = Model.Topics.Where(x => x.ShouldShow == true).OrderByDescending(x=>x.StartedAt).ThenByDescending(x=>x.Priority);
+                foreach(var topic in topics)
                 {
-                    if(!ACL.Granted(User.Identity.Name, "CanSeeUnlistedTopics"))
-                    {
-                        showTopic = false;
-                    }
+                    <div class="row">
+                        <div class="col-xs-6">
+                            @Html.ActionLink(topic.Subject, "ViewTopic", "Forum", new { id = topic.Discriminator }, null) 
+                            <br/>
+                            <p><strong>Started by </strong> @Html.UserLink(topic.AuthorId) <strong>at </strong> @topic.StartedAt &bull; <span class="glyphicon glyphicon-thumbs-up"></span> @topic.Likes.Length &bull; <span class="glyphicon glyphicon-thumbs-down"></span> @topic.Dislikes.Length</p>
+                        </div>
+                        <div class="col-xs-2">
+                            <strong>@topic.Posts.Length</strong>
+                        </div>
+                    </div>
                 }
-
-                if (showTopic == true)
-                {
-                <tr>
-                    <td><span class="glyphicon glyphicon-star"></span>&nbsp;
-                        @if(topic.IsUnlisted == true)
-                        {
-                            <span class="glyphicon glyphicon-eye-close"></span>
-                        }
-                        @if (topic.IsLocked == true)
-                        {
-                            <span class="glyphicon glyphicon-lock"></span>
-                        }
-
-                        @Html.ActionLink(topic.Subject, "ViewTopic", "Forum", new { id = topic.Discriminator }, null)
-                        <p>Started by @Html.UserLink(topic.AuthorId) on @topic.StartedAt</p>
-                    </td>
-                    <td>
-                        @topic.Posts.Length
-                    </td>
-                    <td style="text-align:center">
-                        @if (topic.Posts.Length > 0)
-                        {
-                            var mostRecent = topic.Posts.OrderByDescending(x => x.PostedAt).First();
-                            <strong>Re: @topic.Subject</strong>
-                            <em>by @Html.UserLink(mostRecent.AuthorId)</em>
-                            <p><em>at @mostRecent.PostedAt</em></p>
-                        }
-                        else
-                        {
-                                <em>No posts.</em>
-                        }
-                    </td>
-                </tr>
-                }
-            }
-        @foreach (var topic in topicsSorted)
-        {
-
-            bool showTopic = true;
-            if (topic.IsUnlisted == true)
-            {
-                if (!ACL.Granted(User.Identity.Name, "CanSeeUnlistedTopics"))
-                {
-                    showTopic = false;
-                }
-            }
-
-            if (showTopic == true)
-            {
-            <tr>
-                <td>
-                    @if(topic.IsUnlisted == true)
-                    {
-                        <span class="glyphicon glyphicon-eye-close"></span>
-                    }
-
-                    @if (topic.IsLocked == true)
-                    {
-                        <span class="glyphicon glyphicon-lock"></span>
-                    }
-                    @Html.ActionLink(topic.Subject, "ViewTopic", "Forum", new { id = topic.Discriminator }, null)
-                    <p>Started by @Html.UserLink(topic.AuthorId) on @topic.StartedAt</p>
-                </td>
-                <td>
-                    @topic.Posts.Length
-                </td>
-                <td style="text-align:center">
-                    @if (topic.Posts.Length > 0)
-                    {
-                        var mostRecent = topic.Posts.OrderByDescending(x => x.PostedAt).First();
-                        <strong>Re: @topic.Subject</strong>
-                            <em>by @Html.UserLink(mostRecent.AuthorId)</em>
-                            <p><em>at @mostRecent.PostedAt</em></p>
-                    }
-                    else
-                    {
-                        <em>No posts.</em>
-                    }
-                </td>
-            </tr>
-            }
-        }
-
-
-    </table>
 }
 else
 {

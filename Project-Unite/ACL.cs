@@ -224,37 +224,26 @@ namespace Project_Unite
 
         public static bool CanSee(string userName, string fId)
         {
-
-
-            if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(fId))
-                return false;
-            
             var db = new ApplicationDbContext();
-
-            var usr = db.Users.Include(x => x.Roles).FirstOrDefault(u => u.UserName == userName);
-
-            var userRoles = new List<Role>();
-            foreach (var usrRole in usr.Roles)
-            {
-                userRoles.Add(db.Roles.FirstOrDefault(r => r.Id == usrRole.RoleId) as Role);
+            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var frm = db.ForumCategories.FirstOrDefault(x => x.Id == fId);
+            if (frm == null) return false;
+            if (user == null) {
+                return frm.VisibleToGuests;
             }
-            db.Dispose();
-            var userRole = userRoles.OrderByDescending(m => m.Priority).First();
-
-            db = new ApplicationDbContext();
-
-
-
-
-            var forums = db.ForumCategories;
-            var forum = forums.First(x => x.Id == fId);
-            var perms = forum.Permissions.FirstOrDefault(x => x.RoleId == userRole.Id);
-            if (perms == null)
+            else
             {
-                UpdateACLDefinitions(fId);
-                return true;
+                if (user.HighestRole.IsAdmin)
+                    return frm.AdminPermission > 0;
+                if (user.HighestRole.IsDeveloper)
+                    return frm.DeveloperPermission > 0;
+                if (user.HighestRole.IsModerator)
+                    return frm.ModeratorPermission > 0;
+                if (user.HighestRole.IsMember)
+                    return frm.MemberPermission > 0;
+
             }
-            return (int)perms.Permissions >= (int)PermissionPreset.CanRead;
+            return false;
         }
 
         public static bool UserEmailConfirmed(string username)
@@ -278,39 +267,26 @@ namespace Project_Unite
 
         public static bool CanReply(string userName, string fId)
         {
-
-
-            if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(fId))
-                return false;
-            if (HttpContext.Current.User.Identity.IsGuest())
-                return false; //obviously if this role has a global restraint for this ACL def we shouldn't let them post in ANY forum.
-
             var db = new ApplicationDbContext();
-
-            var usr = db.Users.Include(x => x.Roles).FirstOrDefault(u => u.UserName == userName);
-
-            var userRoles = new List<Role>();
-            foreach (var usrRole in usr.Roles)
+            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var frm = db.ForumCategories.FirstOrDefault(x => x.Id == fId);
+            if (frm == null) return false;
+            if (user == null)
             {
-                userRoles.Add(db.Roles.FirstOrDefault(r => r.Id == usrRole.RoleId) as Role);
+                return false;
             }
-            db.Dispose();
-            var userRole = userRoles.OrderByDescending(m => m.Priority).First();
-
-            db = new ApplicationDbContext();
-
-
-
-
-            var forums = db.ForumCategories;
-            var forum = forums.First(x => x.Id == fId);
-            var perms = forum.Permissions.FirstOrDefault(x => x.RoleId == userRole.Id);
-            if (perms == null)
+            else
             {
-                UpdateACLDefinitions(fId);
-                return true;
+                if (user.HighestRole.IsAdmin)
+                    return frm.AdminPermission > 1;
+                if (user.HighestRole.IsDeveloper)
+                    return frm.DeveloperPermission > 1;
+                if (user.HighestRole.IsModerator)
+                    return frm.ModeratorPermission > 1;
+                if (user.HighestRole.IsMember)
+                    return frm.MemberPermission > 1;
             }
-            return perms.Permissions >= PermissionPreset.CanReply;
+            return false;
         }
 
         public static ApplicationUser GetUserInfo(string id)
@@ -320,69 +296,26 @@ namespace Project_Unite
 
         public static bool CanPost(string userName, string fId)
         {
-            
-
-            if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(fId))
+            var db = new ApplicationDbContext();
+            var user = db.Users.FirstOrDefault(x => x.UserName == userName);
+            var frm = db.ForumCategories.FirstOrDefault(x => x.Id == fId);
+            if (frm == null) return false;
+            if (user == null)
+            {
                 return false;
-            if (HttpContext.Current.User.Identity.IsGuest())
-                return false; //obviously if this role has a global restraint for this ACL def we shouldn't let them post in ANY forum.
-
-            var db = new ApplicationDbContext();
-
-            var usr = db.Users.Include(x => x.Roles).FirstOrDefault(u => u.UserName == userName);
-
-            var userRoles = new List<Role>();
-            foreach (var usrRole in usr.Roles)
-            {
-                userRoles.Add(db.Roles.FirstOrDefault(r => r.Id == usrRole.RoleId) as Role);
             }
-            db.Dispose();
-            var userRole = userRoles.OrderByDescending(m => m.Priority).First();
-
-            db = new ApplicationDbContext();
-
-
-
-
-            var forums = db.ForumCategories;
-            var forum = forums.First(x => x.Id == fId);
-            var perms = forum.Permissions.FirstOrDefault(x=>x.RoleId==userRole.Id);
-            if (perms == null)
+            else
             {
-                UpdateACLDefinitions(fId);
-                return true;
+                if (user.HighestRole.IsAdmin)
+                    return frm.AdminPermission > 2;
+                if (user.HighestRole.IsDeveloper)
+                    return frm.DeveloperPermission > 2;
+                if (user.HighestRole.IsModerator)
+                    return frm.ModeratorPermission > 2;
+                if (user.HighestRole.IsMember)
+                    return frm.MemberPermission > 2;
             }
-            return perms.Permissions >= PermissionPreset.CanPost;
-        }
-
-        public static void UpdateACLDefinitions(string fid)
-        {
-            var db = new ApplicationDbContext();
-            var forum = db.ForumCategories.FirstOrDefault(x => x.Id == fid);
-            if (forum == null)
-                return;
-            int recordsAdded = 0;
-
-            if (forum.Permissions.Length < db.Roles.Count())
-            {
-                var roles = db.Roles.ToArray();
-                foreach(var role in roles)
-                {
-                    if (db.ForumPermissions.FirstOrDefault(x => x.CategoryId == fid && x.RoleId == role.Id) == null)
-                    {
-                        var perm = new ForumPermission();
-                        perm.Id = Guid.NewGuid().ToString();
-                        perm.CategoryId = forum.Id;
-                        perm.RoleId = role.Id;
-                        perm.Permissions = PermissionPreset.CanPost;
-                        db.ForumPermissions.Add(perm);
-                        recordsAdded++;
-                    }
-                }
-                db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, $"Automatic forum ACL update occurred - Forum: {forum.Name}, records added: {recordsAdded}."));
-                db.SaveChanges();
-            }
-
+            return false;
         }
 
         public static bool CanManageRole(string userId, string roleId)
