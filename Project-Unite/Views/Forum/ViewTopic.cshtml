@@ -30,6 +30,20 @@
                 <li><a href="#"><span class="glyphicon glyphicon-lock"></span> Locked.</a></li>
             }
         }
+        if (Request.IsAuthenticated)
+        {
+            if(User.Identity.GetUserId() != Model.AuthorId)
+            {
+                <li><a href="@Url.Action("Like", "Forum", new { id = Model.Discriminator })"><span class="glyphicon glyphicon-thumbs-up"></span> @Model.Likes.Length</a></li>
+                <li><a href="@Url.Action("Dislike", "Forum", new { id = Model.Discriminator })"><span class="glyphicon glyphicon-thumbs-down"></span> @Model.Dislikes.Length</a></li>
+            }
+        }
+        else
+        {
+            <li><span class="glyphicon glyphicon-thumbs-up"></span> @Model.Likes.Length</li>
+                <li><span class="glyphicon glyphicon-thumbs-down"></span> @Model.Dislikes.Length</li>
+
+        }
         if (User.Identity.IsModerator())
         {
             <li class="dropdown"><a data-toggle="dropdown" href="#" class="dropdown-toggle">Quick mod <span class="caret"></span></a>
