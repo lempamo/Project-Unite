@@ -37,6 +37,18 @@
     }
 }
 
+@{ 
+    var db = new Project_Unite.Models.ApplicationDbContext();
+    var globals = Model.Topics.Where(x => x.ShouldShow == true&&x.IsGlobal==true).OrderByDescending(x => x.StartedAt);
+
+}
+
+@if (globals.Count() > 0)
+{
+    <hr />
+
+}
+
 <hr/>
 
 @if (Model.Topics.Length > 0)
@@ -57,6 +69,11 @@
                         </div>
                         <div class="col-xs-2">
                             <strong>@topic.Posts.Length</strong>
+                        </div>
+                        <div class="col-xs-4">
+                            @topic.Posts.OrderByDescending(x => x.PostedAt).First().Subject <br />
+                            by @Html.UserLink(topic.Posts.OrderByDescending(x => x.PostedAt).First().AuthorId) <br/>
+                            at @topic.Posts.OrderByDescending(x => x.PostedAt).First().PostedAt
                         </div>
                     </div>
                 }

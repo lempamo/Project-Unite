@@ -47,6 +47,7 @@ namespace Project_Unite.Controllers
 
             var model = new CreateTopicViewModel();
             model.Category = id;
+            model.Subject = new ApplicationDbContext().ForumTopics.FirstOrDefault(x => x.Discriminator == id).Subject;
             return View(model);
         }
 

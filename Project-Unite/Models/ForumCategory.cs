@@ -50,6 +50,8 @@ namespace Project_Unite.Models
     public class ForumPost
     {
         public string Id { get; set; }
+        
+        public string Subject { get; set; }
 
         [Required]
         public string Parent { get; set; }

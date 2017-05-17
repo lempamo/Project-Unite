@@ -3,6 +3,16 @@
 @using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = Model.Subject;
+    var db = new Project_Unite.Models.ApplicationDbContext();
+    var posts = db.ForumPosts.Where(x => x.Parent == Model.Id);
+    foreach(var post in posts.ToArray())
+    {
+        if (string.IsNullOrWhiteSpace(post.Subject))
+        {
+            post.Subject = Model.Subject;
+        }
+    }
+    db.SaveChanges();
 }
 
 <ul class="nav nav-tabs">
