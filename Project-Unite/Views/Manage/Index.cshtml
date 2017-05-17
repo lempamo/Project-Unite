@@ -6,127 +6,28 @@
 
 <div class="row">
     <div class="col-xs-4">
-        	<h3><img src="@Model.AvatarUrl" width="64" height="64" /> @if (string.IsNullOrWhiteSpace(Model.FullName))
-	{ <strong> @Model.DisplayName </strong>}
-	else {
-			<strong>@Model.FullName</strong> <em>(@Model.DisplayName)</em>
-	}</h3>
-
+    <img class="avatar" src="@Model.AvatarUrl" width="128" height="128" />
+        @if (!string.IsNullOrWhiteSpace(Model.FullName))
+        {
+            <h4>@Model.FullName</h4>
+        }
+        <h5>@Model.DisplayName</h5>
 
 	<ul id="tabs" data-tabs="tabs" class="nav nav-pills nav-stacked" role="tablist">
 		<li class="active"><a data-toggle="tab" href="#t_profile">Profile</a></li>
-		<li><a data-toggle="tab" href="#t_badges">Badges</a></li>
-		<li><a data-toggle="tab" href="#t_posts">Posts</a></li>
-		<li><a data-toggle="tab" href="#t_messages">Messages</a></li>
-		<li><a data-toggle="tab" href="#t_preferences">Preferences</a></li>
+		<li><a data-toggle="tab" href="#t_privacy">Privacy &amp; Security</a></li>
+		<li><a data-toggle="tab" href="#t_data">Data</a></li>
+        <li><a data-toggle="tab" href="#t_api">API</a></li>
+		<li class="danger"><a data-toggle="tab" href="#t_danger">The Danger Zone</a></li>
 	</ul>
         </div>
     <div class="col-xs-8">
-	<div class="tab-content">
-		<div class="tab-pane active" id="t_profile">
-			<table class="table">
-                <tr>
-                    <td><strong>Avatar</strong></td>
-                    <td><img src="@Model.AvatarUrl" width="128" height="128" /> @Html.ActionLink("Change", "ListAvatars")</td>
-                </tr>
-				<tr>
-					<td style="width:35%;"><strong>Full name:</strong></td>
-					<td>
-                        @using(Html.BeginForm("ChangeFullName", "Manage"))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.TextBoxFor(Model=>Model.FullName, new { @class="form-control"})
-                            <input type="submit" value="Set" class="btn btn-default" />
-                        }
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Display name:</strong></td>
-					<td><p>@Model.DisplayName</p></td>
-				</tr>
-				<tr>
-					<td><strong>Codepoints:</strong><p>If you have your in-game system linked with your account, your Codepoints will be shown here.</p></td>
-					<td><p>@Model.Codepoints</p></td>
-				</tr>
-                <tr>
-                    <td><strong>Hobbies</strong><br />What do you like to do? <em>Separate each hobby with a comma.</em></td>
-                    <td>
-                        @using (Html.BeginForm("ChangeHobbies", "Manage"))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.TextBoxFor(Model => Model.Hobbies, new { @class = "form-control" })
-                            <input type="submit" value="Set" class="btn btn-default" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Interests</strong><br />What are you interested in? <em>Separate each interest with a comma.</em></td>
-                    <td>
-                        @using (Html.BeginForm("ChangeInterests", "Manage"))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.TextBoxFor(Model => Model.Interests, new { @class = "form-control" })
-                            <input type="submit" value="Set" class="btn btn-default" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>About you</strong><br />Introduce yourself! <em>Markdown formatting is supported.</em></td>
-                    <td>
-                        @using (Html.BeginForm("ChangeBio", "Manage"))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.TextAreaFor(Model => Model.Bio, new { rows="5", @class = "form-control" })
-                            <input type="submit" value="Set" class="btn btn-default" />
-                        }
-                    </td>
-                </tr>
-				<tr>
-					<td><strong>Website</strong><br/>If you have a website, post its URL here!</td>
-					<td>
-                        @using (Html.BeginForm("ChangeWebsite", "Manage"))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.TextBoxFor(Model => Model.Website, new { @class = "form-control" })
-                            <input type="submit" value="Set" class="btn btn-default" />
-                        }
-					</td>
-                <tr/>
-                <tr>
-                    <td><strong>YouTube</strong><br />If you have a YouTube channel, post its URL here!</td>
-                    <td>
-                        @using (Html.BeginForm("ChangeYouTube", "Manage"))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.TextBoxFor(Model => Model.YoutubeUrl, new { @class = "form-control" })
-                            <input type="submit" value="Set" class="btn btn-default" />
-                        }
-                    </td>
+    	<div class="tab-content">
+	        <div class="tab-pane fade in active" id="#t_profile">
+                <h4>Profile settings</h4>
 
-				</tr>
-
-			</table>
-		</div>
-		<div class="tab-pane" id="t_badges">
-			<h4>Not yet implemented.</h4>
-			<p>This feature has not been implemented just yet.</p>
-		</div>
-		<div class="tab-pane" id="t_posts">
-			<h4>Not yet implemented.</h4>
-			<p>This feature has not been implemented just yet.</p>
-		</div>
-		<div class="tab-pane" id="t_messages">
-			<h4>Not yet implemented.</h4>
-			<p>This feature has not been implemented just yet.</p>
-		</div>
-		<div class="tab-pane" id="t_preferences">
-			<table class="table">
-                <tr>
-                    <td style="width:25%"><strong>Password:</strong></td>
-                    <td>@Html.ActionLink("Change", "ChangePassword", "Manage", null, new { @class = "btn btn-default" })</td>
-                </tr>
-            </table>
-		</div>
-	</div>
-</div>
+                <p>Edit your public profile here.</p>
+            </div>
+        </div>
+    </div>
 </div>
