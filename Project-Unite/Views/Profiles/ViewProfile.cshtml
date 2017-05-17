@@ -61,6 +61,43 @@
 
     </div>
     <div class="col-xs-9">
+
+        <h2>About @Model.DisplayName</h2>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Bio))
+        {
+            <h3>Bio</h3>
+            <p>@Html.Markdown(Model.Bio)</p>
+        }
+
+        <div class="row">
+            <div class="col-xs-6">
+                <h3>Interests</h3>
+                @if (string.IsNullOrWhiteSpace(Model.Interests))
+                {
+                    <p>Nothing to show here.</p>
+                }
+                else
+                {
+                    <p>@Html.Markdown(Model.Interests)</p>
+                }
+            </div><div class="col-xs-6">
+                <h3>Hobbies</h3>
+                @if (string.IsNullOrWhiteSpace(Model.Hobbies))
+                {
+                    <p>Nothing to show here.</p>
+                }
+                else
+                {
+                    <p>@Html.Markdown(Model.Hobbies)</p>
+                }
+            </div>
+        </div>
+
+
+
+        <h2>Posts</h2>
+
         @if(Model.UserName == User.Identity.Name)
         {
             Html.RenderPartial("~/Views/Profiles/_NewPost.cshtml", new Project_Unite.Models.UserPost());
