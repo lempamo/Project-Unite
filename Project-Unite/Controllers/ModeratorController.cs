@@ -127,7 +127,7 @@ namespace Project_Unite.Controllers
             return new HttpStatusCodeResult(200);
         }
 
-        public ActionResult Lock(string id)
+        public ActionResult LockTopic(string id)
         {
             var db = new ApplicationDbContext();
             var forum = db.ForumTopics.FirstOrDefault(x => x.Discriminator == id);
@@ -147,7 +147,7 @@ namespace Project_Unite.Controllers
             return RedirectToAction("ViewTopic", "Forum", new { id = id });
         }
 
-        public ActionResult Unlock(string id)
+        public ActionResult UnlockTopic(string id)
         {
             var db = new ApplicationDbContext();
             var forum = db.ForumTopics.FirstOrDefault(x => x.Discriminator == id);
@@ -249,6 +249,39 @@ namespace Project_Unite.Controllers
                 return RedirectToAction("Users");
             else
                 return Redirect(returnUrl);
+        }
+
+        public ActionResult AnnounceTopic(string id)
+        {
+            var db = new ApplicationDbContext();
+            var topic = db.ForumTopics.FirstOrDefault(x => x.Discriminator == id);
+            if (topic == null)
+                return new HttpStatusCodeResult(404);
+            topic.IsAnnounce = !topic.IsAnnounce;
+            db.SaveChanges();
+            return RedirectToAction("ViewTopic", "Forum", new { id = id });
+        }
+
+        public ActionResult GlobalTopic(string id)
+        {
+            var db = new ApplicationDbContext();
+            var topic = db.ForumTopics.FirstOrDefault(x => x.Discriminator == id);
+            if (topic == null)
+                return new HttpStatusCodeResult(404);
+            topic.IsGlobal = !topic.IsGlobal;
+            db.SaveChanges();
+            return RedirectToAction("ViewTopic", "Forum", new { id = id });
+        }
+
+        public ActionResult StickyTopic(string id)
+        {
+            var db = new ApplicationDbContext();
+            var topic = db.ForumTopics.FirstOrDefault(x => x.Discriminator == id);
+            if (topic == null)
+                return new HttpStatusCodeResult(404);
+            topic.IsSticky = !topic.IsSticky;
+            db.SaveChanges();
+            return RedirectToAction("ViewTopic", "Forum", new { id = id });
         }
 
     }
