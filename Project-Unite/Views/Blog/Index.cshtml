@@ -16,7 +16,7 @@
         </ul>
     }
 }
-@foreach(var blog in Model)
+@foreach(var blog in Model.OrderByDescending(x=>x.PostedAt))
 {
     <div class="panel">
         <div class="panel-body">
