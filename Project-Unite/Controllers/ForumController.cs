@@ -213,6 +213,7 @@ namespace Project_Unite.Controllers
 
             var post = new ForumPost();
             post.AuthorId = User.Identity.GetUserId();
+            post.Subject = model.Subject;
             post.Body = model.Body;
             post.Id = Guid.NewGuid().ToString();
             post.Parent = topic.Id;
