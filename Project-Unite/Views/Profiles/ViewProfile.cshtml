@@ -37,6 +37,8 @@
                 <li><strong>Topics: </strong>@Model.TopicCount</li>
             </ul>
 
+            @if (Model.Followers.Count() > 0)
+            {
             <h4>Followers</h4>
             <ul>
                 @foreach (var f in Model.Followers)
@@ -44,7 +46,10 @@
                     <li>@Html.UserLink(f.Follower)</li>
                 }
             </ul>
+            }
 
+            @if (Model.Followed.Count() > 0)
+            {
             <h4>Following</h4>
             <ul>
                 @foreach (var f in Model.Followed)
@@ -52,7 +57,7 @@
                     <li>@Html.UserLink(f.Followed)</li>
                 }
             </ul>
-
+            }
 
     </div>
     <div class="col-xs-9">
@@ -60,6 +65,12 @@
         {
             Html.RenderPartial("~/Views/Profiles/_NewPost.cshtml", new Project_Unite.Models.UserPost());
         }
+         @if(Model.Posts.Count() == 0)
+         {
+             <h3>Nothing to show here...</h3>
+
+             <p>This user hasn't posted anything to their profile just yet. You can follow them to get notified when they do, or you can keep checking back!</p>
+         }
         @foreach(var post in Model.Posts.OrderByDescending(x => x.PostedAt))
         {
             
