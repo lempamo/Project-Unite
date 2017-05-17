@@ -7,13 +7,15 @@
 
 <p>We ShiftOS devs have a lot going on. If you want to find out a bit more about what we do behind the scenes, this is the place for you. We'll post lots of things for you to read here.</p>
 
-@if(ACL.Granted(User.Identity.Name, "CanBlog"))
+@if (Request.IsAuthenticated)
 {
-    <ul class="nav nav-pills">
-        <li><a href="@Url.Action("PostBlog")"><span class="glyphicon glyphicon-file"></span> Post</a></li>
-    </ul>
+    if (User.Identity.IsDeveloper())
+    {
+        <ul class="nav nav-pills">
+            <li><a href="@Url.Action("PostBlog")"><span class="glyphicon glyphicon-file"></span> Post</a></li>
+        </ul>
+    }
 }
-
 @foreach(var blog in Model)
 {
     <div class="panel">
