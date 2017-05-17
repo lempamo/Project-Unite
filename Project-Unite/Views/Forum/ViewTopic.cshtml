@@ -49,7 +49,7 @@
 
     <div class="row panel panel-default">
         <div class="panel-body">
-            <div class="col-xs-4"> <!--Mini profile data-->
+            <div class="col-xs-2"> <!--Mini profile data-->
                 <img class="avatar" src="@ACL.GetUserInfo(post.AuthorId).AvatarUrl" width="128" height="128" /><br/>
                 <strong>@Html.UserLink(post.AuthorId)</strong><br/>
                 @{ 
@@ -64,7 +64,7 @@
                     </p>
                 }
             </div>
-            <div class="col-xs-8" id="forum_post_body"><!--Post body, subject, author, time-->
+            <div class="col-xs-10" id="forum_post_body"><!--Post body, subject, author, time-->
                 <h4>@Model.Subject</h4>
                 <p>@Html.UserLink(post.AuthorId) at @post.PostedAt</p>
                 <p>@Html.Markdown(post.Body)</p>
