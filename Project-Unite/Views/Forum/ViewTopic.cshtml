@@ -92,6 +92,17 @@
                         </div>
                     </div>
                 }
+
+            @if (Request.IsAuthenticated)
+            {
+                if(User.Identity.IsModerator() || post.AuthorId == User.Identity.GetUserId())
+                {
+                    <ul class="nav nav-tabs">
+                        <li><a href="@Url.Action("EditPost", "Forum", new { id = post.Id })"><span class="glyphicon glyphicon-pencil"></span> Edit</a></li>
+                        <li><a href="@Url.Action("DeletePost", "Forum", new { id = post.Id })"><span class="glyphicon glyphicon-trash"></span> Delete</a></li>
+                    </ul>
+                }
+            }
             </div>
         </div>
     </div>
