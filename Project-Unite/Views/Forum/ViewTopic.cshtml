@@ -5,6 +5,25 @@
     ViewBag.Title = Model.Subject;
 }
 
+<ul class="nav nav-tabs">
+    <li><a href="#" onclick="window.history.back()"><span class="glyphicon glyphicon-arrow-left"></span> Back</a></li>
+    @if (Request.IsAuthenticated)
+    {
+        if (ACL.CanReply(User.Identity.Name, Model.Parent))
+        {
+            if (Model.IsLocked == false)
+            {
+            <li><a href="@Url.Action("PostReply", "Forum", new { id = Model.Discriminator, fid=Model.Parent })"><span class="glyphicon glyphicon-comment"></span> Post reply</a></li>
+            }
+            else
+            {
+                <li><a href="#"><span class="glyphicon glyphicon-lock"></span> Locked.</a></li>
+            }
+        }
+    }
+</ul>
+
+
 @if(Model.IsUnlisted == true)
 {
     <div class="panel panel-warning">

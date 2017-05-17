@@ -21,32 +21,7 @@
     }
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    <script src="Scripts/jquery.signalR-2.2.2-preview1.min.js"></script>
-    <script src="signalr/hubs"></script>
     @RenderSection("scripts", required: false)
-    <script type="text/javascript">
-        var mde = new SimpleMDE({forceSync: true});
-        mde.options.forceSync();
-    </script>
-    <script type="text/javascript">
-        var notificationHubProxy = $.connection.notificationHub;
-        notificationHubProxy.client.sendMessage = function (message) {
-            $("#notification_body").find("ul").append("<li></li>").html(message);
-            $.ajax({
-                url : "/API/GetNotificationCount",
-                success : function(result){
-                    $("#notification_count").html(result);
-                }
-            });
-            var audio = new Audio("/Content/infobox.wav");
-            audio.play();
-        };
-        $.connection.hub.start()
-            .done(function(){ console.log('Now connected, connection ID=' + $.connection.hub.id); })
-            .fail(function(){ console.log('Could not Connect!'); });
-        });
-    </script>
-
     <title>@ViewBag.Title &bull; ShiftOS</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/bootstrap-theme.css")
@@ -189,7 +164,10 @@
     </footer>
 
 
-
+    <script type="text/javascript">
+        var mde = new SimpleMDE({forceSync: true});
+        mde.options.forceSync();
+    </script>
 
 
 </body>
