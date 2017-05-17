@@ -46,6 +46,49 @@
 @if (globals.Count() > 0)
 {
     <hr />
+    <div class="row">
+        <div class="col-xs-6">Global announcements</div>
+        <div class="col-xs-2">Posts</div>
+        <div class="col-xs-4">Most recent post</div>
+    </div>
+    foreach (var topic in globals)
+    {
+        <div class="row">
+            <div class="col-xs-6">
+                @if (topic.IsSticky)
+                {
+                    <span class="glyphicon glyphicon-info"></span>
+                }
+                @if (topic.IsAnnounce)
+                {
+                    <span class="glyphicon glyphicon-star"></span>
+                }
+                @if (topic.IsGlobal)
+                {
+                    <span class="glyphicon glyphicon-globe"></span>
+                }
+                @if (topic.IsUnlisted)
+                {
+                    <span class="glyphicon glyphicon-eye-close"></span>
+                }
+                @if (topic.IsLocked)
+                {
+                    <span class="glyphicon glyphicon-ban-circle"></span>
+                }
+                @Html.ActionLink(topic.Subject, "ViewTopic", "Forum", new { id = topic.Discriminator }, null)
+                <br />
+                <p><strong>Started by </strong> @Html.UserLink(topic.AuthorId) <strong>at </strong> @topic.StartedAt &bull; <span class="glyphicon glyphicon-thumbs-up"></span> @topic.Likes.Length &bull; <span class="glyphicon glyphicon-thumbs-down"></span> @topic.Dislikes.Length</p>
+            </div>
+            <div class="col-xs-2">
+                <strong>@topic.Posts.Length</strong>
+            </div>
+            <div class="col-xs-4">
+                @topic.Posts.OrderByDescending(x => x.PostedAt).First().Subject <br />
+                by @Html.UserLink(topic.Posts.OrderByDescending(x => x.PostedAt).First().AuthorId) <br />
+                at @topic.Posts.OrderByDescending(x => x.PostedAt).First().PostedAt
+            </div>
+        </div>
+    }
 
 }
 
@@ -63,6 +106,26 @@
                 {
                     <div class="row">
                         <div class="col-xs-6">
+                            @if (topic.IsSticky)
+                            {
+                                <span class="glyphicon glyphicon-info"></span>
+                            }
+                            @if (topic.IsAnnounce)
+                            {
+                                <span class="glyphicon glyphicon-star"></span>
+                            }
+                            @if (topic.IsGlobal)
+                            {
+                                <span class="glyphicon glyphicon-globe"></span>
+                            }
+                            @if (topic.IsUnlisted)
+                            {
+                                <span class="glyphicon glyphicon-eye-close"></span>
+                            }
+                            @if (topic.IsLocked)
+                            {
+                                <span class="glyphicon glyphicon-ban-circle"></span>
+                            }
                             @Html.ActionLink(topic.Subject, "ViewTopic", "Forum", new { id = topic.Discriminator }, null) 
                             <br/>
                             <p><strong>Started by </strong> @Html.UserLink(topic.AuthorId) <strong>at </strong> @topic.StartedAt &bull; <span class="glyphicon glyphicon-thumbs-up"></span> @topic.Likes.Length &bull; <span class="glyphicon glyphicon-thumbs-down"></span> @topic.Dislikes.Length</p>
