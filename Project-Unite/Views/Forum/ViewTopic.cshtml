@@ -30,6 +30,52 @@
                 <li><a href="#"><span class="glyphicon glyphicon-lock"></span> Locked.</a></li>
             }
         }
+        if (User.Identity.IsModerator())
+        {
+            <li class="dropdown"><a href="#" class="dropdown-toggle">Quick mod <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-header">Topic status</li>
+                    <li><a href="@Url.Action("StickyTopic", "Moderator", new { id = Model.Id })">
+                            @if (Model.IsSticky)
+                            {
+                                <span class="glyphicon glyphicon-ok"></span>
+                            }
+                            Sticky
+                        </a></li>
+                    <li>
+                        <a href="@Url.Action("AnnounceTopic", "Moderator", new { id = Model.Id })">
+                            @if (Model.IsAnnounce)
+                            {
+                                <span class="glyphicon glyphicon-star"></span>
+                            }
+                            Announcement
+                        </a>
+                    </li>
+                    @if (User.Identity.IsAdmin())
+                    {
+                        <li>
+                            <a href="@Url.Action("GlobalTopic", "Moderator", new { id = Model.Id })">
+                                @if (Model.IsGlobal)
+                                {
+                                    <span class="glyphicon glyphicon-globe"></span>
+                                }
+                                Global
+                            </a>
+                        </li>
+
+                    }
+                    <li class="dropdown-header">Posting</li>
+                    @if (Model.IsLocked)
+                    {
+                        <li><a href="@Url.Action("UnlockTopic", "Moderator", new { id = Model.Discriminator })">Unlock</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="@Url.Action("LockTopic", "Moderator", new { id = Model.Discriminator })">Lock</a></li>
+                    }
+                </ul>
+            </li>
+        }
     }
 </ul>
 
