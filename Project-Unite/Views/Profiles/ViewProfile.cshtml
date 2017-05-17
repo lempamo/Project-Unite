@@ -5,14 +5,13 @@
 }
 
 <div class="row">
-    <h3>
-        <img src="@Model.AvatarUrl" width="64" height="64" /> @if (string.IsNullOrWhiteSpace(Model.FullName))
-        { <strong> @Model.DisplayName </strong>}
-        else
+        <div class="col-xs-2">
+        <img class="avatar" src="@Model.AvatarUrl" width="128" height="128" />
+        @if (!string.IsNullOrWhiteSpace(Model.FullName))
         {
-            <strong>@Model.FullName</strong> <em>(@Model.DisplayName)</em>}
-    </h3>
-</div>
+            <h4>@Model.FullName</h4>
+        }
+        <h5>@Model.DisplayName</h5>
 
 <ul class="nav nav-pills">
     @if (Model.UserName != User.Identity.Name)
@@ -28,17 +27,35 @@
     }
 </ul>
 
-<div class="row">
-    <div class="col-xs-3">
-        <h4>User stats</h4>
-        <ul>
-            <li><strong>@Model.Codepoints</strong> Codepoints</li>
-            <li><strong>Joined at: </strong>@Model.JoinedAt</li>
-            <li><strong>Posts: </strong>@Model.PostCount</li>
-            <li><strong>Topics: </strong>@Model.TopicCount</li>
-        </ul>
+            <hr/>
+
+            <strong>User stats</strong><br/>
+            <ul>
+                <li><strong>@Model.Codepoints</strong> Codepoints</li>
+                <li><strong>Joined at: </strong>@Model.JoinedAt</li>
+                <li><strong>Posts: </strong>@Model.PostCount</li>
+                <li><strong>Topics: </strong>@Model.TopicCount</li>
+            </ul>
+
+            <h4>Followers</h4>
+            <ul>
+                @foreach (var f in Model.Followers)
+                {
+                    <li>@Html.UserLink(f.Follower)</li>
+                }
+            </ul>
+
+            <h4>Following</h4>
+            <ul>
+                @foreach (var f in Model.Followed)
+                {
+                    <li>@Html.UserLink(f.Followed)</li>
+                }
+            </ul>
+
+
     </div>
-    <div class="col-xs-5">
+    <div class="col-xs-10">
         @if(Model.UserName == User.Identity.Name)
         {
             Html.RenderPartial("~/Views/Profiles/_NewPost.cshtml", new Project_Unite.Models.UserPost());
@@ -67,29 +84,5 @@
                 </div>
             </div>
         }
-    </div>
-    <div class="col-xs-3">
-        <div class="panel">
-            <div class="panel-body">
-                <h4>Followers</h4>
-                <ul>
-                    @foreach(var f in Model.Followers)
-                    {
-                        <li>@Html.UserLink(f.Follower)</li>
-                    }
-                </ul>
-            </div>
-        </div>
-        <div class="panel">
-            <div class="panel-body">
-                <h4>Following</h4>
-                <ul>
-                    @foreach (var f in Model.Followed)
-                    {
-                        <li>@Html.UserLink(f.Followed)</li>
-                    }
-                </ul>
-            </div>
-        </div>
     </div>
 </div>
