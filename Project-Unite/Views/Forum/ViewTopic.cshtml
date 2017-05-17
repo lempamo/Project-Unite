@@ -35,7 +35,7 @@
             <li class="dropdown"><a data-toggle="dropdown" href="#" class="dropdown-toggle">Quick mod <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li class="dropdown-header">Topic status</li>
-                    <li><a href="@Url.Action("StickyTopic", "Moderator", new { id = Model.Id })">
+                    <li><a href="@Url.Action("StickyTopic", "Moderator", new { id = Model.Discriminator })">
                             @if (Model.IsSticky)
                             {
                                 <span class="glyphicon glyphicon-ok"></span>
@@ -43,7 +43,7 @@
                             Sticky
                         </a></li>
                     <li>
-                        <a href="@Url.Action("AnnounceTopic", "Moderator", new { id = Model.Id })">
+                        <a href="@Url.Action("AnnounceTopic", "Moderator", new { id = Model.Discriminator })">
                             @if (Model.IsAnnounce)
                             {
                                 <span class="glyphicon glyphicon-star"></span>
@@ -54,7 +54,7 @@
                     @if (User.Identity.IsAdmin())
                     {
                         <li>
-                            <a href="@Url.Action("GlobalTopic", "Moderator", new { id = Model.Id })">
+                            <a href="@Url.Action("GlobalTopic", "Moderator", new { id = Model.Discriminator })">
                                 @if (Model.IsGlobal)
                                 {
                                     <span class="glyphicon glyphicon-globe"></span>
