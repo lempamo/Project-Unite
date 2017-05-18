@@ -13,45 +13,36 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Project_Unite.Models;
+using Reachmail.Easysmtp.Post.Request;
+using Reachmail.Easysmtp.Post.Response;
 
 namespace Project_Unite
 {
     public class EmailService : IIdentityMessageService
     {
-        public async Task SendAsync(IdentityMessage msg)
+        public Task SendAsync(IdentityMessage msg)
         {
-            try
-            {
-                var siteConfig = new ApplicationDbContext().Configs.FirstOrDefault();
-                var message = new MailMessage();
-                message.To.Add(new MailAddress(msg.Destination));
-                message.Subject = "[ShiftOS] " + msg.Subject;
-                message.Body = msg.Body;
-                message.IsBodyHtml = true;
+            var siteConfig = new ApplicationDbContext().Configs.First();
+            var reachmail = Reachmail.Api.Create(siteConfig.SMTPUsername);
 
-                using (var smtp = new SmtpClient())
-                {
-                    var credential = new NetworkCredential
-                    {
-                        UserName = siteConfig.SMTPUsername,
-                        Password = siteConfig.SMTPPassword
-                    };
-                    smtp.Credentials = credential;
-                    smtp.Host = siteConfig.SMTPServer;
-                    smtp.Port = siteConfig.SMTPPort;
-                    smtp.EnableSsl = siteConfig.UseTLSEncryption;
-                    await smtp.SendMailAsync(message);
-                }
-            }
-            catch (Exception ex)
+            var request = new DeliveryRequest
             {
-                var db = new ApplicationDbContext();
-                db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, $@"Failed to send email:
-
-{ex}"));
-                await db.SaveChangesAsync();
+                FromAddress = "sys@michaeltheshifter.me",
+                Recipients = new Recipients {
+            new Recipient {
+                Address = msg.Destination
             }
-            return;
+        },
+                Subject = "[ShiftOS] " + msg.Subject,
+                BodyText = msg.Body,
+                BodyHtml = "html",
+                Tracking = true,
+                FooterAddress = "sys@michaeltheshifter.me",
+                SignatureDomain = "getshiftos.ml"
+            };
+
+            var result = reachmail.Easysmtp.Post(request);
+            return Task.FromResult<DeliveryResponse>(result);
         }
 
         

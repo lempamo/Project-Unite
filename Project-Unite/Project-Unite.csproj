@@ -130,6 +130,374 @@
       <HintPath>..\packages\Nito.AsyncEx.3.0.1\lib\net45\Nito.AsyncEx.Enlightenment.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Reachmail, Version=2.0.0.87, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\reachmail.2.0.0.87\lib\Reachmail.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.ASiC, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.ASiC.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.ASiC.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.ASiC.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.Cloud, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.Cloud.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.Cloud.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.Cloud.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.DAVClient, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.DAVClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.DAVClient.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.DAVClient.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.DAVCommon, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.DAVCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.DAVCommon.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.DAVCommon.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.DAVIISServer, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.DAVIISServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.DAVServer, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.DAVServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.DAVServer.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.DAVServer.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.DC, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.DC.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.DC.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.DC.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.DCPKI, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.DCPKI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.DCPKI.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.DCPKI.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.EDI, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.EDI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.EDI.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.EDI.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.FTPS, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.FTPS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.FTPS.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.FTPS.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.FTPSServer, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.FTPSServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.FTPSServer.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.FTPSServer.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.HTTP, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.HTTP.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.HTTP.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.HTTP.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.HTTPCommon, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.HTTPCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.HTTPCommon.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.HTTPCommon.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.HTTPServer, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.HTTPServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.HTTPServer.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.HTTPServer.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.LDAP, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.LDAP.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.LDAP.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.LDAP.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.Mail, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.Mail.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.Mail.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.Mail.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.MIME, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.MIME.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.MIME.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.MIME.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.Office, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.Office.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.Office.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.Office.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PDF, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PDF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PDF.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PDF.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PGP, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PGP.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PGP.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PGP.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PGPLDAP, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PGPLDAP.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PGPLDAP.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PGPLDAP.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PGPMIME, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PGPMIME.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PGPMIME.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PGPMIME.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PGPSSH, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PGPSSH.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PGPSSH.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PGPSSH.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PGPTLS, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PGPTLS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PGPTLS.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PGPTLS.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PKI, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PKI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PKI.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PKI.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PKIPDF, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PKIPDF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PKIPDF.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PKIPDF.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PKISMIME, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PKISMIME.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PKISSH, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PKISSH.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.PKISSH.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.PKISSH.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SAMLCommon, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SAMLCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SAMLCommon.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SAMLCommon.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SAMLIDP, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SAMLIDP.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SAMLIDP.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SAMLIDP.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SAMLSP, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SAMLSP.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SAMLSP.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SAMLSP.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SFTP, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SFTP.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SFTP.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SFTP.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SFTPCommon, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SFTPCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SFTPCommon.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SFTPCommon.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SFTPServer, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SFTPServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SFTPServer.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SFTPServer.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SMIME, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SMIME.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SMIME.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SMIME.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SOAPClient, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SOAPClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SOAPClient.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SOAPClient.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SolFS, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SolFS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SSHClient, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SSHClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SSHClient.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SSHClient.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SSHCommon, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SSHCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SSHCommon.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SSHCommon.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SSHServer, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SSHServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SSHServer.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SSHServer.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SSLClient, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SSLClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SSLClient.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SSLClient.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SSLCommon, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SSLCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SSLCommon.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SSLCommon.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SSLServer, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SSLServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.SSLServer.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.SSLServer.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.XML, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.XML.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.XML.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.XML.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.XMLSecurity, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.XMLSecurity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.XMLSecurity.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.XMLSecurity.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.ZIP, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.ZIP.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SecureBlackbox.ZIP.Async, Version=15.1.300.0, Culture=neutral, PublicKeyToken=47aa36a947686fb6, processorArchitecture=MSIL">
+      <HintPath>..\packages\SecureBlackbox.15.1.300\lib\net451\SecureBlackbox.ZIP.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
