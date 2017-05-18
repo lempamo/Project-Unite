@@ -64,7 +64,7 @@ namespace Project_Unite
                 db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, $@"Failed to send email:
 
 {ex}"));
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             return;
         }
