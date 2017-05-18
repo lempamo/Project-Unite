@@ -18,45 +18,30 @@ namespace Project_Unite
 {
     public class EmailService : IIdentityMessageService
     {
-        public async Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage msg)
         {
             try
             {
                 var siteConfig = new ApplicationDbContext().Configs.FirstOrDefault();
+                var message = new MailMessage();
+                message.To.Add(new MailAddress(msg.Destination));
+                message.Subject = "[ShiftOS] " + msg.Subject;
+                message.Body = msg.Body;
+                message.IsBodyHtml = true;
 
-                var smtp = new SmtpClient(siteConfig.SMTPServer, siteConfig.SMTPPort);
-                smtp.UseDefaultCredentials = false;
-                if (siteConfig.UseTLSEncryption)
-                    smtp.EnableSsl = true; //This is misleading... We want TLS but all we have is SSL. Oh well.
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential(siteConfig.SMTPUsername, siteConfig.SMTPPassword);
-                var sMsg = new MailMessage(siteConfig.SMTPReturnAddress, message.Destination);
-
-                sMsg.Body = @"<img src=""https://cdn.discordapp.com/attachments/241613675545231360/280020406528901131/unknown.png""/>
-
-<h1>Message from the ShiftOS staff</h1>
-
-<p>" + CommonMark.CommonMarkConverter.Convert(message.Body) + "</p>";
-                sMsg.Subject =  $"[{siteConfig.SiteName}] " + message.Subject;
-                sMsg.IsBodyHtml = true;
-                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                var db = new ApplicationDbContext();
-                db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, $"Email sending...<br/><br/><strong>To:</strong> {sMsg.To}<br/><strong>Subject:</strong><br/>{sMsg.Subject}<br/><strong>Invoker IP:</strong>{HttpContext.Current.Request.UserHostAddress}"));
-                db.SaveChanges();
-                smtp.SendCompleted += async (o, a) =>
+                using (var smtp = new SmtpClient())
                 {
-                    var alog = new AuditLog("system", AuditLogLevel.Admin, "");
-                    if (a.Cancelled == true)
-                        alog.Description += "Send cancelled.<br/>";
-                    if (a.Error == null)
-                        alog.Description += "No errors detected.</br>";
-                    else
-                        alog.Description += $"Error:<br/><pre><code class=\"language-csharp\">{a.Error}</code></pre>";
-                    var ndb = new ApplicationDbContext();
-                    ndb.AuditLogs.Add(alog);
-                    await ndb.SaveChangesAsync();
-                };
-                smtp.Send(sMsg);
+                    var credential = new NetworkCredential
+                    {
+                        UserName = siteConfig.SMTPUsername,
+                        Password = siteConfig.SMTPPassword
+                    };
+                    smtp.Credentials = credential;
+                    smtp.Host = siteConfig.SMTPServer;
+                    smtp.Port = siteConfig.SMTPPort;
+                    smtp.EnableSsl = siteConfig.UseTLSEncryption;
+                    await smtp.SendMailAsync(message);
+                }
             }
             catch (Exception ex)
             {
