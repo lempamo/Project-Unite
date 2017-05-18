@@ -157,6 +157,25 @@
                     </div>
                 }
             </div>
+            <div class="tab-pane fade in" id="t_danger">
+                <h2>The Danger Zone</h2>
+
+                <p>Be careful with these settings. These can cause data-loss or other issues.</p>
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h4>Purge my data</h4>
+                        <p>Use this option to purge all data associated with your account.</p>
+                        <a href="@Url.Action("PurgeData")" class="btn btn-danger"><span class="glyphicon glyphicon-arrow-right"></span> Purge it all.</a>
+                    </div>
+                    <div class="col-xs-6">
+                        <h4>Delete my account</h4>
+                        <p>Use this option to permanently remove your account from the ShiftOS community. <strong>This will render your save files, skins, and other data INACCESSIBLE. There is NO GOING BACK ONCE YOU CLICK THIS DAMN BUTTON.</strong></p>
+                        <a href="@Url.Action("DeleteAccount")" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> I COMPLETELY UNDERSTAND. NOW DELETE IT.</a>
+                    </div>
+
+                </div>
+            </div>
             <hr/>
             <input type="submit" value="Update" class="btn btn-primary" />
         </div>
