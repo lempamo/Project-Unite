@@ -23,7 +23,8 @@ namespace Project_Unite.Controllers
         public ActionResult SetAvatar(string id)
         {
             var db = new ApplicationDbContext();
-            var usr = db.Users.FirstOrDefault(x => x.Id == User.Identity.GetUserId());
+            string uid = User.Identity.GetUserId();
+            var usr = db.Users.FirstOrDefault(x => x.Id == uid);
             var avtr = db.UserAvatars.FirstOrDefault(x => x.Id == id);
             usr.AvatarUrl = avtr.AvatarUrl;
             db.SaveChanges();
