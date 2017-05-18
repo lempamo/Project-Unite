@@ -77,13 +77,13 @@
 
                 <h4>Interests</h4>
                 <p>What are you interested in?</p>
-                @Html.TextAreaFor(Model => Model.Interests)
+                @Html.TextAreaFor(Model => Model.Interests, new { @class = "form-control" })
 
 
 
                 <h4>Hobbies</h4>
                 <p>What do you like to do?</p>
-                @Html.TextAreaFor(Model => Model.Hobbies)
+                @Html.TextAreaFor(Model => Model.Hobbies, new { @class = "form-control" })
 
                 
             </div>
@@ -120,6 +120,7 @@
                 <a href="@Url.Action("SetPassword", "Manage")" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span> Change password</a>
 
             </div>
+            <hr/>
             <input type="submit" value="Update" class="btn btn-primary" />
         </div>
     </div>
