@@ -59,6 +59,7 @@ namespace Project_Unite
                 string exc = sb.ToString();
                 var db = new ApplicationDbContext();
                 db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, exc));
+                db.SaveChanges();
             }
             return Task.FromResult<DeliveryResponse>(result);
         }
