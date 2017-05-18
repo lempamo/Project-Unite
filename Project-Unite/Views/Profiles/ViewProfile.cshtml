@@ -13,7 +13,17 @@
         }
         <h5>@Model.DisplayName</h5>
 
-<ul class="nav nav-pills">
+<ul class="nav nav-pills nav-stacked">
+    @if (Request.IsAuthenticated)
+    {
+        if (Model.ShowEmail)
+        {
+            if (Model.EmailConfirmed == true)
+            {
+                <li><a href="mailto:@Model.Email">Email @Model.Email</a></li>
+            }
+        }
+    }
     @if (Model.UserName != User.Identity.Name)
     {
         if (ACL.IsFollowed(User.Identity.Name, Model.Id))
@@ -32,12 +42,18 @@
             <strong>User stats</strong><br/>
             <ul>
                 <li><strong>@Model.Codepoints</strong> Codepoints</li>
-                <li><strong>Joined at: </strong>@Model.JoinedAt</li>
+                @if (Model.ShowJoinDate)
+                {
+                    <li><strong>Joined at: </strong>@Model.JoinedAt</li>
+                }
+                @if (Model.ShowPostAndTopicCounts)
+                {
                 <li><strong>Posts: </strong>@Model.PostCount</li>
                 <li><strong>Topics: </strong>@Model.TopicCount</li>
+                }
             </ul>
 
-            @if (Model.Followers.Count() > 0)
+            @if (Model.Followers.Count() > 0 && Model.ShowFollowers)
             {
             <h4>Followers</h4>
             <ul>
@@ -48,7 +64,7 @@
             </ul>
             }
 
-            @if (Model.Followed.Count() > 0)
+            @if (Model.Followed.Count() > 0 && Model.ShowFollowed)
             {
             <h4>Following</h4>
             <ul>
