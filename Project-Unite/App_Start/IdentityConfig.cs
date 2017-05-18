@@ -35,13 +35,12 @@ namespace Project_Unite
             }
         },
                 Subject = "[ShiftOS] " + msg.Subject,
-                BodyText = msg.Body,
-                BodyHtml = "html",
+                BodyHtml = msg.Body,
                 Tracking = true,
                 FooterAddress = "sys@michaeltheshifter.me",
                 SignatureDomain = "getshiftos.ml"
             };
-
+            
             var result = reachmail.Easysmtp.Post(request);
             if (result.Failures)
             {
