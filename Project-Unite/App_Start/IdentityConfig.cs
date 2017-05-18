@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.Identity;
@@ -42,6 +43,22 @@ namespace Project_Unite
             };
 
             var result = reachmail.Easysmtp.Post(request);
+            if (result.Failures)
+            {
+                var sb = new StringBuilder();
+                sb.AppendLine("A fatal exception has occurred in the Unite mail backend.");
+                sb.AppendLine();
+                sb.AppendLine("Basically, we couldn't send messages to the following addresses: ");
+
+                foreach(var addr in result.FailedAddresses)
+                {
+                    sb.AppendLine(" - " + addr.Email);
+                    sb.AppendLine(" - Reason: " + addr.Reason);
+                }
+                sb.AppendLine("FUCKING CONTACT MICHAEL. NOW.");
+                string exc = sb.ToString();
+                throw new Exception(exc);
+            }
             return Task.FromResult<DeliveryResponse>(result);
         }
 
