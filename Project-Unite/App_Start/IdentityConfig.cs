@@ -56,7 +56,7 @@ namespace Project_Unite
                     ndb.AuditLogs.Add(alog);
                     await ndb.SaveChangesAsync();
                 };
-                smtp.Send(sMsg);
+                smtp.SendAsync(sMsg, null);
             }
             catch (Exception ex)
             {
