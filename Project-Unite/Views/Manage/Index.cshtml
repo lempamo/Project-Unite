@@ -147,9 +147,9 @@
                         <div class="col-xs-8">
                             <strong>@key.AppName @key.Version</strong>
                             <p>@key.AppDescription</p>
-                            <pre>
+                            <code>
 @key.Id
-                            </pre>
+                            </code>
                         </div>
                         <div class="col-xs-4">
                             <a href="@Url.Action("RevokeAPIKey", "Manage", new { id = key.Id })" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Revoke key</a>
