@@ -37,14 +37,15 @@ namespace Project_Unite
                 Subject = "[ShiftOS] " + msg.Subject,
                 BodyHtml = msg.Body,
                 Tracking = true,
-                FooterAddress = "sys@michaeltheshifter.me",
-                SignatureDomain = "getshiftos.ml"
             };
             
             var result = reachmail.Easysmtp.Post(request);
+
+            var sb = new StringBuilder();
+            sb.AppendLine("<strong>Email summary</strong>");
+            sb.AppendLine("Current volume: " + result.CurrentVolume.ToString());
             if (result.Failures)
             {
-                var sb = new StringBuilder();
                 sb.AppendLine("A fatal exception has occurred in the Unite mail backend.");
                 sb.AppendLine();
                 sb.AppendLine("Basically, we couldn't send messages to the following addresses: ");
@@ -54,12 +55,13 @@ namespace Project_Unite
                     sb.AppendLine(" - " + addr.Email);
                     sb.AppendLine(" - Reason: " + addr.Reason);
                 }
-                sb.AppendLine("FUCKING CONTACT MICHAEL. NOW.");
-                string exc = sb.ToString();
-                var db = new ApplicationDbContext();
-                db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, exc));
-                db.SaveChanges();
+                sb.AppendLine("I don't want to swear, but seriously. I need to fix this. - Michael");
+                
             }
+            string exc = sb.ToString();
+            var db = new ApplicationDbContext();
+            db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, exc));
+            db.SaveChanges();
             return Task.FromResult<DeliveryResponse>(result);
         }
 
