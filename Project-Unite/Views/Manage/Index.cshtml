@@ -95,6 +95,38 @@
                 <h4>Send me notifications through email when I'm inactive</h4>
                 <p>Check this option to allow us to email you when you receive a notification and you haven't logged in for a week.</p> @Html.CheckBoxFor(Model=>Model.EmailOnNotifications)
 
+                @{ 
+                    var notes = Model.Notifications.Where(x=>x.IsRead==false).OrderByDescending(x=>x.Timestamp);
+                }
+                <h3>Unread Notifications</h3>
+                @if (notes.Count() > 0)
+                {
+                    <p>Below is a list of all unread notifications.</p>
+
+                    <ul class="nav nav-tabs">
+                        <li><a href="@Url.Action("MarkAllRead")"><span class="glyphicon glyphicon-book"></span> Mark all read</a></li>
+                    </ul>
+
+                    <div class="row">
+                        <strong>Notification</strong>
+                    </div>
+                    @foreach(var note in notes)
+                    {
+                        <div class="row">
+                            @if (!string.IsNullOrWhiteSpace(note.AvatarUrl))
+                            {
+                                <img src="@note.AvatarUrl" height="128" width="128" class="avatar" />
+                            }
+                            <h5>@note.Title</h5>
+                            <p>@note.Description</p>
+                            <a href="@note.ActionUrl" class="btn btn-default">Read</a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>You have no notifications.</p>
+                }
             </div>
             <div class="tab-pane fade in" id="t_privacy">
                 <h2>Privacy &amp; Security</h2>

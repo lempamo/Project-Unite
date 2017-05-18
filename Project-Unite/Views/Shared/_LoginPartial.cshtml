@@ -15,7 +15,7 @@
             <ul class="dropdown-menu">
                 <li class="dropdown-header">Notifications (@Html.NotificationCount(User.Identity.Name) unread)</li>
                 @Html.GetLatestUnread(User.Identity.Name)
-                <li>@Html.ActionLink("View all", "Notifications", "Manage")</li>
+                <li><a href="@Url.Action("Index", "Manage")#t_notifications">View all</a></li>
             </ul>
         </li>
         <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-user"></span> @Html.UserName(User.Identity.GetUserId()) <span class="caret"></span></a>

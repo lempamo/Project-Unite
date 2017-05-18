@@ -111,6 +111,19 @@ namespace Project_Unite.Controllers
             }
         }
 
+        public ActionResult MarkAllRead()
+        {
+            var db = new ApplicationDbContext();
+            string uid = User.Identity.GetUserId();
+            var unread = db.Notifications.Where(x => x.IsRead == false && x.UserId == uid);
+            foreach(var u in unread.ToArray())
+            {
+                u.IsRead = true;
+            }
+            db.SaveChanges();
+            return Redirect(Url.Action("Index", "Manage") + "#t_notifications");
+        }
+
         public ActionResult Notification(string id, string url)
         {
             var db = new ApplicationDbContext();
