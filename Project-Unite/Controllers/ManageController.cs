@@ -111,6 +111,17 @@ namespace Project_Unite.Controllers
             }
         }
 
+        public ActionResult Notification(string id, string url)
+        {
+            var db = new ApplicationDbContext();
+            var note = db.Notifications.FirstOrDefault(x => x.Id == id);
+            if (note == null)
+                return new HttpStatusCodeResult(404);
+            note.IsRead = false;
+            db.SaveChanges();
+            return Redirect(url);
+        }
+
         public ApplicationUserManager UserManager
         {
             get
@@ -157,6 +168,7 @@ namespace Project_Unite.Controllers
             usr.ShowFollowers = model.ShowFollowers;
             usr.ShowFollowed = model.ShowFollowed;
             usr.ShowEmail = model.ShowEmail;
+            usr.EmailOnNotifications = model.EmailOnNotifications;
             usr.ShowPostAndTopicCounts = model.ShowPostAndTopicCounts;
             usr.ShowJoinDate = model.ShowJoinDate;
             if (usr.Email != model.Email)
@@ -510,7 +522,7 @@ namespace Project_Unite.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 

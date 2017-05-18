@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.SignalR;
 using Project_Unite.Models;
 
@@ -70,17 +71,39 @@ namespace Project_Unite
             var user = db.Users.FirstOrDefault(x => x.Id == uid);
             if (user == null)
                 throw new Exception("Cannot find user with ID " + target + ".");
+            string id = Guid.NewGuid().ToString();
             var note = new Notification
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = id,
                 UserId = target,
                 Title = title,
                 Timestamp = DateTime.Now,
-                ActionUrl = url,
+                ActionUrl = $"http://getshiftos.ml/Manage/Notification/{id}?url={Uri.EscapeDataString(url)}",
                 Description = desc,
                 AvatarUrl = user.AvatarUrl
             };
             db.Notifications.Add(note);
+
+            var t = db.Users.FirstOrDefault(x => x.Id == target);
+            if (t.EmailOnNotifications)
+            {
+                if (t.LastLogin <= DateTime.Now.AddDays(-7))
+                {
+                    var man = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                    man.SendEmailAsync(target, "New notification", $@"<h1>New notification</h1>
+
+<h3>{note.Title}</h3>
+
+<img src=""{note.AvatarUrl}"" width=""128"" height=""128"" style=""border-radius:100%""/>
+<h4>{user.FullName}</h4>
+<h5>{user.DisplayName}</h5>
+
+<p>{note.Description}</p>
+
+<a href=""{note.ActionUrl}"">Click here to acknowledge this notification.</a>");
+
+                }
+            }
 
             db.SaveChanges();
 

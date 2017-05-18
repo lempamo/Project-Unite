@@ -30,7 +30,8 @@
 	<ul id="tabs" data-tabs="tabs" class="nav nav-pills nav-stacked" role="tablist">
 		<li class="active"><a data-toggle="tab" href="#t_profile">Profile</a></li>
 		<li><a data-toggle="tab" href="#t_privacy">Privacy &amp; Security</a></li>
-		<li><a data-toggle="tab" href="#t_data">Data</a></li>
+		<li><a data-toggle="tab" href="#t_notifications">Notifications</a></li>
+        <li><a data-toggle="tab" href="#t_data">Data</a></li>
         <li><a data-toggle="tab" href="#t_api">API</a></li>
 		<li class="danger"><a data-toggle="tab" href="#t_danger">The Danger Zone</a></li>
 	</ul>
@@ -86,6 +87,14 @@
                 @Html.TextAreaFor(Model => Model.Hobbies, new { @class = "form-control" })
 
                 
+            </div>
+            <div class="tab-pane fade in" id="t_notifications">
+                <h2>Notifications</h2>
+                <p>These settings are for the ShiftOS notification system on your account.</p>
+
+                <h4>Send me notifications through email when I'm inactive</h4>
+                <p>Check this option to allow us to email you when you receive a notification and you haven't logged in for a week.</p> @Html.CheckBoxFor(Model=>Model.EmailOnNotifications)
+
             </div>
             <div class="tab-pane fade in" id="t_privacy">
                 <h2>Privacy &amp; Security</h2>

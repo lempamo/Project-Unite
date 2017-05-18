@@ -52,7 +52,7 @@ namespace Project_Unite.Models
         public bool ShowEmail { get; set; }
         public bool ShowPostAndTopicCounts { get; set; }
         public bool ShowJoinDate { get; set; }
-
+        public bool EmailOnNotifications { get; set; }
 
         #endregion
 
