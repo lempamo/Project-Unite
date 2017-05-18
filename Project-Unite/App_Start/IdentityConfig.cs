@@ -57,7 +57,8 @@ namespace Project_Unite
                 }
                 sb.AppendLine("FUCKING CONTACT MICHAEL. NOW.");
                 string exc = sb.ToString();
-                throw new Exception(exc);
+                var db = new ApplicationDbContext();
+                db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, exc));
             }
             return Task.FromResult<DeliveryResponse>(result);
         }
