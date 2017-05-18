@@ -141,6 +141,33 @@ namespace Project_Unite.Controllers
             return View(usr);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(ApplicationUser model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            var db = new ApplicationDbContext();
+            var usr = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            usr.DisplayName = model.DisplayName;
+            usr.FullName = model.FullName;
+            usr.Hobbies = model.Hobbies;
+            usr.Bio = model.Bio;
+            usr.Interests = model.Interests;
+            usr.ShowFollowers = model.ShowFollowers;
+            usr.ShowFollowed = model.ShowFollowed;
+            usr.ShowEmail = model.ShowEmail;
+            usr.ShowPostAndTopicCounts = model.ShowPostAndTopicCounts;
+            usr.ShowJoinDate = model.ShowJoinDate;
+            if (usr.Email != model.Email)
+                usr.EmailConfirmed = false;
+            usr.Email = model.Email;
+            usr.Website = model.Website;
+            usr.YoutubeUrl = model.YoutubeUrl;
+            db.SaveChanges();
+            return View(model);
+        }
+
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]

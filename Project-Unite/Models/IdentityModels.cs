@@ -45,6 +45,18 @@ namespace Project_Unite.Models
         public int Pong_HighestCodepointsCashout { get; set; }
 
 
+        #region Privacy
+
+        public bool ShowFollowers { get; set; }
+        public bool ShowFollowed { get; set; }
+        public bool ShowEmail { get; set; }
+        public bool ShowPostAndTopicCounts { get; set; }
+        public bool ShowJoinDate { get; set; }
+
+
+        #endregion
+
+
         public ForumPost[] UnreadPosts
         {
             get
@@ -141,13 +153,20 @@ namespace Project_Unite.Models
         public string BannerUrl { get; set; }
         public string AvatarUrl { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage ="You must enter a display name.")]
+        [MinLength(5, ErrorMessage ="Your display name must be at least 5 characters long.")]
         public string DisplayName { get; set; }
+
         public string FullName { get; set; }
+
         public string Website { get; set; }
         public string YoutubeUrl { get; set; }
         public string SystemName { get; set; }
-        
+
+        [AllowHtml]
         public string Interests { get; set; }
+
+        [AllowHtml]
         public string Hobbies { get; set; }
         
 

@@ -2,6 +2,20 @@
 @{
     ViewBag.Title = "My profile";
 }
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    string val = Html.ValidationSummary().ToHtmlString();
+    if (!string.IsNullOrWhiteSpace(val))
+    {
+        <div class="panel panel-danger">
+            <div class="panel-body">
+                @Html.Raw(val)
+            </div>
+        </div>
+    }
+
 <p class="text-success">@ViewBag.StatusMessage</p>
 
 <div class="row">
@@ -28,19 +42,86 @@
 
                 <p>Edit your public profile here.</p>
 
-                @using(Html.BeginForm("ProfilePostback", "Manage"))
-                {
                     <h4>Display Name</h4>
                     <p>Your Display Name is what everyone sees you as on the website. This field is required.</p>
-                    @Html.TextBoxFor(Model=>Model.DisplayName, new { @class="form-control"})
+                    @Html.TextBoxFor(Model => Model.DisplayName, new { @class = "form-control" })
 
                     <h4>Full name</h4>
                     <p>On your profile page, you can optionally set a full name to display along with the above display name.</p>
                     @Html.TextBoxFor(Model => Model.FullName, new { @class = "form-control" })
 
-                    <input type="submit" value="Update" class="btn btn-primary" />
-                }
+                <h4>YouTube channel URL</h4>
+                <p>Have a YouTube channel and want to show it off on your profile? Paste it here!</p>
+                @Html.TextBoxFor(Model => Model.YoutubeUrl, new { @class = "form-control" })
+
+                <h4>Website</h4>
+                <p>Feel free to post a link to your website, if you want to.</p>
+                @Html.TextBoxFor(Model => Model.Website, new { @class = "form-control" })
+
+                <div class="panel panel-warning">
+                    <div class="panel-body">
+                        <strong>Info about URLs: </strong>
+                        <p>We reserve the right to remove the links to your YouTube channel or website if they do not follow the community guidelines or they point to malicious sites.</p>
+                    </div>
+                </div>
+
+
+
+
+
+
+                    <h4>Bio</h4>
+                <p>Tell us about yourself!</p>
+                    @Html.TextAreaFor(Model=>Model.Bio)
+
+
+                <h4>Interests</h4>
+                <p>What are you interested in?</p>
+                @Html.TextAreaFor(Model => Model.Interests)
+
+
+
+                <h4>Hobbies</h4>
+                <p>What do you like to do?</p>
+                @Html.TextAreaFor(Model => Model.Hobbies)
+
+                
             </div>
+            <div class="tab-pane fade in" id="t_privacy">
+                <h2>Privacy &amp; Security</h2>
+
+                <p>At ShiftOS, we take privacy seriously. If you want to hide certain things from your public profile, this is the place to do so. </p>
+
+                <p class="text-warning"><strong>NOTE: </strong> Moderators may still have access to this information for the purpose of community moderation. They will not leak your information.</p>
+
+                <h4>Show my followers on my public profile?</h4>
+                <p>Should we show your followers on your profile?</p> @Html.CheckBoxFor(Model => Model.ShowFollowers)
+
+                <h4>Show the people I follow on my public profile?</h4>
+                <p>Should we show the people you follow on your profile?</p> @Html.CheckBoxFor(Model => Model.ShowFollowed)
+
+                <h4>Show my registration date?</h4>
+                <p>Check this to show your registration date on your profile.</p> @Html.CheckBoxFor(Model => Model.ShowJoinDate)
+
+                <h4>Show my forum activity?</h4>
+                <p>Shall we tell readers how many posts and topics you have made on the forum?</p> @Html.CheckBoxFor(Model => Model.ShowPostAndTopicCounts)
+
+                <h4>Allow users to email me?</h4>
+                <p>Should we allow users to email you by showing your email address on your profile?</p> @Html.CheckBoxFor(Model => Model.ShowEmail)
+
+                <h3>Security</h3>
+
+                <h4>Change email address</h4>
+                <p>Use this field to enter a new email address. Doing so will cause your account to require reactivation.</p>
+                @Html.TextBoxFor(Model=>Model.Email, new { @class = "form-control" })
+
+                <h4>Change your password</h4>
+                <p>Use this option to change your account's password.</p>
+                <a href="@Url.Action("SetPassword", "Manage")" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span> Change password</a>
+
+            </div>
+            <input type="submit" value="Update" class="btn btn-primary" />
         </div>
     </div>
 </div>
+}
