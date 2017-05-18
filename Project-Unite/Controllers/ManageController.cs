@@ -168,6 +168,18 @@ namespace Project_Unite.Controllers
             return View(model);
         }
 
+        public ActionResult RevokeAPIKey(string id)
+        {
+            var db = new ApplicationDbContext();
+            var usr = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            var key = db.OAuthTokens.FirstOrDefault(x => x.Id == id);
+            if (usr == null || key == null)
+                return new HttpStatusCodeResult(404);
+            db.OAuthTokens.Remove(key);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
