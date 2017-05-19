@@ -44,6 +44,15 @@ namespace Project_Unite
                 return hpr.Raw("<a href=\"/Profiles/ViewProfile/" + user.DisplayName + "\"><span class=\"glyphicon glyphicon-star\"></span> Our newest user, <strong>" + user.DisplayName + "</strong></a>");
         }
 
+        internal static string MarkdownRaw(string md)
+        {
+            if (md == null)
+                return "";
+            md = ResolveUserLinksInMarkdown(md);
+            return CommonMark.CommonMarkConverter.Convert(md);
+
+        }
+
         public static IHtmlString GetLatestUnread(this HtmlHelper hpr, string userName)
         {
             var db = new ApplicationDbContext();

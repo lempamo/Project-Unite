@@ -1,0 +1,42 @@
+﻿@model Project_Unite.Models.SendFeedbackViewModel
+@{
+    ViewBag.Title = "Send feedback";
+}
+
+<h2>Send feedback</h2>
+
+<p>Hey there, Shifter! Michael here. So, you want to get in touch with the ShiftOS team, do ya? Well, just fill out this form!</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <dl>
+        <dt>Your name:</dt>
+        <dd>Just in case I need it, can you please enter your name here? @Html.TextBoxFor(x=>x.Name, new{@class="form-control"})</dd>
+
+        <dt>Your email:</dt>
+        <dd>May you please enter your email address so I can reply to you if needed? @Html.TextBoxFor(x => x.Email, new { type="email", @class = "form-control" })</dd>
+
+        <dt>Feedback type:</dt>
+        <dd>@Html.DropDownListFor(x => x.Name, Model.FeedbackTypes, new { @class = "form-control" })</dd>
+
+        <dt>Subject:</dt>
+        <dd>@Html.TextBoxFor(x => x.Subject, new { @class = "form-control" })</dd>
+    
+        <dt>Body:</dt>
+        <dd>@Html.TextAreaFor(x => x.Body, new { @class = "form-control" })</dd>
+
+    </dl>
+
+    <input type="submit" class="btn btn-primary" value="Send" />
+}
+
+<h2>Bogus email addresses</h2>
+
+<p>Please note that if you enter a bogus email address, we will completely ignore your feedback. This is because I want to be talking with real people, not spammers. If I can't reach you, I just won't listen to you.</p>
+
+<h2>This is NOT for general communication!</h2>
+
+<p>Please only use this form for feedback/support for ShiftOS. If you want to get in contact with me for other reasons, join our Discord server or email me directly at <a href="mailto:michaelshiftos@gmail.com">this address.</a></p>

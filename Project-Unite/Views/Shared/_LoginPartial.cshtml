@@ -1,51 +1,52 @@
 ﻿@using Microsoft.AspNet.Identity
 
 
-
-@if (Request.IsAuthenticated)
-{
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+<ul class="nav navbar-nav navbar-right" style="margin-right:15px;">
+    <li><a href="@Url.Action("SendFeedback", "Home")"><span class="glyphicon glyphicon-star"></span> Send feedback</a></li>
+    @if (Request.IsAuthenticated)
     {
-    @Html.AntiForgeryToken()
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right"  style="margin-right:15px;">
-        <li><a href="@Url.Action("ViewUnread", "Forum")"><span class="glyphicon glyphicon-star-empty"></span> @ACL.UnreadPostsCount(User.Identity.Name) unread posts</a></li>
-        <li id="notification_body" class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-bullhorn"></span> <strong id="notification_count">@Html.NotificationCount(User.Identity.GetUserId())</strong></a>
-            <ul class="dropdown-menu">
-                <li class="dropdown-header">Notifications (@Html.NotificationCount(User.Identity.Name) unread)</li>
-                @Html.GetLatestUnread(User.Identity.Name)
-                <li><a href="@Url.Action("Index", "Manage")#t_notifications">View all</a></li>
-            </ul>
-        </li>
-        <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-user"></span> @Html.UserName(User.Identity.GetUserId()) <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="@Url.Action("ViewProfile", "Profiles", new { id = ACL.UserNameRaw(User.Identity.GetUserId()) })"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Settings</li>
-                @if((bool)User.Identity?.IsAdmin())
-                {
-                    <li><a href="@Url.Action("Index", "Admin")"><span class="glyphicon glyphicon-cog"></span> Admin CP</a></li>
-                }
-                @if ((bool)User.Identity?.IsModerator())
-                {
-                    <li><a href="@Url.Action("Index", "Moderator")"><span class="glyphicon glyphicon-warning-sign"></span> Mod CP</a></li>
-                }
-                @if ((bool)User.Identity?.IsDeveloper())
-                {
-                    <li><a href="@Url.Action("Index", "Developer")"><span class="glyphicon glyphicon-star"></span> Developer CP</a></li>
-                }
-                <li><a href="@Url.Action("Index", "Manage")"><span class="glyphicon glyphicon-adjust"></span> Account</a></li>
-                <li class="divider"></li>
-                <li><a href="javascript:document.getElementById('logoutForm').submit()"><span class="glyphicon glyphicon-log-out"></span> Log off</a></li>
-            </ul>
-        </li>
-    </ul>
+            <li><a href="@Url.Action("ViewUnread", "Forum")"><span class="glyphicon glyphicon-star-empty"></span> @ACL.UnreadPostsCount(User.Identity.Name) unread posts</a></li>
+            <li id="notification_body" class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-bullhorn"></span> <strong id="notification_count">@Html.NotificationCount(User.Identity.GetUserId())</strong></a>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-header">Notifications (@Html.NotificationCount(User.Identity.Name) unread)</li>
+                    @Html.GetLatestUnread(User.Identity.Name)
+                    <li><a href="@Url.Action("Index", "Manage")#t_notifications">View all</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-user"></span> @Html.UserName(User.Identity.GetUserId()) <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("ViewProfile", "Profiles", new { id = ACL.UserNameRaw(User.Identity.GetUserId()) })"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Settings</li>
+                    @if ((bool)User.Identity?.IsAdmin())
+                    {
+                        <li><a href="@Url.Action("Index", "Admin")"><span class="glyphicon glyphicon-cog"></span> Admin CP</a></li>
+                    }
+                    @if ((bool)User.Identity?.IsModerator())
+                    {
+                        <li><a href="@Url.Action("Index", "Moderator")"><span class="glyphicon glyphicon-warning-sign"></span> Mod CP</a></li>
+                    }
+                    @if ((bool)User.Identity?.IsDeveloper())
+                    {
+                        <li><a href="@Url.Action("Index", "Developer")"><span class="glyphicon glyphicon-star"></span> Developer CP</a></li>
+                    }
+                    <li><a href="@Url.Action("Index", "Manage")"><span class="glyphicon glyphicon-adjust"></span> Account</a></li>
+                    <li class="divider"></li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()"><span class="glyphicon glyphicon-log-out"></span> Log off</a></li>
+                </ul>
+            </li>
+        }
     }
-}
-else
-{
-    <ul class="nav navbar-nav navbar-right"  style="margin-right:15px;">
+    else
+    {
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
-}
+
+    }
+</ul>
