@@ -1,0 +1,94 @@
+﻿@model Project_Unite.Models.Contest
+@{
+    ViewBag.Title = "Contest: " + Model.Name;
+}
+
+<h2>@Model.Name</h2>
+
+<style>
+    .text-bronze {
+        color: #cd7f32;
+    }
+
+    .text-silver {
+        color: #C0C0C0;
+    }
+
+    .text-gold {
+        color: #FFD700;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-xs-9">
+        @if (!string.IsNullOrWhiteSpace(Model.VideoId))
+        {
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/@Model.VideoId" frameborder="0" allowfullscreen></iframe>
+
+            if (Model.IsEnded)
+            {
+                <h3>This contest has ended on @Model.EndsAt</h3>
+            }
+            else
+            {
+                <h3>This contest is open - and will be closed at @Model.EndsAt</h3>
+            }
+
+            <p>@Html.Markdown(Model.Description)</p>
+
+            <h3>Contest rewards:</h3>
+
+            <dl>
+                <dt class="text-gold">Gold:</dt><dd>@Model.CodepointReward1st Codepoints</dd>
+                <dt class="text-silver">Silver:</dt>
+                <dd>@Model.CodepointReward2nd Codepoints</dd>
+                <dt class="text-bronze">Bronze:</dt>
+                <dd>@Model.CodepointReward3rd Codepoints</dd>
+            </dl>
+        }
+    </div>
+    <div class="col-xs-3">
+        <h4>Want to win this contest?</h4>
+
+        @if (Model.IsEnded)
+        {
+            <p>Unfortunately, this contest has ended and you cannot submit an entry. Perhaps there's another contest still going?</p>
+        }
+        else
+        {
+            <p>Good news! This contest is still open. Hurry and submit your entry!</p>
+
+            <a href="@Url.Action("SubmitEntry", "Contests", new {id=Model.Id})" class="btn-primary btn"><span class="glyphicon glyphicon-arrow-right"></span> Go, go, go! Submit an entry!</a>
+        }
+
+        <h4>Current winners:</h4>
+
+        @{ 
+            var toptobottom = Model.Entries.OrderByDescending(x => (x.Upvotes.Length - x.Downvotes.Length));
+                    
+        }
+
+        @if(toptobottom.Count() >= 3)
+        {
+            var first = toptobottom.ToArray()[0];
+            var second = toptobottom.ToArray()[1];
+            var third = toptobottom.ToArray()[2];
+
+            <dl>
+                <dt class="text-gold">First place:</dt>
+                <dd>@first.Name by @Html.UserLink(first.AuthorId)</dd>
+                <dt class="text-silver">Second place:</dt>
+                <dd>@second.Name by @Html.UserLink(second.AuthorId)</dd>
+                <dt class="text-bronze">Third place:</dt>
+                <dd>@third.Name by @Html.UserLink(third.AuthorId)</dd>
+            </dl>
+        }
+        else
+        {
+            <p>Not enough people have entered into this contest.</p>
+        }
+
+    </div>
+</div>
+
