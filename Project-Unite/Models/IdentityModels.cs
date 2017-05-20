@@ -244,6 +244,8 @@ namespace Project_Unite.Models
             return new ApplicationDbContext();
         }
 
+        public DbSet<Contest> Contests { get; set; }
+        public DbSet<ContestEntry> ContestEntries { get; set; }
         public DbSet<Bug> Bugs { get; set; }
         public DbSet<BugTag> BugTags { get; set; }
         public DbSet<BlogPost> BlogPosts { get; set; }

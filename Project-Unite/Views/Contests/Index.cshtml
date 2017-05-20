@@ -1,0 +1,130 @@
+﻿@model IEnumerable<Project_Unite.Models.Contest>
+@{
+    ViewBag.Title = "Contests";
+    var open = Model.Where(x => x.IsEnded == false).OrderByDescending(x=>x.StartedAt);
+    var closed = Model.Where(x => x.IsEnded == true).OrderByDescending(x => x.StartedAt);
+
+}
+
+<h2>Contests</h2>
+
+<p>ShiftOS may have a team of developers behind it, but we like getting you guys, the community, involved as well. Contests are a fun and competitive way to get involved with the development of ShiftOS, whether it be through coding, art or anything else!</p>
+
+<p>Below is a list of all contests.</p>
+
+<style>
+    .text-bronze{
+        color:#cd7f32;
+    }
+    .text-silver{
+        color:#C0C0C0;
+    }
+    .text-gold{
+        color:#FFD700;
+    }
+</style>
+
+@if (Request.IsAuthenticated)
+{
+    if (User.Identity.IsDeveloper())
+    {
+<ul class="nav nav-tabs">
+    <li><a href="@Url.Action("CreateContest")"><span class="glyphicon glyphicon-plus"></span> Open a contest!</a></li>
+</ul>
+    }
+}
+
+<div class="row">
+    <div class="col-xs-4">
+        <ul data-tabs="tabs" id="tabs" class="nav nav-pills nav-stacked">
+            <li class="active"><a href="#c_open" data-tab="tab"><span class="glyphicon glyphicon-star"></span> Open [@open.Count()]</a></li>
+            <li><a href="#c_closed" data-tab="tab"><span class="glyphicon glyphicon-star-empty"></span> Closed [@closed.Count()]</a></li>
+
+        </ul>
+    </div>
+    <div class="tab-content col-xs-8">
+        <div class="tab-pane fade in active" id="c_open">
+            <h3>Open contests</h3>
+            <p>Below is a list of all open contests.</p>
+
+            <div class="row">
+                <div class="col-xs-8"><strong>Contest</strong></div>
+                <div class="col-xs-4"><strong>Actions</strong></div>
+            </div>
+            @if(open.Count() < 1)
+            {
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p><strong><em>Sadly, no contests are open at this time. Please check back later!</em></strong></p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                foreach(var c in open)
+                {
+                    <div class="row">
+                        <div class="col-xs-8">
+                            @Html.ActionLink(c.Name, "ViewContest", "Contests", new { id=c.Id}, null) <br/>
+                            <p>Started at @c.StartedAt &bull; Ends at @c.EndsAt</p>
+                            <p><strong>Rewards: </strong> <em class="text-gold">Gold: @c.CodepointReward1st CP</em> &bull; <em class="text-silver">Gold: @c.CodepointReward2nd CP</em> &bull; <em class="text-bronze">Bronze: @c.CodepointReward3rd CP</em></p>
+                        </div>
+                        <div class="col-xs-4">
+                            @if (!string.IsNullOrWhiteSpace(c.VideoId))
+                            {
+                                <a href="http://youtube.com/watch?v=@c.VideoId" class="btn btn-default"><span class="glyphicon glyphicon-hd-video"></span> Watch video</a>
+                            }
+                            @if (Request.IsAuthenticated)
+                            {
+                                if (User.Identity.IsDeveloper())
+                                {
+                                    <a href="@Url.Action("CloseContest", "Contests", new { id = c.Id })" class="btn btn-danger"><span class="close"></span> End contest</a>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                }
+            }
+
+        </div>
+        <div class="tab-pane fade in" id="c_closed">
+            <h3>Closed contests</h3>
+            <p>These contests have been closed and you can no longer enter to win them.</p>
+
+            <div class="row">
+                <div class="col-xs-8"><strong>Contest</strong></div>
+                <div class="col-xs-4"><strong>Actions</strong></div>
+            </div>
+            @if (closed.Count() < 1)
+            {
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p><strong><em>No closed contests yet, maybe there's an open one?</em></strong></p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                foreach (var c in closed)
+                {
+                    <div class="row">
+                        <div class="col-xs-8">
+                            @Html.ActionLink(c.Name, "ViewContest", "Contests", new { id = c.Id }, null) <br />
+                            <p>Started at @c.StartedAt &bull; Ends at @c.EndsAt</p>
+                            <p><strong>Rewards: </strong> <em class="text-gold">Gold: @c.CodepointReward1st CP</em> &bull; <em class="text-silver">Gold: @c.CodepointReward2nd CP</em> &bull; <em class="text-bronze">Bronze: @c.CodepointReward3rd CP</em></p>
+                        </div>
+                        <div class="col-xs-4">
+                            @if (!string.IsNullOrWhiteSpace(c.VideoId))
+                            {
+                                <a href="http://youtube.com/watch?v=@c.VideoId" class="btn btn-default"><span class="glyphicon glyphicon-hd-video"></span> Watch video</a>
+                            }
+                        </div>
+                    </div>
+
+                }
+            }
+
+        </div>
+    </div>
+</div>
