@@ -65,6 +65,84 @@ namespace Project_Unite.Controllers
             return View(model);
         }
 
+        public ActionResult Upvote(string id)
+        {
+            string uid = User.Identity.GetUserId();
+            var db = new ApplicationDbContext();
+            var s = db.ContestEntries.FirstOrDefault(x => x.Id == id);
+            if (s == null)
+                return new HttpStatusCodeResult(404);
+            var like = db.Likes.FirstOrDefault(x => x.User == uid && x.Topic == id);
+            if (like != null)
+            {
+                if (like.IsDislike == false)
+                    return new HttpStatusCodeResult(403);
+                else
+                    like.IsDislike = false;
+            }
+            else
+            {
+                like = new Like();
+                like.Id = Guid.NewGuid().ToString();
+                like.IsDislike = false;
+                like.User = uid;
+                like.Topic = id;
+            }
+            db.SaveChanges();
+            return RedirectToAction("ViewSubmission", new { id = id });
+
+        }
+
+        public ActionResult Downvote(string id)
+        {
+            string uid = User.Identity.GetUserId();
+            var db = new ApplicationDbContext();
+            var s = db.ContestEntries.FirstOrDefault(x => x.Id == id);
+            if (s == null)
+                return new HttpStatusCodeResult(404);
+            var like = db.Likes.FirstOrDefault(x => x.User == uid && x.Topic == id);
+            if (like != null)
+            {
+                if (like.IsDislike == true)
+                    return new HttpStatusCodeResult(403);
+                else
+                    like.IsDislike = true;
+            }
+            else
+            {
+                like = new Like();
+                like.Id = Guid.NewGuid().ToString();
+                like.IsDislike = true;
+                like.User = uid;
+                like.Topic = id;
+            }
+            db.SaveChanges();
+            return RedirectToAction("ViewSubmission", new { id = id });
+
+        }
+
+        public ActionResult RemoveVote(string id)
+        {
+            string uid = User.Identity.GetUserId();
+            var db = new ApplicationDbContext();
+            var s = db.ContestEntries.FirstOrDefault(x => x.Id == id);
+            if (s == null)
+                return new HttpStatusCodeResult(404);
+            var like = db.Likes.FirstOrDefault(x => x.User == uid && x.Topic == id);
+            if (like != null)
+            {
+                db.Likes.Remove(like);
+            }
+            else
+            {
+                return new HttpStatusCodeResult(403);
+            }
+            db.SaveChanges();
+            return RedirectToAction("ViewSubmission", new { id = id });
+
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SubmitEntry(SubmitContestEntryViewModel model)
