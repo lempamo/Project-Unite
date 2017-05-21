@@ -111,6 +111,15 @@ namespace Project_Unite.Controllers
 
             db.ContestEntries.Add(entry);
             db.SaveChanges();
+
+            foreach(var user in db.Users.ToArray())
+            {
+                if (user.HighestRole.IsAdmin)
+                {
+                    NotificationDaemon.NotifyUser(entry.AuthorId, user.Id, "New contest entry!", "A new entry has been submitted to the \"" + db.Contests.FirstOrDefault(x=>x.Id==entry.ContestId).Name + "\" contest.", Url.Action("ViewSubmission", "Contests", new { id = entry.Id }));
+                }
+            }
+
             return RedirectToAction("ViewSubmission", "Contests", new { id = entry.Id });
         }
 
@@ -151,6 +160,8 @@ namespace Project_Unite.Controllers
             c.CodepointReward3rd = model.BronzeReward;
             db.Contests.Add(c);
             db.SaveChanges();
+
+            NotificationDaemon.NotifyEveryone(User.Identity.GetUserId(), "A contest has just started.", "A new contest has been open! Contest: " + c.Name, Url.Action("ViewContest", new { id = c.Id }));
 
             return RedirectToAction("ViewContest", new { id = c.Id });
         }
