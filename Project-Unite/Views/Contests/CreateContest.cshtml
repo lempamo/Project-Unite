@@ -25,12 +25,14 @@
         <dd>@Html.TextAreaFor(Model => Model.Description, new { @class = "form-control" })</dd>
     <dt>Video ID:</dt>
             <dd>If you have posted a YouTube video for this contest, paste its ID here. @Html.TextBoxFor(Model => Model.VideoId, new { @class = "form-control" })</dd>
+            <dt>End date:</dt>
+        <dd>@Html.EditorFor(Model=>Model.EndDate, new { id = "enddate" })</dd>
             <dt>Gold reward:</dt>
-            <dd>@Html.EditorFor(Model => Model.GoldReward, new { @class = "form-control" })</dd>
+            <dd>@Html.TextBoxFor(Model => Model.GoldReward, new { @class = "form-control" })</dd>
             <dt>Silver reward:</dt>
-            <dd>@Html.EditorFor(Model => Model.SilverReward, new { @class = "form-control" })</dd>
+            <dd>@Html.TextBoxFor(Model => Model.SilverReward, new { @class = "form-control" })</dd>
             <dt>Bronze reward:</dt>
-            <dd>@Html.EditorFor(Model => Model.BronzeReward, new { @class = "form-control" })</dd>
+            <dd>@Html.TextBoxFor(Model => Model.BronzeReward, new { @class = "form-control" })</dd>
         </dl>
 
     <hr/>
