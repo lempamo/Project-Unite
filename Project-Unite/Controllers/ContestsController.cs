@@ -121,6 +121,41 @@ namespace Project_Unite.Controllers
 
         }
 
+        [RequiresAdmin]
+        public ActionResult Disqualify(string id)
+        {
+            var db = new ApplicationDbContext();
+            var c = db.ContestEntries.FirstOrDefault(x => x.Id == id);
+            if (c == null)
+                return new HttpStatusCodeResult(404);
+            var model = new DisqualifySubmissionViewModel();
+            model.Entry = id;
+            return View(model);
+        }
+
+        [RequiresAdmin]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Disqualify(DisqualifySubmissionViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            var db = new ApplicationDbContext();
+            var e = db.ContestEntries.FirstOrDefault(x => x.Id == model.Entry);
+            if (e == null)
+                return new HttpStatusCodeResult(404);
+            e.Disqualified = true;
+            e.DisqualifiedBy = User.Identity.GetUserId();
+            e.DisqualifiedReason = model.Reason;
+            db.SaveChanges();
+
+            NotificationDaemon.NotifyUser(User.Identity.GetUserId(), e.AuthorId, "Submission disqualified.", $@"We have disqualified your contest submission ""{e.Name}"".
+
+<strong>Reason:</strong> {e.DisqualifiedReason}");
+
+            return RedirectToAction("ViewSubmission", new { id = model.Entry });
+        }
+
         public ActionResult RemoveVote(string id)
         {
             string uid = User.Identity.GetUserId();

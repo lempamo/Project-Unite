@@ -65,6 +65,14 @@ namespace Project_Unite.Models
 
     }
 
+    public class DisqualifySubmissionViewModel
+    {
+        public string Entry { get; set; }
+
+        [Required(AllowEmptyStrings =false, ErrorMessage ="You must provide a reason.")]
+        public string Reason { get; set; }
+    }
+
     public class ContestEntry
     {
         public string Id { get; set; }

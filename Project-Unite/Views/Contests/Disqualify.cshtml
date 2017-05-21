@@ -1,0 +1,30 @@
+﻿@model Project_Unite.Models.DisqualifySubmissionViewModel
+@{
+    ViewBag.Title = "Disqualify contest submission";
+}
+
+<h2>Disqualify contest submission</h2>
+
+<p>Are you sure you want to disqualify this entry?</p>
+
+<div class="panel panel-warning">
+    <div class="panel-body">
+        <p><strong>Warning!</strong><br/>You cannot reverse this. Once the entry is disqualified, there's no re-qualifying it.</p>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(Model=>Model.Entry)
+
+    <dl>
+        <dt>Disqualification reason:</dt>
+        <dd>Why did you disqualify this submission? @Html.TextBoxFor(Model=>Model.Reason, new { @class = "form-control" })</dd>
+    </dl>
+
+    <hr/>
+    <input type="submit" value="Disqualify" class="btn btn-default" />
+    <a href="#" onclick="window.history.back()" class="btn btn-default">Go back</a>
+}
