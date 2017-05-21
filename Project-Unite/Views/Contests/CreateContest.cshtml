@@ -12,8 +12,8 @@
         crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
-        alert('not xss');
-        $('#enddate').datepicker();
+        jquery.datetimepicker.setLocale("en");
+        
     });
 </script>
 
@@ -29,7 +29,7 @@
     <dt>Video ID:</dt>
             <dd>If you have posted a YouTube video for this contest, paste its ID here. @Html.TextBoxFor(Model => Model.VideoId, new { @class = "form-control" })</dd>
             <dt>End date:</dt>
-        <dd>@Html.TextBoxFor(Model=>Model.EndDate, new { id = "enddate", @class="form-control" })</dd>
+        <dd>@Html.TextBoxFor(Model=>Model.EndDate, new { id = "datetimepicker", @class="form-control" })</dd>
             <dt>Gold reward:</dt>
             <dd>@Html.TextBoxFor(Model => Model.GoldReward, new { @class = "form-control" })</dd>
             <dt>Silver reward:</dt>
