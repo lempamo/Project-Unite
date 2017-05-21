@@ -97,6 +97,8 @@ namespace Project_Unite.Models
         public string DownloadURL { get; set; }
         public DateTime PostedAt { get; set; }
         public bool Disqualified { get; set; }
+        public string DisqualifiedBy { get; set; }
+        public string DisqualifiedReason { get; set; }
 
         public Like[] Downvotes
         {

@@ -66,6 +66,10 @@
                     <div class="col-xs-8">
                         @Html.ActionLink(c.Name, "ViewSubmission", "Contests", new { id=c.Id}, null) <br/>
                         <p>By @Html.UserLink(c.AuthorId) on @c.PostedAt &bull; <span class="glyphicon glyphicon-thumbs-up"></span> @c.Upvotes.Length &bull; <span class="glyphicon glyphicon-thumbs-down"></span> @c.Downvotes.Length</p>
+                        @if (c.Disqualified)
+                        {
+                            <p><strong>This submission has been disqualified by @Html.UserLink(c.DisqualifiedBy) - Reason:</strong><br/>@c.DisqualifiedReason</p>
+                        }
                     </div>
                     <div class="col-xs-4">
                         @if (!string.IsNullOrWhiteSpace(c.VideoId))
@@ -76,7 +80,7 @@
                         {
                             <a href="@c.DownloadURL" class="btn btn-default"><span class="glyphicon-arrow-down"></span> Download</a>
                         }
-                        @if (User.Identity.IsAdmin())
+                        @if (User.Identity.IsAdmin() && c.Disqualified == false)
                         {
                             @Html.ActionLink("Disqualify", "Disqualify", "Contests", new { id=c.Id}, new { @class="btn btn-danger"})
                         }
