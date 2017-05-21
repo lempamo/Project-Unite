@@ -14,25 +14,6 @@ namespace Project_Unite.Models
         [MaxLength(35, ErrorMessage ="Your contest's name must not have more than 35 characters!")]
         public string Name { get; set; }
 
-        public string ContestId { get; set; }
-
-        public List<SelectListItem> Contests
-        {
-            get
-            {
-                var db = new ApplicationDbContext();
-                var list = new List<SelectListItem>();
-                foreach (var c in db.Contests.Where(x => x.IsEnded == false).OrderByDescending(x => x.StartedAt).ToArray())
-                {
-                    list.Add(new SelectListItem
-                    {
-                        Value = c.Id,
-                        Text = c.Name
-                    });
-                }
-                return list;
-            }
-        }
 
         [AllowHtml]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please describe your contest!")]
@@ -66,6 +47,10 @@ namespace Project_Unite.Models
         public long CodepointReward2nd { get; set; }
         public long CodepointReward3rd { get; set; }
 
+        public bool UserSubmitted(string uid)
+        {
+            return Entries.FirstOrDefault(x => x.AuthorId == uid) != null;
+        }
 
         public bool IsEnded
         {
@@ -117,5 +102,41 @@ namespace Project_Unite.Models
                 return db.Likes.Where(x => x.Topic == this.Id && !x.IsDislike).ToArray();
             }
         }
+    }
+
+    public class SubmitContestEntryViewModel
+    {
+        public string ContestId { get; set; }
+
+        public List<SelectListItem> Contests
+        {
+            get
+            {
+                var db = new ApplicationDbContext();
+                var list = new List<SelectListItem>();
+                foreach (var c in db.Contests.Where(x => x.IsEnded == false).OrderByDescending(x => x.StartedAt).ToArray())
+                {
+                    list.Add(new SelectListItem
+                    {
+                        Value = c.Id,
+                        Text = c.Name
+                    });
+                }
+                return list;
+            }
+        }
+
+        [Required(AllowEmptyStrings =false, ErrorMessage ="Please name your submission!")]
+        [MaxLength(55, ErrorMessage ="Your submission's name must have less than 55 characters in it.")]
+        [MinLength(5, ErrorMessage ="Your submission's name must be at least 5 characters long.")]
+        public string Name { get; set; }
+
+        [Required(AllowEmptyStrings =false, ErrorMessage ="Please describe your submission!")]
+        [AllowHtml]
+        public string Description { get; set; }
+
+        public HttpPostedFileBase Download { get; set; }
+
+        public string VideoID { get; set; }
     }
 }

@@ -1,0 +1,27 @@
+﻿@model Project_Unite.Models.SubmitContestEntryViewModel
+@{
+    ViewBag.Title = "Submit contest entry";
+}
+
+<h2>Submit contest entry</h2>
+
+<p>So you want to enter into a community contest? Alrighty, just fill out this form and we'll enter you in.</p>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+    @Html.AntiForgeryToken()
+
+    <dl>
+        <dt>Submission name:</dt>
+        <dd>@Html.TextBoxFor(Model=>Model.Name, new { @class = "form-control" })</dd>
+        <dt>Description:</dt>
+        <dd>@Html.TextAreaFor(Model => Model.Description, new { @class = "form-control" })</dd>
+        <dt>What contest is this for?</dt>
+        <dd>@Html.DropDownListFor(Model => Model.ContestId, Model.Contests, new { @class = "form-control" })</dd>
+        <dt>YouTube video ID:</dt>
+        <dd>If you have a YouTube video for this submission, paste its ID here! @Html.TextBoxFor(Model => Model.VideoID, new { @class = "form-control" })</dd>
+        <dt>Attachment:</dt>
+        <dd>If your submission has a download associated with it, upload it here. Please note: Only .zip files are allowed. @Html.TextBoxFor(Model => Model.Download, new { type="file", @class = "form-control" })</dd>
+    </dl>
+}

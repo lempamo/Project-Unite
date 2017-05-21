@@ -1,4 +1,5 @@
 ﻿@model Project_Unite.Models.Contest
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Contest: " + Model.Name;
 }
@@ -91,16 +92,22 @@
     </div>
     <div class="col-xs-3">
         <h4>Want to win this contest?</h4>
-
-        @if (Model.IsEnded)
+        @if (!Model.UserSubmitted(User.Identity.GetUserId()))
         {
+            if (Model.IsEnded)
+            {
             <p>Unfortunately, this contest has ended and you cannot submit an entry. Perhaps there's another contest still going?</p>
+            }
+            else
+            {
+            <p>Good news! This contest is still open. Hurry and submit your entry!</p>
+
+            <a href="@Url.Action("SubmitEntry", "Contests", new { id = Model.Id })" class="btn-primary btn"><span class="glyphicon glyphicon-arrow-right"></span> Go, go, go! Submit an entry!</a>
+            }
         }
         else
         {
-            <p>Good news! This contest is still open. Hurry and submit your entry!</p>
-
-            <a href="@Url.Action("SubmitEntry", "Contests", new {id=Model.Id})" class="btn-primary btn"><span class="glyphicon glyphicon-arrow-right"></span> Go, go, go! Submit an entry!</a>
+            <p>You have already submitted an entry for this contest.</p>
         }
 
         <h4>Current winners:</h4>
