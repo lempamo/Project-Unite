@@ -26,7 +26,7 @@
 
 @if (Request.IsAuthenticated)
 {
-    if (User.Identity.IsDeveloper())
+    if (User.Identity.IsAdmin())
     {
 <ul class="nav nav-tabs">
     <li><a href="@Url.Action("CreateContest")"><span class="glyphicon glyphicon-plus"></span> Open a contest!</a></li>
@@ -76,7 +76,7 @@
                             }
                             @if (Request.IsAuthenticated)
                             {
-                                if (User.Identity.IsDeveloper())
+                                if (User.Identity.IsAdmin())
                                 {
                                     <a href="@Url.Action("CloseContest", "Contests", new { id = c.Id })" class="btn btn-danger"><span class="close"></span> End contest</a>
                                 }

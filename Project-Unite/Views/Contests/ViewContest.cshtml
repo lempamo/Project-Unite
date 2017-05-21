@@ -25,15 +25,15 @@
         @if (!string.IsNullOrWhiteSpace(Model.VideoId))
         {
             <iframe width="560" height="315" src="https://www.youtube.com/embed/@Model.VideoId" frameborder="0" allowfullscreen></iframe>
-
-            if (Model.IsEnded)
-            {
+        }
+        @if (Model.IsEnded)
+        {
                 <h3>This contest has ended on @Model.EndsAt</h3>
-            }
-            else
-            {
+        }
+        else
+        {
                 <h3>This contest is open - and will be closed at @Model.EndsAt</h3>
-            }
+        }
 
             <p>@Html.Markdown(Model.Description)</p>
 
@@ -46,6 +46,43 @@
                 <dt class="text-bronze">Bronze:</dt>
                 <dd>@Model.CodepointReward3rd Codepoints</dd>
             </dl>
+        
+        <h3>Submissions</h3>
+        <p>Below is a list of all submissions for this contest.</p>
+
+        <div class="row">
+            <div class="col-xs-8"><strong>Submission</strong></div>
+            <div class="col-xs-4"><strong>Actions</strong></div>
+        </div>
+        @if(Model.Entries.Length == 0)
+        {
+            <p>There are no submissions for this contest. Be the first!</p>
+        }
+        else
+        {
+            foreach(var c in Model.Entries)
+            {
+                <div class="row">
+                    <div class="col-xs-8">
+                        @Html.ActionLink(c.Name, "ViewSubmission", "Contests", new { id=c.Id}, null) <br/>
+                        <p>By @Html.UserLink(c.AuthorId) on @c.PostedAt &bull; <span class="glyphicon glyphicon-thumbs-up"></span> @c.Upvotes.Length &bull; <span class="glyphicon glyphicon-thumbs-down"></span> @c.Downvotes.Length</p>
+                    </div>
+                    <div class="col-xs-4">
+                        @if (!string.IsNullOrWhiteSpace(c.VideoId))
+                        {
+                            <a href="http://youtube.com/watch?v=@Model.VideoId" class="btn btn-default"><span class="glyphicon glyphicon-hd-video"></span> Watch video</a>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(c.DownloadURL))
+                        {
+                            <a href="@c.DownloadURL" class="btn btn-default"><span class="glyphicon-arrow-down"></span> Download</a>
+                        }
+                        @if (User.Identity.IsAdmin())
+                        {
+                            @Html.ActionLink("Disqualify", "Disqualify", "Contests", new { id=c.Id}, new { @class="btn btn-danger"})
+                        }
+                    </div>
+                </div>
+            }
         }
     </div>
     <div class="col-xs-3">
