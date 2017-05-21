@@ -52,13 +52,7 @@ namespace Project_Unite.Models
             return Entries.FirstOrDefault(x => x.AuthorId == uid) != null;
         }
 
-        public bool IsEnded
-        {
-            get
-            {
-                return DateTime.Now >= EndsAt;
-            }
-        }
+        public bool IsEnded { get; set; }
 
         public ContestEntry[] Entries
         {
