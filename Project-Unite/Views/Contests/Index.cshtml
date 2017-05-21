@@ -37,8 +37,8 @@
 <div class="row">
     <div class="col-xs-4">
         <ul data-tabs="tabs" id="tabs" class="nav nav-pills nav-stacked">
-            <li class="active"><a href="#c_open" data-tab="tab"><span class="glyphicon glyphicon-star"></span> Open [@open.Count()]</a></li>
-            <li><a href="#c_closed" data-tab="tab"><span class="glyphicon glyphicon-star-empty"></span> Closed [@closed.Count()]</a></li>
+            <li class="active"><a href="#c_open" data-toggle="tab"><span class="glyphicon glyphicon-star"></span> Open [@open.Count()]</a></li>
+            <li><a href="#c_closed" data-toggle="tab"><span class="glyphicon glyphicon-star-empty"></span> Closed [@closed.Count()]</a></li>
 
         </ul>
     </div>
@@ -67,7 +67,7 @@
                         <div class="col-xs-8">
                             @Html.ActionLink(c.Name, "ViewContest", "Contests", new { id=c.Id}, null) <br/>
                             <p>Started at @c.StartedAt &bull; Ends at @c.EndsAt</p>
-                            <p><strong>Rewards: </strong> <em class="text-gold">Gold: @c.CodepointReward1st CP</em> &bull; <em class="text-silver">Gold: @c.CodepointReward2nd CP</em> &bull; <em class="text-bronze">Bronze: @c.CodepointReward3rd CP</em></p>
+                            <p><strong>Rewards: </strong> <em class="text-gold">Gold: @c.CodepointReward1st CP</em> &bull; <em class="text-silver">Silver: @c.CodepointReward2nd CP</em> &bull; <em class="text-bronze">Bronze: @c.CodepointReward3rd CP</em></p>
                         </div>
                         <div class="col-xs-4">
                             @if (!string.IsNullOrWhiteSpace(c.VideoId))
@@ -112,7 +112,7 @@
                         <div class="col-xs-8">
                             @Html.ActionLink(c.Name, "ViewContest", "Contests", new { id = c.Id }, null) <br />
                             <p>Started at @c.StartedAt &bull; Ends at @c.EndsAt</p>
-                            <p><strong>Rewards: </strong> <em class="text-gold">Gold: @c.CodepointReward1st CP</em> &bull; <em class="text-silver">Gold: @c.CodepointReward2nd CP</em> &bull; <em class="text-bronze">Bronze: @c.CodepointReward3rd CP</em></p>
+                            <p><strong>Rewards: </strong> <em class="text-gold">Gold: @c.CodepointReward1st CP</em> &bull; <em class="text-silver">Silver: @c.CodepointReward2nd CP</em> &bull; <em class="text-bronze">Bronze: @c.CodepointReward3rd CP</em></p>
                         </div>
                         <div class="col-xs-4">
                             @if (!string.IsNullOrWhiteSpace(c.VideoId))
