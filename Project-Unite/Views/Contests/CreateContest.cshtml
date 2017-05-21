@@ -1,0 +1,38 @@
+﻿@model Project_Unite.Models.CreateContestViewModel
+
+@{
+    ViewBag.Title = "Create contest";
+}
+
+<h2>Create contest</h2>
+
+<p>This page will let you create a ShiftOS community contest.</p>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+        integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+        crossorigin="anonymous"></script>
+<script>
+    $('#enddate').datepicker();
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <dl>
+        <dt>Contest name:</dt>
+        <dd>@Html.TextBoxFor(Model=>Model.Name, new { @class = "form-control" })</dd>
+        <dt>Contest description</dt>
+        <dd>@Html.TextAreaFor(Model => Model.Description, new { @class = "form-control" })</dd>
+    <dt>Video ID:</dt>
+            <dd>If you have posted a YouTube video for this contest, paste its ID here. @Html.TextBoxFor(Model => Model.VideoId, new { @class = "form-control" })</dd>
+            <dt>Gold reward:</dt>
+            <dd>@Html.EditorFor(Model => Model.GoldReward, new { @class = "form-control" })</dd>
+            <dt>Silver reward:</dt>
+            <dd>@Html.EditorFor(Model => Model.SilverReward, new { @class = "form-control" })</dd>
+            <dt>Bronze reward:</dt>
+            <dd>@Html.EditorFor(Model => Model.BronzeReward, new { @class = "form-control" })</dd>
+        </dl>
+
+    <hr/>
+    <input type="submit" class="btn btn-primary" value="Open the contest!"/>
+}

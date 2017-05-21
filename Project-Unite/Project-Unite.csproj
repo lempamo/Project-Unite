@@ -969,6 +969,7 @@
     <Content Include="Views\Home\SendFeedback.cshtml" />
     <Content Include="Views\Contests\Index.cshtml" />
     <Content Include="Views\Contests\ViewContest.cshtml" />
+    <Content Include="Views\Contests\CreateContest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
