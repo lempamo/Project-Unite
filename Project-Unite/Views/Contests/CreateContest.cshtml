@@ -21,6 +21,12 @@
 {
     @Html.AntiForgeryToken()
 
+    <div class="panel panel-danger">
+        <div class="panel-body">
+            @Html.ValidationSummary()
+        </div>
+    </div>
+
     <dl>
         <dt>Contest name:</dt>
         <dd>@Html.TextBoxFor(Model=>Model.Name, new { @class = "form-control" })</dd>
