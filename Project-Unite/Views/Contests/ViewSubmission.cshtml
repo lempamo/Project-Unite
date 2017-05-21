@@ -1,0 +1,83 @@
+﻿@using Microsoft.AspNet.Identity
+@model Project_Unite.Models.ContestEntry
+@{
+    ViewBag.Title = Model.Name;
+    string uvurl = Url.Action("Upvote", new { id = Model.Id });
+    string dvurl = Url.Action("Downvote", new { id = Model.Id });
+
+    if (Model.AuthorId == User.Identity.GetUserId())
+    {
+        uvurl = "#";
+        dvurl = "#";
+    }
+    string uid = User.Identity.GetUserId();
+    if(Model.Upvotes.FirstOrDefault(x=>x.User==uid) != null)
+    {
+        uvurl = uvurl.Replace("Upvote", "RemoveVote");
+    }
+    if (Model.Downvotes.FirstOrDefault(x => x.User == uid) != null)
+    {
+        dvurl = dvurl.Replace("Upvote", "RemoveVote");
+    }
+
+}
+
+
+<h2>@Model.Name</h2>
+
+<p>Submitted by @Html.UserLink(Model.AuthorId) on @Model.PostedAt</p>
+
+<div class="row">
+    <div class="col-xs-8">
+        <h3>Submission details</h3>
+
+        @if (!string.IsNullOrWhiteSpace(Model.VideoId))
+        {
+            <iframe src="http://youtube.com/embed/@Model.VideoId" width="560" height="315" allowfullscreen frameborder="0"></iframe>
+        }
+
+        <ul>
+            <li><a href="@uvurl"><span class="glyphicon glyphicon-thumbs-up"></span> @Model.Upvotes.Length</a></li>
+            <li><a href="@dvurl"><span class="glyphicon glyphicon-thumbs-down"></span> @Model.Downvotes.Length</a></li>
+        </ul>
+
+        <p>@Html.Markdown(Model.Description)</p>
+    </div>
+    <div class="col-xs-4">
+        <h4>How to win a contest...</h4>
+
+        <p>We choose contest winners based on quality of the content and submission, as well as what the community thinks of the submission. If you get a lot of downvotes it is likely you will not win. However, if you are mass-downvoting to make yourself look better to the algorithm, you will be disqualified.</p>
+    
+        <h4>Download this submission</h4>
+
+        @if (!string.IsNullOrWhiteSpace(Model.DownloadURL))
+        {
+            <a href="@Model.DownloadURL" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-down"></span> Download this submission</a>
+        }
+        else
+        {
+            <p>The author of this submission hasn't provided a download.</p>
+        }
+
+        @if (Model.Disqualified)
+        {
+            <h4>This submission has been disqualified by @Html.UserLink(Model.DisqualifiedBy).</h4>
+
+            <p>This submission has been disqualified and will not be able to win.</p>
+
+            <h5>Reason:</h5>
+
+            <p>@Model.DisqualifiedReason</p>
+        }
+        else
+        {
+            if (User.Identity.IsAdmin())
+            {
+                <h4>Did it meet the criteria?</h4>
+                <p>If this submission didn't meet the criteria for its contest, you may disqualify it using this button.</p>
+                <a href="@Url.Action("Disqualify", "Contests", new { id = Model.Id })" class="btn btn-danger">Disqualify</a>
+            }
+        }
+
+    </div>
+</div>

@@ -29,6 +29,15 @@ namespace Project_Unite.Controllers
             return View(c);
         }
 
+        public ActionResult ViewSubmission(string id)
+        {
+            var db = new ApplicationDbContext();
+            var e = db.ContestEntries.FirstOrDefault(x => x.Id == id);
+            if (e == null)
+                return new HttpStatusCodeResult(404);
+            return View(e);
+        }
+
         [RequiresAdmin]
         public ActionResult CloseContest(string id)
         {
