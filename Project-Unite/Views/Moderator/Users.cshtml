@@ -1,19 +1,26 @@
 ﻿@model IEnumerable<Project_Unite.Models.ApplicationUser>
+@using Project_Unite.Controllers
 @{
     ViewBag.Moderator = true;
     ViewBag.Title = "Users";
+    int pages = Model.ToArray().GetPageCount(15);
+    var ordered = Model.OrderBy(x => x.DisplayName).ToArray();
 }
 
 <h2>Users</h2>
 
 <p>Below is a list of all users in the database.</p>
 
-<table class="table">
+<div class="tab-content" >
+@for (int i = 1; i < pages; i++)
+{
+    var page = ordered.GetItemsOnPage(i, 15);
+<table class="table" id="u_page_@i">
     <tr>
         <th style="width:85%">User</th>
         <th>Actions</th>
     </tr>
-    @foreach (var user in Model)
+    @foreach (var user in page)
     {
         <tr>
             <td>@Html.UserLink(user.Id)</td>
@@ -26,3 +33,13 @@
         </tr>
     }
 </table>
+}
+</div>
+
+<ul class="pagination" data-tabs="tabs" id="u_pages">
+@for(int i = 1; i < pages; i++)
+{
+    string a = (i == 1) ? "active" : "";
+    <li class="@a"><a href="#u_page_@i" data-toggle="tab">@i</a></li>
+}
+ </ul>
