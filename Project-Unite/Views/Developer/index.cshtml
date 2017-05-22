@@ -1,57 +1,39 @@
 ﻿
 @{
     ViewBag.Title = "Dev Control Panel";
+    string homeclass = (ViewBag.Page == "home") ? "active" : "";
+    string releasesclass = (ViewBag.Page == "releases") ? "active" : "";
+    string wikiclass = (ViewBag.Page == "wiki") ? "active" : "";
     var db = new Project_Unite.Models.ApplicationDbContext();
-    int fixedbugs = db.Bugs.Where(x => x.Open == false).Count();
-    int notfixedbugs = db.Bugs.Where(x => x.Open == true).Count();
-
+    var releases = db.Downloads;
+    var cats = db.WikiCategories;
 }
 
-<h2>Welcome!</h2>
+<h2>Developer Control Panel</h2>
 
-<p>Here, have a bunch of charts that tell you what you already know!</p>
+<p>A place that only the best of the best ShiftOS developers can access.</p>
 
 <div class="row">
-    <div class="col-lg-6">
-        <h3>Bugs</h3>
-        <p>Here's a pie chart that tells you how many bugs have been fixed.</p>
-        <div id="c_bugs"></div>
+    <div class="col-xs-4">
+        <h4>Places</h4>
+
+        <ul class="nav-pills nav-stacked nav" id="tabs" data-tabs="tabs">
+            <li class="@homeclass"><a data-toggle="tab" href="#d_home"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+            <li class="@releasesclass"><a data-toggle="tab" href="#d_releases"><span class="glyphicon glyphicon-download"></span> Releases</a></li>
+            <li class="@wikiclass"><a data-toggle="tab" href="#d_wiki"><span class="glyphicon glyphicon-book"></span> Wiki</a></li>
+        </ul>
+    </div>
+    <div class="col-xs-8 tab-content">
+        <div class="tab-pane fade in @homeclass" id="d_home">
+            <h3>Not yet implemented.</h3>
+
+            <p>Please suggest things to put in here.</p>
+        </div>
+        <div class="tab-pane fade in @releasesclass" id="d_releases">
+            @Html.Partial("~/Views/Developer/Releases.cshtml", releases);
+        </div>
+        <div class="tab-pane fade in @wikiclass" id="d_wiki">
+            @Html.Partial("~/Views/Developer/Wiki.cshtml", cats);
+        </div>
     </div>
 </div>
-
-<style>
-    #c_bugs{
-        width:100%;
-        height:900px;
-    }
-</style>
-
-<!-- Resources -->
-<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-<script src="https://www.amcharts.com/lib/3/pie.js"></script>
-<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
-<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
-<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-
-<!-- Chart code -->
-<script>
-var chart = AmCharts.makeChart( "c_bugs", {
-  "type": "pie",
-  "theme": "dark",
-  "dataProvider": [{
-    "status": "Fixed",
-    "amount": @fixedbugs
-  }, {
-    "status": "Needs attention",
-    "amount": @notfixedbugs
-  }],
-  "valueField": "amount",
-  "titleField": "status",
-   "balloon":{
-   "fixedPosition":true
-  },
-  "export": {
-    "enabled": false
-  }
-} );
-</script>

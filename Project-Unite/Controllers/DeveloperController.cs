@@ -14,9 +14,9 @@ namespace Project_Unite.Controllers
     public class DeveloperController : Controller
     {
         // GET: Developer
-        public ActionResult Index()
+        public ActionResult Index(string id = "home")
         {
-            ViewBag.Developer = true;
+            ViewBag.Page = id;
             return View();
         }
 
@@ -51,8 +51,7 @@ namespace Project_Unite.Controllers
 
         public ActionResult Releases()
         {
-            var db = new ApplicationDbContext();
-            return View(db.Downloads);
+            return RedirectToAction("Index", new { id = "releases" });
         }
 
         public ActionResult AddRelease()
@@ -154,10 +153,7 @@ namespace Project_Unite.Controllers
         [Authorize]
         public ActionResult Wiki()
         {
-            ViewBag.Developer = true;
-            var db = new ApplicationDbContext();
-            var cats = db.WikiCategories;
-            return View(cats);
+            return RedirectToAction("Index", new { id = "wiki" });
         }
 
         public ActionResult AddWikiCategory()
