@@ -14,9 +14,9 @@ namespace Project_Unite.Controllers
     public class ModeratorController : Controller
     {
         // GET: Moderator
-        public ActionResult Index()
+        public ActionResult Index(string id = "home")
         {
-            ViewBag.Moderator = true;
+            ViewBag.Page = id;
             return View();
         }
 
@@ -31,7 +31,7 @@ namespace Project_Unite.Controllers
 
         public ActionResult Users()
         {
-            return View(new ApplicationDbContext().Users);
+            return Index("users");
         }
 
         public ActionResult Unban(string id, string returnUrl = "")
@@ -211,20 +211,12 @@ namespace Project_Unite.Controllers
 
         public ActionResult Bans()
         {
-            var model = new ModeratorBanListViewModel();
-            var db = new ApplicationDbContext();
-
-            model.UserBans = db.Users.Where(x => x.IsBanned == true);
-            model.IPBans = db.BannedIPs;
-
-            return View(model);
+            return Index("bans");
         }
 
         public ActionResult Logs()
         {
-            var db = new ApplicationDbContext();
-
-            return View(db.AuditLogs.Where(x => x.Level != AuditLogLevel.Admin));
+            return Index("logs");
         }
 
         public ActionResult Mute(string id, string returnUrl = "")

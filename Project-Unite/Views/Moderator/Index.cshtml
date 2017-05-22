@@ -1,7 +1,46 @@
-﻿
+﻿@using Project_Unite.Models
 @{
     ViewBag.Title = "Moderator CP";
+    string homeclass = (ViewBag.Page == "home") ? "active" : "";
+    string usersclass = (ViewBag.Page == "users") ? "active" : "";
+    string bansclass = (ViewBag.Page == "bans") ? "active" : "";
+    string logsclass = (ViewBag.Page == "logs") ? "active" : "";
+    var db = new ApplicationDbContext();
+    var users = db.Users;
+    var bans = new ModeratorBanListViewModel();
+    bans.IPBans = db.BannedIPs;
+    bans.UserBans = db.Users.Where(x => x.IsBanned == true);
+    var logs = db.AuditLogs.Where(x => x.Level != AuditLogLevel.Admin);
 }
 
+<h2>Moderator Control Panel</h2>
 
+<p>Perform your moderative tasks here. Just, don't go rogue!</p>
 
+<div class="row">
+    <div class="col-xs-4">
+        <h4>Places</h4>
+        <ul id="tabs" data-tabs="tabs" class="nav nav-stacked nav-pills">
+            <li class="@homeclass"><a data-toggle="tab" href="#m_home"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+            <li class="@usersclass"><a data-toggle="tab" href="#m_users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
+            <li class="@bansclass"><a data-toggle="tab" href="#m_bans"><span class="glyphicon glyphicon-ban-circle"></span> Bans</a></li>
+            <li class="@logsclass"><a data-toggle="tab" href="#m_logs"><span class="glyphicon glyphicon-list"></span> Logs</a></li>
+        </ul>
+    </div>
+    <div class="col-xs-8 tab-content">
+        <div class="tab-pane fade in @homeclass" id="m_home">
+            <h4>Not yet implemented.</h4>
+
+            <p>Please suggest things to be put here.</p>
+        </div>
+        <div class="tab-pane fade in @usersclass" id="m_users">
+            @Html.Partial("~/Views/Moderator/Users.cshtml", users);
+        </div>
+        <div class="tab-pane fade in @bansclass" id="m_bans">
+            @Html.Partial("~/Views/Moderator/Bans.cshtml", bans)
+        </div>
+        <div class="tab-pane fade in @logsclass" id="m_logs">
+            @Html.Partial("~/Views/Moderator/Logs.cshtml", logs)
+        </div>
+    </div>
+</div>
