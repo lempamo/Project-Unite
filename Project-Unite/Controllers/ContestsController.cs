@@ -151,7 +151,7 @@ namespace Project_Unite.Controllers
 
             NotificationDaemon.NotifyUser(User.Identity.GetUserId(), e.AuthorId, "Submission disqualified.", $@"We have disqualified your contest submission ""{e.Name}"".
 
-<strong>Reason:</strong> {e.DisqualifiedReason}");
+<strong>Reason:</strong> {e.DisqualifiedReason}", Url.Action("ViewSubmission", new { id = model.Entry }));
 
             return RedirectToAction("ViewSubmission", new { id = model.Entry });
         }
