@@ -1,14 +1,15 @@
 ﻿@using Microsoft.AspNet.Identity
 
 
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class="hidden" }))
+        {
+            @Html.AntiForgeryToken()
+        }
+
 <ul class="nav navbar-nav navbar-right" style="margin-right:15px;">
     <li><a href="@Url.Action("SendFeedback", "Home")"><span class="glyphicon glyphicon-star"></span> Send feedback</a></li>
     @if (Request.IsAuthenticated)
     {
-        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
-        {
-            @Html.AntiForgeryToken()
-
             <li><a href="@Url.Action("ViewUnread", "Forum")"><span class="glyphicon glyphicon-star-empty"></span> @ACL.UnreadPostsCount(User.Identity.Name) unread posts</a></li>
             <li id="notification_body" class="dropdown">
                 <a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-bullhorn"></span> <strong id="notification_count">@Html.NotificationCount(User.Identity.GetUserId())</strong></a>
@@ -41,7 +42,7 @@
                     <li><a href="javascript:document.getElementById('logoutForm').submit()"><span class="glyphicon glyphicon-log-out"></span> Log off</a></li>
                 </ul>
             </li>
-        }
+        
     }
     else
     {
