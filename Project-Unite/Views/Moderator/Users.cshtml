@@ -14,8 +14,9 @@
 <div class="tab-content" >
 @for (int i = 1; i < pages; i++)
 {
+    string a = (i == 1) ? "active" : "";
     var page = ordered.GetItemsOnPage(i, 15);
-<table class="table" id="u_page_@i">
+<table class="tab-pane fade in @a table" id="u_page_@i">
     <tr>
         <th style="width:85%">User</th>
         <th>Actions</th>
