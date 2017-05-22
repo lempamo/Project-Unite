@@ -30,13 +30,10 @@
                     <td>@Html.UserLink(u.BannedBy)</td>
                     <td>@u.BannedAt</td>
                     <td>
-                        @if(ACL.Granted(User.Identity.Name, "CanIssueBan"))
-                        {
-                            if(ACL.CanManageRole(User.Identity.Name, u.HighestRole.Id))
+                            @if (ACL.CanManageRole(User.Identity.Name, u.HighestRole.Id))
                             {
-                                @Html.ActionLink("Unban", "Unban", "Moderator", new { id=u.Id}, new { @class="btn btn-default"})
+                                @Html.ActionLink("Unban", "Unban", "Moderator", new { id = u.Id }, new { @class = "btn btn-default" })
                             }
-                        }
 
                     </td>
                 </tr>
@@ -61,9 +58,9 @@
                 <tr>
                     <td>@u.Address</td>
                     <td>
-                        @if (ACL.Granted(User.Identity.Name, "CanIssueIPBan"))
+                        @if (User.Identity.IsAdmin())
                         {
-                                @Html.ActionLink("Unban", "UnbanIP", "Moderator", new { id = u.Id }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("Unban", "UnbanIP", "Moderator", new { id = u.Id }, new { @class = "btn btn-danger" })
                         }
                     </td>
                 </tr>
