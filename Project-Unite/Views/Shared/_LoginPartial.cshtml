@@ -5,7 +5,7 @@
     <li><a href="@Url.Action("SendFeedback", "Home")"><span class="glyphicon glyphicon-star"></span> Send feedback</a></li>
     @if (Request.IsAuthenticated)
     {
-        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
         {
             @Html.AntiForgeryToken()
 
