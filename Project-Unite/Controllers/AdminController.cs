@@ -26,5 +26,18 @@ namespace Project_Unite.Controllers
             ViewBag.Page = id;
             return View();
         }
+
+        public ActionResult RoleDetails(string id)
+        {
+            var db = new ApplicationDbContext();
+            Role role = null;
+            foreach (var r in db.Roles.ToArray())
+            {
+                if (r is Role)
+                    if ((r as Role).Id == id)
+                        role = r as Role;
+            }
+            return View(role);
+        }
     }
 }
