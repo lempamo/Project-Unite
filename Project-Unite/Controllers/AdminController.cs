@@ -65,6 +65,21 @@ namespace Project_Unite.Controllers
             return RedirectToAction("Index", new { id = "roles" });
         }
 
+        public ActionResult RemoveUserFromRole(string id, string usr)
+        {
+            var usermanager = HttpContext.GetOwinContext().Get<ApplicationUserManager>();
+            var db = new ApplicationDbContext();
+            Role role = null;
+            foreach (var r in db.Roles)
+            {
+                if (r is Role)
+                    if ((r as Role).Id == id)
+                        role = r as Role;
+            }
+            usermanager.RemoveFromRole(usr, role.Name);
+            return RedirectToAction("Index", new { id = "roles" });
+        }
+
         public ActionResult RoleDetails(string id)
         {
             var db = new ApplicationDbContext();
