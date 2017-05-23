@@ -38,7 +38,7 @@ namespace Project_Unite.Controllers
                 model.Roles.Add(new SelectListItem
                 {
                     Text = converted.Name,
-                    Value = converted.Id
+                    Value = converted.Name
                 });
             }
             model.Users = new List<SelectListItem>();
