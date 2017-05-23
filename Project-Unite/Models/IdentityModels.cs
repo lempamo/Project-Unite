@@ -76,8 +76,18 @@ namespace Project_Unite.Models
                 var roleList = new List<Role>();
                 foreach (var role in this.Roles)
                 {
-                    roleList.Add(new ApplicationDbContext().Roles.First(r => r.Id == role.RoleId) as Role);
+                    var found = (new ApplicationDbContext().Roles.FirstOrDefault(r => r.Id == role.RoleId) as Role);
+                    if (found != null)
+                        roleList.Add(found);
 
+                }
+                if(roleList.Count()==0)
+                {
+                    var roles = new List<Role>();
+                    var db = new ApplicationDbContext();
+                    foreach (var r in db.Roles.ToArray())
+                        roles.Add(r as Role);
+                    return roles.OrderBy(x => x.Priority).First();
                 }
                 return roleList.OrderByDescending(x => x.Priority).First();
             }
