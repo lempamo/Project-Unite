@@ -62,7 +62,7 @@ namespace Project_Unite.Controllers
         {
             var usermanager = HttpContext.GetOwinContext().Get<ApplicationUserManager>();
             usermanager.AddToRole(model.Username, model.RoleId);
-            return Index("roles");
+            return RedirectToAction("Index", new { id = "roles" });
         }
 
         public ActionResult RoleDetails(string id)
