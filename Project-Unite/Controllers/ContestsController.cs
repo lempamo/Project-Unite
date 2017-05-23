@@ -201,7 +201,7 @@ namespace Project_Unite.Controllers
             entry.ContestId = model.ContestId;
             entry.VideoId = model.VideoID;
             string allowed = "abcdefghijklmnopqrstuvwxyz1234567890_";
-            entry.Id = entry.Name.ToLower();
+            entry.Id = entry.Name.ToLower() + "_" + db.ContestEntries.Count().ToString();
             foreach (var ch in entry.Id.ToCharArray())
                 if (!allowed.Contains(ch))
                     entry.Id = entry.Id.Replace(ch, '_');
