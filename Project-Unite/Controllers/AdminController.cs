@@ -40,6 +40,8 @@ namespace Project_Unite.Controllers
                     Text = converted.Name,
                     Value = converted.Name
                 });
+                if (converted.Id == id)
+                    model.RoleId = converted.Name;
             }
             model.Users = new List<SelectListItem>();
             foreach(var u in db.Users.OrderBy(x => x.DisplayName).ToArray())
@@ -50,7 +52,7 @@ namespace Project_Unite.Controllers
                     Value = u.Id
                 });
             }
-            model.RoleId = id;
+            model.Username = db.Users.First().Id;
             return View(model);
         }
 
