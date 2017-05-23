@@ -41,7 +41,7 @@
         <td>
             @Html.ActionLink("Edit", "EditRole", new { id = item.Id }, new { @class = "btn btn-default" }) 
 			@Html.ActionLink("Details", "RoleDetails", new { id = item.Id }, new { @class = "btn btn-default" }) 
-			@if (ACL.Granted(User.Identity.Name, "CanDeleteRoles"))
+			@if (User.Identity.IsAdmin())
             {
             @Html.ActionLink("Delete", "DeleteRole", new { id = item.Id }, new { @class = "btn btn-danger" })
             }
