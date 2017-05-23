@@ -16,14 +16,14 @@ namespace Project_Unite.Controllers
 {
     //We have a custom ACL implementation so we do not need to use the ASP.NET role system to check if a user has an ACL rule.
     [Authorize]
+    [RequiresAdmin]
     public class AdminController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        [Authorize]
-        [RequiresAdmin]
-        public ActionResult Index()
+        public ActionResult Index(string id = "home")
         {
+            ViewBag.Page = id;
             return View();
         }
     }
