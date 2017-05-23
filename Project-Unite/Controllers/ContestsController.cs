@@ -87,6 +87,7 @@ namespace Project_Unite.Controllers
                 like.IsDislike = false;
                 like.User = uid;
                 like.Topic = id;
+                db.Likes.Add(like);
             }
             db.SaveChanges();
             return RedirectToAction("ViewSubmission", new { id = id });
@@ -115,6 +116,7 @@ namespace Project_Unite.Controllers
                 like.IsDislike = true;
                 like.User = uid;
                 like.Topic = id;
+                db.Likes.Add(like);
             }
             db.SaveChanges();
             return RedirectToAction("ViewSubmission", new { id = id });
