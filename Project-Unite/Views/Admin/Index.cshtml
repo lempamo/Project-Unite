@@ -5,6 +5,24 @@
 @{
     ViewBag.Title = "Administration Control Panel";
     var db = new ApplicationDbContext();
+
+    string homeclass = (ViewBag.Page == "home") ? "active" : "";
+    string siteconfigclass = (ViewBag.Page == "siteconfig") ? "active" : "";
+    string usersclass = (ViewBag.Page == "users") ? "active" : "";
+    string rolesclass = (ViewBag.Page == "roles") ? "active" : "";
+    string forumsclass = (ViewBag.Page == "forums") ? "active" : "";
+    string skinsclass = (ViewBag.Page == "skins") ? "active" : "";
+    string groupsclass = (ViewBag.Page == "groups") ? "active" : "";
+    string backupsclass = (ViewBag.Page == "backups") ? "active" : "";
+    string logsclass = (ViewBag.Page == "logs") ? "active" : "";
+    var db = new ApplicationDbContext();
+    var users = db.Users;
+    var roles = new List<Project_Unite.Models.Role>();
+    foreach(var role in db.Roles.ToArray())
+    {
+        roles.Add(role as Role);
+    }
+
 }
 
 <div class="panel row">
@@ -13,15 +31,15 @@
             <h4>Navigation</h4>
 
             <ul class="nav nav-stacked nav-pills" id="tabs" data-tabs="tabs" role="tablist">
-                <li class="active"><a data-toggle="tab" href="#a_index">Home</a></li>
-                <li><a data-toggle="tab" href="#a_site_config">Site Config</a></li>
-                <li><a data-toggle="tab" href="#a_users">Users</a></li>
-                <li><a data-toggle="tab" href="#a_roles">Roles</a></li>
-                <li><a data-toggle="tab" href="#a_forums">Forums</a></li>
-                <li><a data-toggle="tab" href="#a_skins">Skins</a></li>
-                <li><a data-toggle="tab" href="#a_groups">Groups</a></li>
-                <li><a data-toggle="tab" href="#a_backups">Backups</a></li>
-                <li><a data-toggle="tab" href="#a_logs">Audit Logs</a></li>
+                <li class="@homeclass"><a data-toggle="tab" href="#a_index">Home</a></li>
+                <li class="@siteconfigclass"><a data-toggle="tab" href="#a_site_config">Site Config</a></li>
+                <li class="@usersclass"><a data-toggle="tab" href="#a_users">Users</a></li>
+                <li class="@rolesclass"><a data-toggle="tab" href="#a_roles">Roles</a></li>
+                <li class="@forumsclass"><a data-toggle="tab" href="#a_forums">Forums</a></li>
+                <li class="@skinsclass"><a data-toggle="tab" href="#a_skins">Skins</a></li>
+                <li class="@groupsclass"><a data-toggle="tab" href="#a_groups">Groups</a></li>
+                <li class="@backupsclass"><a data-toggle="tab" href="#a_backups">Backups</a></li>
+                <li class="@logsclass"><a data-toggle="tab" href="#a_logs">Audit Logs</a></li>
 
 
 
@@ -29,256 +47,21 @@
         </div>
         <div class="col-xs-8">
             <div class="tab-content">
-                <div class="tab-pane fade in active" id="a_index">
-                    <h2>Administration Control Panel</h2>
-                
-                    <p>Welcome to the ShiftOS Administration Control Panel. To begin administrating, select an option from the left.</p>
+                <div class="tab-pane fade in @homeclass" id="a_index">
+                    <h3>Not yet implemented.</h3>
 
-                    <h4>System status</h4>
-
-                    <table class="table-condensed">
-                        <tr>
-                            <td><strong>Current user: </strong></td>
-                            <td>@Html.UserLink(User.Identity.GetUserId())</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Users:</strong></td>
-                            <td>@db.Users.Count()</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Forum Categories:</strong></td>
-                            <td>@db.ForumCategories.Count()</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Posts:</strong></td>
-                            <td>@db.ForumPosts.Count()</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Topics:</strong></td>
-                            <td><strong>@db.ForumTopics.Count()</strong></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Skins:</strong></td>
-                            <td>@db.Skins.Count()</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Releases:</strong></td>
-                            <td>@db.Downloads.Count()</td>
-                        </tr>
-                    </table>
-
-                    <hr/>
-
-                    <h4>Shifting the website</h4>
-
-                    <p>You can add new features to the website by modifying our GitHub repository. If you are a ShiftOS developer, chances are you have write access to the repository. If not, please contact Michael.</p>
-
-                    <p>To clone the repository, use this command:</p>
-
-                    @Html.Markdown(@"```bash
-git clone https://github.com/MichaelTheShifter/Project-Unite
-```")
-
-                    <p>Your changes will be applied after you push your commits to this repository, or your pull request gets merged.</p>
+                    <p>Please suggest features to add on this page.</p>
                 </div>
-                <div class="tab-pane fade in" id="a_site_config">
-                    <h2>Site Configuration</h2>
+                <div class="tab-pane fade in @siteconfigclass" id="a_site_config">
+                    <h3>Not yet implemented.</h3>
 
-                    <p>This feature is not yet implemented.</p>
-               </div>
-
-                @*ROLES*@
-                <div class="tab-pane fade in" id="a_roles">
-                    <h2>Roles</h2>
-
-                    <p>Here, you can see a list of all the roles in the system.</p>
-
-                    <ul class="pagination" data-tabs="roletabs" id="roletabs">
-                        @for (int i = 0; i < db.Roles.GetPageCount(10); i++)
-                        {
-                            string htmlClass = "";
-                            if (i == 0)
-                            {
-                                htmlClass = "active";
-                            }
-                            int page = i + 1;
-                            <li class="@htmlClass"><a data-toggle="tab" href="#r_page_@i">@page</a></li>
-                        }
-                    </ul>
-                    <div class="tab-content">
-                        @for (int i = 0; i < db.Roles.GetPageCount(10); i++)
-                        {
-                            string htmlClass = "tab-pane fade in";
-                            if (i == 0)
-                            {
-                                htmlClass += " active";
-                            }
-                            <div class="@htmlClass" id="r_page_@i">
-                                <table class="table">
-                                    <tr>
-                                        <th style="width:45%">Role</th>
-                                        <th>Priority</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                    @{ 
-                                        var roles = db.Roles.ToArray();
-                                        roles = roles.OrderByDescending(x => (x as Role).Priority).ToArray();
-                                    }
-                                    @foreach (Role role in roles.GetItemsOnPage(i, 10))
-                                    {
-                                        <tr>
-                                            <td>
-                                                <p class="color: @role.ColorHex">@role.Name</p>
-                                                <p>ID: @role.Id &bull;Users: @role.Users.Count() &bull; Priority: @role.Priority</p>
-                                            </td>
-                                            <td>
-                                                @if(role.Priority > 0)
-                                                {
-                                                    <a href="@Url.Action("DecreaseRolePriority", "Admin", new {id=role.Id})" class="btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span></a>
-                                                }
-                                                @if (role.Priority < roles.Length - 1)
-                                                {
-                                                    <a href="@Url.Action("IncreaseRolePriority", "Admin", new {id=role.Id})" class="btn btn-default"><span class="glyphicon glyphicon-arrow-up"></span></a>
-                                                }
-                                            </td>
-                                            <td>
-                                                <a href="@Url.Action("RoleDetails", "Admin", new {id=role.Id})" class="btn btn-default"><span class="glyphicon glyphicon-dashboard"></span> Details</a>
-                                            </td>
-                                        </tr>
-                                    }
-                                </table>
-                            </div>
-                        }
-                    </div>
+                    <p>We need to add this in.</p>
                 </div>
-
-
-                @*SKINS*@
-                <div class="tab-pane fade in" id="a_skins">
-                    <h2>Skins</h2>
-
-                    <p>Below is a list of all skins in the system.</p>
-
-                    <ul class="pagination" data-tabs="skintabs" id="skintabs">
-                        @for (int i = 0; i < db.Skins.GetPageCount(10); i++)
-                        {
-                            string htmlClass = "";
-                            if (i == 0)
-                            {
-                                htmlClass = "active";
-                            }
-                            int page = i + 1;
-                            <li class="@htmlClass"><a data-toggle="tab" href="#skn_page_@i">@page</a></li>
-                        }
-                    </ul>
-                    <div class="tab-content">
-                        @for (int i = 0; i < db.Skins.GetPageCount(10); i++)
-                        {
-                            string htmlClass = "tab-pane fade in";
-                            if (i == 0)
-                            {
-                                htmlClass += " active";
-                            }
-                            <div class="@htmlClass" id="skn_page_@i">
-                                <table class="table">
-                                    <tr>
-                                        <th style="width:65%">Skin</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                    @foreach (var skin in db.Skins.OrderByDescending(x => x.PostedAt).ToArray().GetItemsOnPage(i, 10))
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Html.ActionLink(skin.Name, "ViewSkin", "Skins", new { id = skin.Id }, null) <br />
-                                                <p>Created at: @skin.PostedAt &bull; Likes: @skin.Likes.Count() &bull; Dislikes: @skin.Dislikes.Count() &bull; Views: @skin.Views.Count()</p>
-                                                <p>@Html.Markdown(skin.ShortDescription)</p>
-                                            </td>
-                                            <td>
-                                                <a href="@Url.Action("ModerateSkin", "Moderator", new {id=skin.Id})" class="btn btn-warning"><span class="glyphicon glyphicon-wrench">Moderate</span></a>
-                                            </td>
-                                        </tr>
-                                    }
-                                </table>
-                            </div>
-                        }
-                    </div>
+                <div class="tab-pane fade in @usersclass" id="a_users">
+                    @Html.Partial("~/Views/Moderator/Users.cshtml", users)
                 </div>
-
-
-
-
-                @foreach (var user in db.Users.ToArray())
-                {
-                    <div class="modal fade" id="u_details_@user.Id">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Users</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    @Html.Partial("~/Views/Moderator/UserDetails.cshtml", user)
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-target="#u_details_@user.Id">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-
-
-                @*USERS*@
-                <div class="tab-pane fade in" id="a_users">
-                    <h2>Users</h2>
-
-                    <p>Below is a paginated list of all users in the database, most recent users first.</p>
-
-                    <ul class="pagination" data-tabs="usertabs" id="usertabs" >
-                        @for (int i = 0; i < db.Users.GetPageCount(10); i++)
-                        {
-                            string htmlClass = "";
-                            if(i == 0)
-                            {
-                                htmlClass = "active";
-                            }
-                            int page = i + 1;
-                            <li class="@htmlClass"><a data-toggle="tab" href="#u_page_@i">@page</a></li>
-                        }
-                        </ul>
-                    <div class="tab-content">
-                        @for(int i= 0; i < db.Users.GetPageCount(10); i++)
-                        {
-                            string htmlClass = "tab-pane fade in";
-                            if(i==0)
-                            {
-                                htmlClass += " active";
-                            }
-                            <div class="@htmlClass" id="u_page_@i">
-                                <table class="table">
-                                    <tr>
-                                        <th style="width:65%">User</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                    @foreach (var user in db.Users.OrderByDescending(x=>x.JoinedAt).ToArray().GetItemsOnPage(i, 10))
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Html.UserLink(user.Id) <br/>
-                                                <p>Joined on: @user.JoinedAt &bull; Banned: @user.IsBanned &bull; Posts: @user.PostCount &bull; Topics: @user.TopicCount</p>
-                                            </td>
-                                            <td>
-                                                <a href="@Url.Action("ViewProfile", "Profiles", new { id = user.DisplayName })" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> View Profile</a>
-                                                <a data-toggle="modal" href="#u_details_@user.Id" class="btn btn-warning"><span class="glyphicon glyphicon-wrench"></span> Moderate</a>
-                                            </td>
-                                        </tr>
-                                    }
-                                </table>
-                            </div>
-                        }
-                    </div>
+                <div class="tab-pane fade in @rolesclass" id="a_roles">
+                    @Html.Partial("~/Views/Admin/Roles.cshtml", roles)
                 </div>
            </div>
         </div>
