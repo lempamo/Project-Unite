@@ -24,6 +24,11 @@ namespace Project_Unite.Controllers
             return View(sfm);
         }
 
+        public ActionResult AboutUnite()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SendFeedback(SendFeedbackViewModel model)

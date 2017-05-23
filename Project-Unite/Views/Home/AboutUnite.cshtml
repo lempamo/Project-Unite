@@ -1,0 +1,23 @@
+﻿@{ 
+    ViewBag.Title = "About Project: Unite";
+}
+
+<h2>About Project: Unite</h2>
+<p>Project: Unite is the ultimate open-source community hub built for ShiftOS. It uses ASP.NET MVC 4 for the backend, and Bootstrap, Contemporary, SimpleMDE, CommonMark.NET and prism.js for the frontend.</p>
+<p></p>
+<p>It also serves as the ShiftOS application programming interface (API), holding information like your Codepoints, system name, Pong highscores, and more.</p>
+<p></p>
+<h3>Why not use a pre-existing community software?</h3>
+<p>Existing software packages like <strong>phpBB</strong>, <strong>MyBB</strong>, <strong>Discourse</strong> and the like, while they are good at what they do, they do not offer the capabilities that Unite does for ShiftOS. They do not offer things like bugtrackers, wikis, etc, and while we can use additional packages and extensions to regain those capabilities, you lose the community’s sense of unity as you have to jump between multiple, entirely different websites for the same project.</p>
+<p>Unite takes away that issue, and unites the ShiftOS community together.</p>
+<h3>Isn’t something like this difficult to host and maintain?</h3>
+<p>Yes, and so is a Discord server or the Digital Society. That does not change our feelings towards what we are doing.</p>
+<p>We will have spam, we will have abuse and we will have crashes, but then again so will Discord, the Digital Society, or any pre-existing community software. The only difference between Unite and those services (minus Digital Society because it’s coded by us as well), is that we have the ability to go in and fix things relatively quickly and with relative ease, because it’s our code and our APIs.</p>
+<p>You have to rely on a third-party when dealing with existing software like phpBB and Discourse, so if there’s a missing feature or a bug, it’s up to them.</p>
+<h4>...Open-source?</h4>
+<p>Yes, I know, they’re open-source... well at least Discourse is, but is it really worth learning a whole new API that isn’t built to handle what you’re doing just to add things like Codepoints, contests, game releases, and a Developer Control Panel?</p>
+<p></p>
+<h3>You mention a Unite API a lot... how do I use it?</h3>
+<p>Simply play ShiftOS. It uses it a lot. If you want to use it in your own programs, snatch a copy of the ShiftOS.Objects.dll file in your game’s directory. There’s a UniteClient class in there that can do basic operations on your account.</p>
+<h4>How do I authenticate?</h4>
+<p>Head to http://getshiftos.ml/Manage, then click the “API” tab. You’ll find an API key in there if you’ve played ShiftOS. That key can access your account without having to store your username or password in your code. Just, Good God, don’t store that key in a Git repo. If you leak your API key, you can revoke it at any time with the cost of losing any ShiftOS save files linked to it.</p>

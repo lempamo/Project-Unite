@@ -979,6 +979,7 @@
     <Content Include="Views\Contests\SubmitEntry.cshtml" />
     <Content Include="Views\Contests\ViewSubmission.cshtml" />
     <Content Include="Views\Contests\Disqualify.cshtml" />
+    <Content Include="Views\Home\AboutUnite.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
