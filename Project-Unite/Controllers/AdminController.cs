@@ -27,6 +27,42 @@ namespace Project_Unite.Controllers
             return View();
         }
 
+        public ActionResult AddUserToRole(string id)
+        {
+            var model = new AddUserToRoleViewModel();
+            model.Roles = new List<SelectListItem>();
+            var db = new ApplicationDbContext();
+            foreach(var r in db.Roles.ToArray())
+            {
+                var converted = r as Role;
+                model.Roles.Add(new SelectListItem
+                {
+                    Text = converted.Name,
+                    Value = converted.Id
+                });
+            }
+            model.Users = new List<SelectListItem>();
+            foreach(var u in db.Users.OrderBy(x => x.DisplayName).ToArray())
+            {
+                model.Users.Add(new SelectListItem
+                {
+                    Text = u.DisplayName,
+                    Value = u.Id
+                });
+            }
+            model.RoleId = id;
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddUserToRole(AddUserToRoleViewModel model)
+        {
+            var usermanager = HttpContext.GetOwinContext().Get<ApplicationUserManager>();
+            usermanager.AddToRole(model.Username, model.RoleId);
+            return Index("roles");
+        }
+
         public ActionResult RoleDetails(string id)
         {
             var db = new ApplicationDbContext();
