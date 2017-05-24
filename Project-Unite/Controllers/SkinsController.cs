@@ -61,6 +61,7 @@ namespace Project_Unite.Controllers
             skin.PostedAt = DateTime.Now;
             skin.FullDescription = model.LongDescription;
             skin.UserId = User.Identity.GetUserId();
+            skin.Keywords = model.Keywords;
             skin.VersionId = "";
             string repoFolder = $"~/Uploads/{ACL.UserNameRaw(skin.UserId)}/SkinFiles";
             string screenshotFolder = $"~/Uploads/{ACL.UserNameRaw(skin.UserId)}/Screenshots";

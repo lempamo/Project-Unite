@@ -17,7 +17,7 @@ namespace Project_Unite.Models
         public string DownloadUrl { get; set; }
         public string ScreenshotUrl { get; set; }
         public DateTime PostedAt { get; set; }
-
+        public string Keywords { get; set; }
         public Like[] Likes
         {
             get
@@ -56,6 +56,8 @@ namespace Project_Unite.Models
         [MaxLength(128, ErrorMessage = "Your title may not contain more than 128 characters.")]
         [MinLength(5, ErrorMessage = "You need to supply a valuable title.")]
         public string Title { get; set; }
+
+        public string Keywords { get; set; }
 
         [Required]
         [MaxLength(500, ErrorMessage ="Your short description may not contain more than 500 characters.")]

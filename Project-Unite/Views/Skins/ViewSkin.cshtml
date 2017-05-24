@@ -1,6 +1,8 @@
 ﻿@model Project_Unite.Models.Skin
 @{
     ViewBag.Title = Model.Name + " - Skin Repository";
+    ViewBag.Description = Model.ShortDescription;
+    ViewBag.Keywords = "shiftos, shift, shifting, shifted, shifter, " + Model.Keywords;
 }
 
 <h2>@Model.Name</h2>
