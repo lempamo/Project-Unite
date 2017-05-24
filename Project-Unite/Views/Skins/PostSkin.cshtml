@@ -35,6 +35,10 @@
             <td>@Html.TextBoxFor(Model => Model.ScreenshotFile, new { @class = "form-control", type="file" })</td>
         </tr>
         <tr>
+            <td><strong>Keywords:</strong><br/>Comma-separated list of keywords to help search engines find this skin.</td>
+            <td>@Html.TextBoxFor(Model=>Model.Keywords, new{@class="form-control"})</td>
+        </tr>
+        <tr>
             <td></td>
             <td><input type="submit" value="Post!" class="btn btn-primary" /></td>
         </tr>

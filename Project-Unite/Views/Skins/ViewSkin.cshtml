@@ -3,6 +3,8 @@
     ViewBag.Title = Model.Name + " - Skin Repository";
     ViewBag.Description = Model.ShortDescription;
     ViewBag.Keywords = "shiftos, shift, shifting, shifted, shifter, " + Model.Keywords;
+    if(!string.IsNullOrWhiteSpace(Model.ScreenshotUrl))
+    ViewBag.Image = "http://getshiftos.ml/" + Model.ScreenshotUrl;
 }
 
 <h2>@Model.Name</h2>
