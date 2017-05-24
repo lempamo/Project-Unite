@@ -27,14 +27,32 @@
     <script src="@Url.Action("jquery.datetimepicker.js", "Scripts")"></script>
     <link rel="stylesheet" href="~/Content/datetimepicker.css" />
     @RenderSection("scripts", required: false)
-
+    @if (!string.IsNullOrWhiteSpace(ViewBag.Title))
+    {
     <title>@ViewBag.Title &bull; ShiftOS</title>
+    <meta property="og:title" content="@ViewBag.Title - ShiftOS" />
+    }
+    else
+    {
+        <title>ShiftOS</title>
+        <meta property="og:title" contest="ShiftOS" />
+    }
 
-    <meta name="description" content="@ViewBag.Description" />
+    @if (!string.IsNullOrWhiteSpace(ViewBag.Keywords))
+    {
     <meta name="keywords" content="@Model.Keywords" />
-    <meta property="og:title" content="@ViewBag.Title" />
+    }
+
+    @if (!string.IsNullOrWhiteSpace(ViewBag.Description))
+    {
+    <meta name="description" content="@ViewBag.Description" />
     <meta property="og:description" content="@ViewBag.Description" />
-    <meta property="og:image" content="@ViewBag.Image" />
+    }
+    
+    @if (!string.IsNullOrWhiteSpace(ViewBag.Image))
+    {
+        <meta property="og:image" content="@ViewBag.Image" />
+    }
 
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/bootstrap-theme.css")
