@@ -133,7 +133,7 @@ namespace Project_Unite
 
 {desc}
 
-Visit this URL for more info: {url}"
+Visit this URL for more info: http://getshiftos.ml{url}"
                         });
 
                         streamWriter.Write(json);
