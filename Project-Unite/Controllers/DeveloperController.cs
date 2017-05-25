@@ -145,6 +145,13 @@ namespace Project_Unite.Controllers
 
             //Now we just save to the database...
             db.Downloads.Add(download);
+
+            NotificationDaemon.ScreamToDiscord("New release: " + download.Name, $@"A new release of ShiftOS has been made!
+
+Release name: {download.Name}
+Stable: {download.IsStable}
+Released on: {download.PostDate}", Url.Action("ViewRelease", "Downloads", new { id = download.Id }));
+
             db.SaveChanges();
 
             return RedirectToAction("Releases");

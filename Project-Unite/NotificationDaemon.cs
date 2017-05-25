@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web;
+using System.Web.Script.Serialization;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.SignalR;
 using Project_Unite.Models;
@@ -110,6 +113,46 @@ namespace Project_Unite
             SendMessage(target, ComposeHtml(note));
         }
 
+        internal static void ScreamToDiscord(string title, string desc, string url)
+        {
+            var db = new ApplicationDbContext();
+            var conf = db.Configs.FirstOrDefault();
+            if(conf != null)
+            {
+                if (!string.IsNullOrWhiteSpace(conf.WebhookUrl))
+                {
+                    var wc = HttpWebRequest.Create(conf.WebhookUrl);
+                    wc.Method = "POST";
+                    wc.ContentType = "application/json";
+                    string json = new JavaScriptSerializer().Serialize(new
+                    {
+                        content = $@"**{title}**
 
+{desc}
+
+Visit this URL to see more: {url}"
+                    });
+                    wc.ContentLength = json.Length;
+                    using (var s = wc.GetRequestStream())
+                    {
+                        using(var writer = new StreamWriter(s))
+                        {
+                            writer.Write(json);
+                            using(var r = wc.GetResponse())
+                            {
+                                using(var rs = r.GetResponseStream())
+                                {
+                                    using(var reader = new StreamReader(rs))
+                                    {
+                                        string result = reader.ReadToEnd();
+                                        db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, "Discord webhook sent. Result: " + result));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

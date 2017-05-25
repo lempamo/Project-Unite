@@ -75,6 +75,7 @@ namespace Project_Unite.Models
     public class Configuration
     {
         public string Id { get; set; }
+        public string WebhookUrl { get; set; }
         public string FeedbackEmail { get; set; }
         public string SiteName { get; set; }
         public string ReturnEmail { get; set; }
