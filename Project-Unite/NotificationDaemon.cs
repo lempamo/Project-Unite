@@ -29,7 +29,7 @@ namespace Project_Unite
             var user = db.Users.FirstOrDefault(x => x.Id == uid);
             if (user == null)
                 throw new Exception("Cannot find user with ID " + uid + ".");
-            foreach(var follower in user.Followers)
+            foreach (var follower in user.Followers)
             {
                 NotifyUser(uid, follower.Follower, title, desc, url);
             }
@@ -41,7 +41,7 @@ namespace Project_Unite
             var user = db.Users.FirstOrDefault(x => x.Id == uid);
             if (user == null)
                 throw new Exception("Cannot find user with ID " + uid + ".");
-            foreach (var usr in db.Users.Where(x=>x.Id!=uid).ToArray())
+            foreach (var usr in db.Users.Where(x => x.Id != uid).ToArray())
             {
                 NotifyUser(uid, usr.Id, title, desc, url);
             }
@@ -68,7 +68,7 @@ namespace Project_Unite
 
         }
 
-    public static void NotifyUser(string uid, string target, string title, string desc, string url)
+        public static void NotifyUser(string uid, string target, string title, string desc, string url)
         {
             var db = new ApplicationDbContext();
             var user = db.Users.FirstOrDefault(x => x.Id == uid);
@@ -117,40 +117,36 @@ namespace Project_Unite
         {
             var db = new ApplicationDbContext();
             var conf = db.Configs.FirstOrDefault();
-            if(conf != null)
+            if (conf != null)
             {
                 if (!string.IsNullOrWhiteSpace(conf.WebhookUrl))
                 {
-                    var wc = HttpWebRequest.Create(conf.WebhookUrl);
-                    wc.Method = "POST";
-                    wc.ContentType = "application/json";
-                    string json = new JavaScriptSerializer().Serialize(new
+                    var httpWebRequest = (HttpWebRequest)WebRequest.Create(conf.WebhookUrl);
+                    httpWebRequest.ContentType = "application/json";
+                    httpWebRequest.Method = "POST";
+
+                    using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                     {
-                        content = $@"**{title}**
+                        string json = new JavaScriptSerializer().Serialize(new
+                        {
+                            content = $@"**{title}**
 
 {desc}
 
-Visit this URL to see more: {url}"
-                    });
-                    wc.ContentLength = json.Length;
-                    using (var s = wc.GetRequestStream())
-                    {
-                        using(var writer = new StreamWriter(s))
-                        {
-                            writer.Write(json);
-                            using(var r = wc.GetResponse())
-                            {
-                                using(var rs = r.GetResponseStream())
-                                {
-                                    using(var reader = new StreamReader(rs))
-                                    {
-                                        string result = reader.ReadToEnd();
-                                        db.AuditLogs.Add(new AuditLog("system", AuditLogLevel.Admin, "Discord webhook sent. Result: " + result));
-                                    }
-                                }
-                            }
-                        }
+Visit this URL for more info: {url}"
+                        });
+
+                        streamWriter.Write(json);
+                        streamWriter.Flush();
+                        streamWriter.Close();
                     }
+
+                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                    {
+                        var result = streamReader.ReadToEnd();
+                    }
+
                 }
             }
         }
