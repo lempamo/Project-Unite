@@ -276,6 +276,13 @@ namespace Project_Unite.Controllers
             db.Contests.Add(c);
             db.SaveChanges();
 
+
+            NotificationDaemon.ScreamToDiscord(
+                    "A new contest has started.",
+                    $@"Contest name: {c.Name}
+Ends at: {c.EndsAt}",
+                    Url.Action("ViewContest", new { id = c.Id })
+                );
             NotificationDaemon.NotifyEveryone(User.Identity.GetUserId(), "A contest has just started.", "A new contest has been open! Contest: " + c.Name, Url.Action("ViewContest", new { id = c.Id }));
 
             return RedirectToAction("ViewContest", new { id = c.Id });
