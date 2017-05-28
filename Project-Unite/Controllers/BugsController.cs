@@ -128,7 +128,14 @@ namespace Project_Unite.Controllers
             db.ForumPosts.Add(comment);
             db.Bugs.Add(bug);
             db.SaveChanges();
+            NotificationDaemon.ScreamToDiscord($"A bug has been opened by {ACL.UserNameRaw(User.Identity.GetUserId())}", $@"**Title:** {bug.Name}
+**Version ID:** {bug.ReleaseId}
+**Species:** {bug.Species}
+**Urgency:** {bug.Urgency}
 
+**Author's description:**
+
+{comment.Body.Substring(Math.Min(comment.Body.Length, 128))}", Url.Action("ViewBug", new { id = bug.Id }));
             return RedirectToAction("ViewBug", new { id = bug.Id });
         }
     }
