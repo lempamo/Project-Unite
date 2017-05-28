@@ -135,7 +135,7 @@ namespace Project_Unite.Controllers
 
 **Author's description:**
 
-{comment.Body.Substring(Math.Min(comment.Body.Length, 128))}", Url.Action("ViewBug", new { id = bug.Id }));
+{comment.Body.Substring(0, Math.Min(comment.Body.Length, 128))}", Url.Action("ViewBug", new { id = bug.Id }));
             return RedirectToAction("ViewBug", new { id = bug.Id });
         }
     }
