@@ -155,7 +155,7 @@ namespace Project_Unite.Models
             }
         }
 
-        public long Codepoints { get; set; }
+        public ulong Codepoints { get; set; }
 
         [AllowHtml]
         public string Bio { get; set; }
