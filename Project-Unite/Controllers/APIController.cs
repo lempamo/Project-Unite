@@ -50,7 +50,7 @@ namespace Project_Unite.Controllers
             }
         }
 
-        public ActionResult SetPongCP(int id)
+        public ActionResult SetPongCP(ulong id)
         {
             try
             {

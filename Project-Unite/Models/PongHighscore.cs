@@ -8,7 +8,7 @@ namespace Project_Unite.Models
     public class PongHighscore
     {
         public string UserId { get; set; }
-        public long CodepointsCashout { get; set; }
+        public ulong CodepointsCashout { get; set; }
         public int Level { get; set; }
     }
 
