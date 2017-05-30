@@ -225,6 +225,15 @@ namespace Project_Unite.Models
         }
     }
 
+    public class Quote
+    {
+        public string Id { get; set; }
+        public string AuthorId { get; set; }
+        public string Body { get; set; }
+        public string AuthorAvatar { get; set; }
+        public long Year { get; set; }
+    }
+
     public class BannedIP
     {
         public string Id { get; set; }
@@ -254,6 +263,7 @@ namespace Project_Unite.Models
             return new ApplicationDbContext();
         }
 
+        public DbSet<Quote> Quotes { get; set; }
         public DbSet<Contest> Contests { get; set; }
         public DbSet<ContestEntry> ContestEntries { get; set; }
         public DbSet<Bug> Bugs { get; set; }

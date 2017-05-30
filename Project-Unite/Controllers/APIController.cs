@@ -12,6 +12,28 @@ namespace Project_Unite.Controllers
 {
     public class APIController : Controller
     {
+        public ActionResult GetRandomQuote()
+        {
+            var db = new ApplicationDbContext();
+            var quotes = db.Quotes.ToArray();
+            if (quotes.Length == 0)
+            {
+                return Content(Serializer.Serialize(new Quote
+                {
+                    Id = "DEADDEAD",
+                    AuthorAvatar = "",
+                    AuthorId = "No data.",
+                    Body = "There is no quote data on http://getshiftos.ml/. Please submit some quotes!",
+                    Year = 8675309
+                }));
+            }
+            else
+            {
+                var rnd = new Random();
+                return Content(Serializer.Serialize(quotes[rnd.Next(0, quotes.Length)]));
+            }
+        }
+
         public ActionResult GetPongCP()
         {
             try
@@ -103,7 +125,7 @@ namespace Project_Unite.Controllers
             }
         }
 
-        public ActionResult SetCodepoints(long id)
+        public ActionResult SetCodepoints(ulong id)
         {
             try
             {
