@@ -15,7 +15,7 @@ namespace Project_Unite.Controllers
         public ActionResult GetRandomQuote()
         {
             var db = new ApplicationDbContext();
-            var quotes = db.Quotes.ToArray();
+            var quotes = db.Quotes.Where(x=>x.IsApproved).ToArray();
             if (quotes.Length == 0)
             {
                 return Content(Serializer.Serialize(new Quote
