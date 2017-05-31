@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Project_Unite.Models.Quote>
+@{
+    ViewBag.Title = "Review quotes";
+}
+
+<h2>Review Quotes</h2>
+
+<p>Below is a list of all quotes that need moderator review.</p>
+
+@if(Model.Count() == 0)
+{
+    <p><em>No quotes to show!</em></p>
+}
+else
+{
+    foreach (var quote in Model)
+    {
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p><strong>
+            @if (!String.IsNullOrWhiteSpace(quote.AuthorAvatar))
+            {
+                <img src="@quote.AuthorAvatar" width="24" height="24" style="border-radius:100%" />
+            }
+            @quote.AuthorId </strong></p>
+
+            <p>@Html.Markdown(quote.Body)</p>
+        
+            <p><em> - @quote.Year</em></p>
+
+            <a href="@Url.Action("Approve", new { id = quote.Id })" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Approve</a>
+            <a href="@Url.Action("Deny", new { id = quote.Id })" class="btn btn-danger"><span class="glyphicon glyphicon-ban-circle"></span> Deny &amp; delete</a>
+        </div>
+    </div>
+    }
+}

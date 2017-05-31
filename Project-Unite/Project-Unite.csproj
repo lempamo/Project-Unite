@@ -638,6 +638,7 @@
     <Compile Include="Controllers\ModeratorController.cs" />
     <Compile Include="Controllers\OAuth2Controller.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
+    <Compile Include="Controllers\QuotesController.cs" />
     <Compile Include="Controllers\SkinsController.cs" />
     <Compile Include="Controllers\StatsController.cs" />
     <Compile Include="Controllers\WikiControllerController.cs" />
@@ -981,6 +982,8 @@
     <Content Include="Views\Contests\Disqualify.cshtml" />
     <Content Include="Views\Home\AboutUnite.cshtml" />
     <Content Include="Views\Legal\Privacy.cshtml" />
+    <Content Include="Views\Quotes\Index.cshtml" />
+    <Content Include="Views\Quotes\ReviewAll.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -228,10 +228,20 @@ namespace Project_Unite.Models
     public class Quote
     {
         public string Id { get; set; }
+
+        [Required(ErrorMessage ="Your quote must have an author name.", AllowEmptyStrings =false)]
+        [MaxLength(50, ErrorMessage ="Your author name must not exceed 50 characters.")]
         public string AuthorId { get; set; }
+
+        [AllowHtml]
+        [Required(AllowEmptyStrings =false, ErrorMessage ="Trying to submit an empty quote, I see?")]
         public string Body { get; set; }
+
         public string AuthorAvatar { get; set; }
+
+        [Required(ErrorMessage ="We must know what year this quote was said in.")]
         public long Year { get; set; }
+        public bool IsApproved { get; set; }
     }
 
     public class BannedIP

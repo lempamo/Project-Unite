@@ -1,0 +1,67 @@
+﻿@model Project_Unite.Models.Quote
+@{
+    ViewBag.Title = "Quotes";
+}
+
+<h2>Quotes</h2>
+
+<p>Welcome to the ShiftOS Quotes Database! This page allows you to submit a quote to our Discord bot.</p>
+
+@if (User.Identity.IsModerator())
+{
+    <p>Click here to <a href="@Url.Action("ReviewAll")">review all quotes.</a></p>
+}
+
+<h3>Submit a quote</h3>
+
+@using (Html.BeginForm())
+{ 
+    @Html.AntiForgeryToken()
+    <div class="panel panel-danger">
+        <div class="panel-body">
+            @Html.ValidationSummary()
+        </div>
+    </div>
+
+    <dl>
+        <dt>Quote Author</dt>
+        <dd>@Html.TextBoxFor(Model=>Model.AuthorId, new{@class="form-control"})</dd>
+        <dt>Quote Author Image URL (requires http:// or https://)</dt>
+        <dd>@Html.TextBoxFor(Model => Model.AuthorAvatar, new { @class = "form-control" })</dd>
+        <dt>Year</dt>
+        <dd>@Html.TextBoxFor(Model=>Model.Year, new { @type = "number", @class = "form-control" })</dd>
+        <dt>Quote body</dt>
+        <dd>@Html.TextAreaFor(Model => Model.AuthorId, new { @class = "form-control" })</dd>
+    </dl>
+
+    <input type="submit" value="Submit!" class="btn btn-primary" />
+}
+
+<hr/>
+
+<h3>How to use the quote bot in Discord:</h3>
+
+@Html.Markdown(@"To use the quote bot in our Discord server, simply join `#bot`, then type in `!quoteoftheday` and send it as a message and the moderator bot will show you the quote of the day.
+
+To force a new quote of the day, simply type `!forcequote`. This pulls a random quote from the database, and will keep the quote for 24 hours.")
+
+<h4>Bot rules</h4>
+
+<p>Here is a quick reminder of the rules regarding both spam and bot usage inside our Discord server.</p>
+
+<dl>
+    <dt>Section 2: Spam</dt>
+    <dd>
+        2A. Rapid-fire of messages whether they be different, similar, long or short, is not permitted, and the bot will shun you if you continue.<br/>
+        2B. Disrupting an on-going conversation is not genuinely appreciated. Please move to a different channel, preferrably #off-topic.<br/>
+        2C. Emoji and reaction spam is not appreciated.<br/>
+        2D. Mention-spamming staff and dev roles is not appreciated.<br/>
+    </dd>
+    <dt>Section 4: Bots</dt>
+    <dd>
+        4A. Selfbots must follow the Discord TOS, or we will boot you off the server.<br/>
+        4B. Use of bots must be done in #bot.<br/>
+        4C. If you want your bot on the server, please contact me.<br/>
+        4D. We reserve the right to boot your bot off the server if it breaks any server rules.<br/>
+    </dd>
+</dl>
