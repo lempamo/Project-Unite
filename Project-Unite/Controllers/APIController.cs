@@ -59,7 +59,7 @@ namespace Project_Unite.Controllers
                 var db = new ApplicationDbContext();
                 var t = db.OAuthTokens.FirstOrDefault(x => x.Id == token);
                 var user = db.Users.FirstOrDefault(x => x.Id == t.UserId);
-                user.Pong_HighestCodepointsCashout = id;
+                user.Pong_HighestCodepointsCashout = (long)id;
                 db.SaveChanges();
                 return new HttpStatusCodeResult(200);
             }
@@ -134,7 +134,7 @@ namespace Project_Unite.Controllers
                 var db = new ApplicationDbContext();
                 var t = db.OAuthTokens.FirstOrDefault(x => x.Id == token);
                 var user = db.Users.FirstOrDefault(x => x.Id == t.UserId);
-                user.Codepoints = id;
+                user.Codepoints = (long)id;
                 db.SaveChanges();
                 return new HttpStatusCodeResult(200);
             }

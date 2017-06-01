@@ -42,7 +42,7 @@ namespace Project_Unite.Models
         }
 
         public int Pong_HighestLevel { get; set; }
-        public ulong Pong_HighestCodepointsCashout { get; set; }
+        public long Pong_HighestCodepointsCashout { get; set; }
 
 
         #region Privacy
@@ -155,7 +155,7 @@ namespace Project_Unite.Models
             }
         }
 
-        public ulong Codepoints { get; set; }
+        public long Codepoints { get; set; }
 
         [AllowHtml]
         public string Bio { get; set; }
